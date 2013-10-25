@@ -43,16 +43,11 @@ public class Terrain extends HashMap<XY, Case> {
 	}
 
 	public boolean isCaseAvailable(int x, int y) {
-		if (get(x, y).getType() == 0)
-			return true;
-		else
-			return false;
+		return get(x, y).isAvailable();
 	}
 
 	public boolean isCaseOccuped(int x, int y) {
-		if (get(x, y).getOccupant() == null)
-			return false;
-		return true;
+		return get(x, y).isOccuped();
 	}
 
 	@Override

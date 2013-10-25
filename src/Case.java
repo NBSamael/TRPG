@@ -23,5 +23,16 @@ public class Case {
 		return type;
 	}
 	
+	public boolean isAvailable() {
+		if (type == 0)
+			return true;
+		else
+			return false;
+	}
 	
+	public boolean isOccuped() {
+		if (occupant == null)
+			return false;
+		return true;
+	}
 }
