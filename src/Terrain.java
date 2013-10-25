@@ -3,9 +3,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class Terrain {
+public class Terrain extends HashMap<XY, Case> {
 	private Set<Personnage> personnages;
-	private Map<Coordonnees, Case> cases;
+	//private Map<Coordonnees, Case> cases;
 	private int tailleX;
 	private int tailleY;
 
@@ -14,7 +14,7 @@ public class Terrain {
 		this.tailleX = tailleX;
 		this.tailleY = tailleY;
 		personnages = new HashSet<Personnage>();
-		cases = new HashMap<Coordonnees, Case>();
+//		cases = new HashMap<Coordonnees, Case>();
 	}
 
 	public void chargeTerrain() {
@@ -22,10 +22,10 @@ public class Terrain {
 			for (int j = 1; j <= tailleX; j++) {
 				// Code pour faire un mur
 				if (j == 3 && i > 2 && i < 6)
-					cases.put(new Coordonnees(j, i), new Case(j, i, 1));
+					put(new XY(j, i), new Case(j, i, 1));
 				else
 				// fin code pour un mur
-					cases.put(new Coordonnees(j, i), new Case(j, i, 0));
+					put(new XY(j, i), new Case(j, i, 0));
 			}
 		}
 	}
@@ -37,16 +37,20 @@ public class Terrain {
 	public int getTailleY() {
 		return tailleY;
 	}
+	
+	public Case get(int x, int y) {
+		return get(new XY(x, y));
+	}
 
 	public boolean isCaseAvailable(int x, int y) {
-		if (cases.get(new Coordonnees(x, y)).getType() == 0)
+		if (get(x, y).getType() == 0)
 			return true;
 		else
 			return false;
 	}
 
 	public boolean isCaseOccuped(int x, int y) {
-		if (cases.get(new Coordonnees(x, y)).getOccupant() == null)
+		if (get(x, y).getOccupant() == null)
 			return false;
 		return true;
 	}
@@ -61,7 +65,7 @@ public class Terrain {
 		for (int i = 1; i <= tailleY; i++) {
 			aff = aff.concat("X");
 			for (int j = 1; j <= tailleX; j++) {
-				Case c = cases.get(new Coordonnees(j, i));
+				Case c = get(new XY(j, i));
 				if (c.getType()==0) 
 					aff = aff.concat(" ");
 				else if (c.getType()==1)

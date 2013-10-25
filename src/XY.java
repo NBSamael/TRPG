@@ -1,10 +1,10 @@
 
-public class Coordonnees {
+public class XY {
 	private int x;
 	private int y;
 	
 	
-	public Coordonnees(int x, int y) {
+	public XY(int x, int y) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -25,7 +25,7 @@ public class Coordonnees {
 
 	@Override
 	public boolean equals(Object arg0) {
-		Coordonnees c = (Coordonnees) arg0;
+		XY c = (XY) arg0;
 		if (this.x == c.x && this.y == c.y)
 			return true;
 		return false;
