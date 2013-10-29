@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class TerrainDistance extends HashMap<XY, Noeud> {
 	private XY origine;

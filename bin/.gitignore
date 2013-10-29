@@ -1,9 +1,6 @@
-/Case.class
-/Coordonnees.class
-/Personnage.class
-/Terrain.class
-/Test.class
+/Noeud2.class
+/TerrainDistance.class
+/Noeud.class
 /Action.class
-/trpg
-/Cases.class
-/XY.class
+/Actions
+/Interface.class
