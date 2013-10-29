@@ -22,6 +22,10 @@ public class XY {
 	public void setY(int y) {
 		this.y = y;
 	}
+	
+	public static int calculeDistance(XY c1, XY c2) {
+		return ((c2.x - c1.x) * (c2.x - c1.x)) + ((c2.y - c1.y) * (c2.y - c1.y));
+	}
 
 	@Override
 	public boolean equals(Object arg0) {
@@ -34,6 +38,17 @@ public class XY {
 	@Override
 	public int hashCode() {
 		return 10000*x+y;
+	}
+
+	@Override
+	public String toString() {
+		String aff = new String();
+		aff = aff.concat("(");
+		aff = aff.concat(Integer.toString(x));
+		aff = aff.concat(",");
+		aff = aff.concat(Integer.toString(y));
+		aff = aff.concat(")");
+		return aff;
 	}
 	
 	

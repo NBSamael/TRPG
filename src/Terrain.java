@@ -1,5 +1,8 @@
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,7 +17,6 @@ public class Terrain extends HashMap<XY, Case> {
 		this.tailleX = tailleX;
 		this.tailleY = tailleY;
 		personnages = new HashSet<Personnage>();
-//		cases = new HashMap<Coordonnees, Case>();
 	}
 
 	public void chargeTerrain() {
@@ -22,10 +24,10 @@ public class Terrain extends HashMap<XY, Case> {
 			for (int j = 1; j <= tailleX; j++) {
 				// Code pour faire un mur
 				if (j == 3 && i > 2 && i < 6)
-					put(new XY(j, i), new Case(j, i, 1));
+					put(new XY(j, i), new Case(new XY(j, i), 1));
 				else
 				// fin code pour un mur
-					put(new XY(j, i), new Case(j, i, 0));
+					put(new XY(j, i), new Case(new XY(j, i), 0));
 			}
 		}
 	}
@@ -48,6 +50,16 @@ public class Terrain extends HashMap<XY, Case> {
 
 	public boolean isCaseOccuped(int x, int y) {
 		return get(x, y).isOccuped();
+	}
+	
+	public TerrainDistance calculeTerrainDistance(XY origine) {
+		return calculeTerrainDistance(origine, Integer.MAX_VALUE);
+	}
+	
+	public TerrainDistance calculeTerrainDistance(XY origine, int limite) {
+		TerrainDistance td = new TerrainDistance(origine, this);
+		td.calculeTrajets(limite);
+		return td;
 	}
 
 	@Override

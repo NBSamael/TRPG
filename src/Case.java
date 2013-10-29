@@ -1,15 +1,13 @@
 
 public class Case {
-	private int x;
-	private int y;
+	private XY coordonnees;
 	private Personnage occupant;
 	private int type;
 	
 	
-	public Case(int x, int y, int type) {
+	public Case(XY coordonnees, int type) {
 		super();
-		this.x = x;
-		this.y = y;
+		this.coordonnees = coordonnees;
 		this.type = type;
 	}
 	
@@ -21,8 +19,11 @@ public class Case {
 	}
 	public int getType() {
 		return type;
+	}	
+	public XY getCoordonnees() {
+		return coordonnees;
 	}
-	
+
 	public boolean isAvailable() {
 		if (type == 0)
 			return true;
