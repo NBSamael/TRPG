@@ -1,3 +1,4 @@
+package Data;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -48,6 +49,14 @@ public class Terrain extends HashMap<XY, Case> {
 		return get(x, y).isOccuped();
 	}
 	
+	public boolean isCaseAvailable(XY position) {
+		return get(position).isAvailable();
+	}
+
+	public boolean isCaseOccuped(XY position) {
+		return get(position).isOccuped();
+	}
+	
 	public TerrainDistance calculeTerrainDistance(XY origine) {
 		return calculeTerrainDistance(origine, Integer.MAX_VALUE);
 	}
@@ -69,7 +78,9 @@ public class Terrain extends HashMap<XY, Case> {
 			aff = aff.concat("X");
 			for (int j = 1; j <= tailleX; j++) {
 				Case c = get(new XY(j, i));
-				if (c.getType()==0) 
+				if (c.getOccupant() != null)
+					aff = aff.concat(c.getOccupant().nom.substring(0,1));
+				else if (c.getType()==0) 
 					aff = aff.concat(" ");
 				else if (c.getType()==1)
 					aff = aff.concat("*");

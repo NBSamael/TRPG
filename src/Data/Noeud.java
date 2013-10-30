@@ -1,3 +1,4 @@
+package Data;
 
 public class Noeud {
 	public int cout;

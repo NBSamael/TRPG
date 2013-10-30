@@ -1,6 +1,14 @@
 package Actions;
 
+import Data.Personnage;
+import Data.Terrain;
+
 public class Walk extends Move {
+
+	public Walk(Personnage owner, Terrain plateau) {
+		super(owner, plateau);
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public void getParameters() {

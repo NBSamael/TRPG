@@ -1,3 +1,4 @@
+package Data;
 
 public class XY {
 	private int x;

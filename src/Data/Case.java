@@ -1,3 +1,4 @@
+package Data;
 
 public class Case {
 	private XY coordonnees;
