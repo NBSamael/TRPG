@@ -12,15 +12,18 @@ public class Personnage {
 	public int vitesseDeplacement;
 	public List<Action> actions;
 	private int pointsAction;
+	private int initBase;
+	private int initiativeTour;
 	
 	public Personnage(String nom, XY position, int vitesseDeplacement,
-			int pointsAction) {
+			int pointsAction, int initBase) {
 		super();
 		this.nom = nom;
 		this.position = position;
 		this.vitesseDeplacement = vitesseDeplacement;
 		this.pointsAction = pointsAction;
 		this.actions = new ArrayList<Action>();
+		this.initBase = initBase;
 	}
 	public XY getPosition() {
 		return position;
@@ -34,6 +37,18 @@ public class Personnage {
 	}
 	public void setPointsAction(int pointsAction) {
 		this.pointsAction = pointsAction;
+	}
+	
+	public int getInitBase() {
+		return this.initBase;
+	}
+	
+	public int calculInitiative() {
+		return initiativeTour = initBase + 10;
+	}
+	
+	public int getInitiative() {
+		return initiativeTour;
 	}
 	
 	public ArrayList<Action> getActionsPossibles() {

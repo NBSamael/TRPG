@@ -1,12 +1,12 @@
 package Actions;
 
+import Data.InstancePartie;
 import Data.Personnage;
-import Data.Terrain;
 
 public abstract class Move extends Action {
 
-	public Move(Personnage owner, Terrain plateau) {
-		super(owner, plateau);
+	public Move(Personnage owner, InstancePartie partie) {
+		super(owner, partie);
 		// TODO Auto-generated constructor stub
 	}
 

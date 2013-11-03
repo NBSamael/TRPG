@@ -21,7 +21,7 @@ public class Test {
 		System.out.println(t);
 		
 		XY origine = new XY(4,2);
-		XY destination = interf.selectionneCase("Selectionner une destination");
+		XY destination = interf.selectionnerCase("Selectionner une destination");
 		
 		TerrainDistance resultat = t.calculeTerrainDistance(origine);
 		//System.out.println(resultat);
@@ -34,17 +34,38 @@ public class Test {
 	}
 	
 	private static void test2() {
-		/* Créé un plateau puis demande une position à l'utilisateur.
-		 * Retourne le chemin du point (4,2) jusqu'au point saisi.
-		 */
 		Interface interf = new Interface();
+		
 		Terrain t = new Terrain(10,10);
 		t.chargeTerrain();
-		Personnage p = new Personnage("John Doe", new XY(4,2), 3, 3);
-		p.actions.add(new Walk(p,t));
-		t.get(new XY(4,2)).setOccupant(p);
-		System.out.println(t);
-
+		
+		Personnage p1 = new Personnage("John Doe", new XY(4,2), 3, 3, 9);
+		t.get(new XY(4,2)).setOccupant(p1);
+		t.personnages.add(p1);
+		Personnage p2 = new Personnage("Xena", new XY(8,8), 3, 3, 4);
+		t.get(new XY(8,8)).setOccupant(p2);
+		t.personnages.add(p2);
+		
+		Joueur j1 = new Joueur("NBS");
+		Joueur j2 = new Joueur("Mirth");
+		j1.persos.add(p1);
+		j2.persos.add(p2);
+		
+		Equipe e1 = new Equipe("Equipe 1");
+		Equipe e2 = new Equipe("Equipe 2");
+		e1.joueurs.add(j1);
+		e1.joueurs.add(j2);
+		
+		ArrayList<Equipe> listeEquipes = new ArrayList<Equipe>();
+		listeEquipes.add(e1);
+		listeEquipes.add(e2);
+		
+		InstancePartie jeu = new InstancePartie(t, listeEquipes, interf);
+		p1.actions.add(new Walk(p1, jeu));
+		p2.actions.add(new Walk(p2, jeu));
+		jeu.initialisePartie();
+		jeu.lancePartie();
+		
 	}
 
 }

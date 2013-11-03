@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Terrain extends HashMap<XY, Case> {
-	private Set<Personnage> personnages;
+	public Set<Personnage> personnages;
 	//private Map<Coordonnees, Case> cases;
 	private int tailleX;
 	private int tailleY;
@@ -65,6 +65,11 @@ public class Terrain extends HashMap<XY, Case> {
 		TerrainDistance td = new TerrainDistance(origine, this);
 		td.calculeTrajets(limite);
 		return td;
+	}
+	
+	public void deplacePersonnage (Personnage p, XY anciennePosition, XY nouvellePosition) {
+		get(anciennePosition).setOccupant(null);
+		get(nouvellePosition).setOccupant(p);
 	}
 
 	@Override

@@ -1,19 +1,23 @@
 package Actions;
 
+import Data.InstancePartie;
 import Data.Personnage;
-import Data.Terrain;
 
 public abstract class Action {
-	private Personnage owner;
-	private Terrain plateau;
+	protected String nom;
+	protected String description;
+	protected Personnage owner;
+	protected InstancePartie partie;
 	
-	public Action(Personnage owner, Terrain plateau) {
+	public Action(Personnage owner, InstancePartie partie) {
 		super();
 		this.owner = owner;
-		this.plateau = plateau;
+		this.partie = partie;
 	}
 
 	public int getCoutPA()  { return 2; }
+	
+	public String getNom() { return nom; }
 	
 	public abstract void getParameters();
 	
