@@ -25,7 +25,14 @@ public class Case {
 		return coordonnees;
 	}
 
-	public boolean isAvailable() {
+	public boolean isFranchissable() {
+		if (type == 0)
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean isBloqueLdV() {
 		if (type == 0)
 			return true;
 		else

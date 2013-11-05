@@ -2,19 +2,19 @@ package Data;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class TerrainDistance extends HashMap<XY, Noeud> {
+public class GrilleDeplacements extends HashMap<XY, Noeud> {
 	private XY origine;
 	private Terrain t;
 	private HashMap<XY, Noeud> aTraiter;
 
-	public TerrainDistance(XY origine, Terrain t) {
+	public GrilleDeplacements(Terrain t, XY origine) {
 		super();
 		this.origine = origine;
 		this.t = t;
 		aTraiter = new HashMap<XY, Noeud>();
 	}
 
-	public void calculeTrajets(int limite) {
+	public void calculeDeplacementsPossibles(int limite) {
 		XY courant;
 
 		Noeud ori = new Noeud();
@@ -92,7 +92,7 @@ public class TerrainDistance extends HashMap<XY, Noeud> {
 
 				XY it = new XY(j, i);
 
-				if (!t.get(it).isAvailable()) // Case non franchissable
+				if (!t.get(it).isFranchissable()) // Case non franchissable
 					continue;
 
 				if (!this.containsKey(it)) {

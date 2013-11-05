@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import Data.InstancePartie;
 import Data.Personnage;
-import Data.TerrainDistance;
+import Data.GrilleDeplacements;
 import Data.XY;
 
 public class Walk extends Move {
@@ -24,7 +24,7 @@ public class Walk extends Move {
 		 * l'utilisateur de saisir une position de destination dans ce rayon
 		 */
 		XY destSelec = null;
-		TerrainDistance possibilités = partie.plateau.calculeTerrainDistance(
+		GrilleDeplacements possibilités = partie.plateau.calculeGrilleDeplacements(
 				owner.getPosition(), owner.vitesseDeplacement);
 		do {
 			destSelec = partie.ihm

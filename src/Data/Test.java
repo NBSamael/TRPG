@@ -23,7 +23,7 @@ public class Test {
 		XY origine = new XY(4,2);
 		XY destination = interf.selectionnerCase("Selectionner une destination");
 		
-		TerrainDistance resultat = t.calculeTerrainDistance(origine);
+		GrilleDeplacements resultat = t.calculeGrilleDeplacements(origine);
 		//System.out.println(resultat);
 		//System.out.println();
 		System.out.println("Distance entre " + origine + " et " + destination + " : " + resultat.getDistance(destination));

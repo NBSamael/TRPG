@@ -42,7 +42,7 @@ public class Terrain extends HashMap<XY, Case> {
 	}
 
 	public boolean isCaseAvailable(int x, int y) {
-		return get(x, y).isAvailable();
+		return get(x, y).isFranchissable();
 	}
 
 	public boolean isCaseOccuped(int x, int y) {
@@ -50,20 +50,30 @@ public class Terrain extends HashMap<XY, Case> {
 	}
 	
 	public boolean isCaseAvailable(XY position) {
-		return get(position).isAvailable();
+		return get(position).isFranchissable();
 	}
 
 	public boolean isCaseOccuped(XY position) {
 		return get(position).isOccuped();
 	}
 	
-	public TerrainDistance calculeTerrainDistance(XY origine) {
-		return calculeTerrainDistance(origine, Integer.MAX_VALUE);
+	public GrilleDeplacements calculeGrilleDeplacements(XY origine) {
+		return calculeGrilleDeplacements(origine, Integer.MAX_VALUE);
 	}
 	
-	public TerrainDistance calculeTerrainDistance(XY origine, int limite) {
-		TerrainDistance td = new TerrainDistance(origine, this);
-		td.calculeTrajets(limite);
+	public GrilleLigneDeVue calculeGrilleLigneDeVue(XY origine, int limite) {
+		GrilleLigneDeVue td = new GrilleLigneDeVue(this, origine);
+		td.calculeCiblesPossibles(limite);
+		return td;
+	}
+	
+	public GrilleLigneDeVue calculeGrilleLigneDeVue(XY origine) {
+		return calculeGrilleLigneDeVue(origine, Math.max(tailleX, tailleY));
+	}
+	
+	public GrilleDeplacements calculeGrilleDeplacements(XY origine, int limite) {
+		GrilleDeplacements td = new GrilleDeplacements(this, origine);
+		td.calculeDeplacementsPossibles(limite);
 		return td;
 	}
 	
