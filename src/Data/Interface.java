@@ -20,7 +20,7 @@ public class Interface {
 		System.out.println("Liste des actions :");
 		ArrayList<Action> tmp = p.getActionsPossibles();
 		for (int i = 0; i < tmp.size(); i++) {
-			System.out.print(i + " > " + p.actions.get(i).getNom());
+			System.out.println(i + " > " + p.actions.get(i).getNom());
 		}
 		System.out.print("\nSaisissez le numéro de l'action voulue : ");
 		String str = sc.nextLine();		

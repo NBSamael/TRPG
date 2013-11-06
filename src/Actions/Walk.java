@@ -37,10 +37,12 @@ public class Walk extends Move {
 	@Override
 	public void execute() {
 		// Deplace le personnage case par case
+		System.out.print(owner.nom + " se déplace de " + owner.getPosition() + " à ");
 		for (XY etape : trajet) {
 			partie.plateau.deplacePersonnage(owner, owner.getPosition(), etape);
 			owner.setPositionX(etape);
 		}
+		System.out.println(owner.getPosition());
 	}
 
 }

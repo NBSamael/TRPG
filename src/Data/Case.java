@@ -34,9 +34,9 @@ public class Case {
 	
 	public boolean isBloqueLdV() {
 		if (type == 0)
-			return true;
-		else
 			return false;
+		else
+			return true;
 	}
 	
 	public boolean isOccuped() {
