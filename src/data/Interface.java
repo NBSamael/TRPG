@@ -1,8 +1,9 @@
-package Data;
+package data;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import Actions.Action;
+import personnages.Personnage;
+import actions.Action;
 
 
 

@@ -1,7 +1,7 @@
-package Actions;
+package actions;
 
-import Data.InstancePartie;
-import Data.Personnage;
+import personnages.Personnage;
+import data.InstancePartie;
 
 public abstract class Attack extends Action {
 

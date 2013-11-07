@@ -1,4 +1,6 @@
-package Data;
+package data;
+
+import personnages.Personnage;
 
 public class Case {
 	private XY coordonnees;

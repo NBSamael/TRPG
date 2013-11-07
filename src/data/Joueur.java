@@ -1,6 +1,8 @@
-package Data;
+package data;
 import java.util.ArrayList;
 import java.util.List;
+
+import personnages.Personnage;
 
 public class Joueur {
 	public String nom;

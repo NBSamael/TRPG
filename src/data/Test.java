@@ -1,14 +1,16 @@
-package Data;
+package data;
 import java.util.ArrayList;
 
-import Actions.*;
+import capacites.AttaqueADistance;
+import personnages.Personnage;
+import actions.*;
 
 
 public class Test {
 
 	public static void main(String[] args) {
-		testdes();
-		//test2();
+		//testdes();
+		test2();
 	}
 	
 	private static void test1() {
@@ -59,10 +61,10 @@ public class Test {
 		Terrain t = new Terrain(10,10);
 		t.chargeTerrain();
 		
-		Personnage p1 = new Personnage("John Doe", new XY(4,3), 3, 3, 9, 30, 1, 10);
+		Personnage p1 = new Personnage("John Doe", new XY(4,3), 3, 3, 9, 30, 10);
 		t.get(new XY(4,3)).setOccupant(p1);
 		t.personnages.add(p1);
-		Personnage p2 = new Personnage("Xena", new XY(7,7), 3, 3, 4, 25, 4, 5);
+		Personnage p2 = new Personnage("Xena", new XY(7,7), 3, 3, 4, 2, 5);
 		t.get(new XY(7,7)).setOccupant(p2);
 		t.personnages.add(p2);
 		
@@ -85,6 +87,7 @@ public class Test {
 		p2.actions.add(new Walk(p2, jeu));
 		p1.actions.add(new BaseAttack(p1, jeu));
 		p2.actions.add(new BaseAttack(p2, jeu));
+		p2.capacites.add(new AttaqueADistance(p2, 4));
 		jeu.initialisePartie();
 		jeu.lancePartie();	
 	}

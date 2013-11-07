@@ -1,8 +1,10 @@
-package Data;
+package data;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+
+import personnages.Personnage;
 
 public class Terrain extends HashMap<XY, Case> {
 	public Set<Personnage> personnages;

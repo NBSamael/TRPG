@@ -1,11 +1,11 @@
-package Actions;
+package actions;
 
 import java.util.ArrayList;
 
-import Data.InstancePartie;
-import Data.Personnage;
-import Data.GrilleDeplacements;
-import Data.XY;
+import personnages.Personnage;
+import data.GrilleDeplacements;
+import data.InstancePartie;
+import data.XY;
 
 public class Walk extends Move {
 	private ArrayList<XY> trajet;
@@ -25,7 +25,7 @@ public class Walk extends Move {
 		 */
 		XY destSelec = null;
 		GrilleDeplacements possibilités = partie.plateau.calculeGrilleDeplacements(
-				owner.getPosition(), owner.vitesseDeplacement);
+				owner.getPosition(), owner.vitesseMarche);
 		do {
 			destSelec = partie.ihm
 					.selectionnerCase("Sélectionner une destination");

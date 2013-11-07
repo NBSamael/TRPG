@@ -1,9 +1,9 @@
-package Actions;
+package actions;
 
-import Data.GrilleLigneDeVue;
-import Data.InstancePartie;
-import Data.Personnage;
-import Data.XY;
+import personnages.Personnage;
+import data.GrilleLigneDeVue;
+import data.InstancePartie;
+import data.XY;
 
 public class BaseAttack extends Attack {
 	private Personnage cible;
@@ -23,7 +23,7 @@ public class BaseAttack extends Attack {
 		 */
 		XY caseCible = null;
 		GrilleLigneDeVue possibilités = partie.plateau.calculeGrilleLigneDeVue(
-				owner.getPosition(), owner.porteeAttaque);
+				owner.getPosition(), owner.getPortee());
 		do {
 			caseCible = partie.ihm
 					.selectionnerCase("Sélectionner une cible");
@@ -35,9 +35,9 @@ public class BaseAttack extends Attack {
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-		cible.currentPdV = cible.currentPdV - owner.baseAttaque;
-		System.out.println(owner.nom + " attaque " + cible.nom + " et lui fait " + owner.baseAttaque + " points de dommage");
-		System.out.println("Il reste " + cible.currentPdV + " points de vie à " + cible.nom);
+		cible.nbPVActuel = cible.nbPVActuel - owner.attaque;
+		System.out.println(owner.nom + " attaque " + cible.nom + " et lui fait " + owner.attaque + " points de dommage");
+		System.out.println("Il reste " + cible.nbPVActuel + " points de vie à " + cible.nom);
 	}
 
 }
