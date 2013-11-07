@@ -7,8 +7,8 @@ import Actions.*;
 public class Test {
 
 	public static void main(String[] args) {
-		//testLdV();
-		test2();
+		testdes();
+		//test2();
 	}
 	
 	private static void test1() {
@@ -50,8 +50,6 @@ public class Test {
 		
 		GrilleLigneDeVue resultat = t.calculeGrilleLigneDeVue(origine, 4);
 		System.out.println(resultat);
-		
-	
 	}
 	
 	
@@ -88,8 +86,19 @@ public class Test {
 		p1.actions.add(new BaseAttack(p1, jeu));
 		p2.actions.add(new BaseAttack(p2, jeu));
 		jeu.initialisePartie();
-		jeu.lancePartie();
+		jeu.lancePartie();	
+	}
+	
+	private static void testdes() {
+		Des.lanceDe(Des.D20);
+		Des.lanceDes(Des.D20, 2, Des.MAX);
 		
+		Des.lanceDe(Des.D10);
+		Des.lanceDes(Des.D10, 12, Des.MAX);
+		
+		Des.lanceDes(Des.D6, 6, Des.SOMME);
+		
+		Des.lanceDes(Des.D20, 3, Des.MIN);
 	}
 
 }
