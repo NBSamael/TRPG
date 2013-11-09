@@ -4,18 +4,25 @@ import java.util.ArrayList;
 
 import personnages.Personnage;
 import data.GrilleDeplacements;
-import data.InstancePartie;
 import data.XY;
 
 public class Walk extends Move {
 	private ArrayList<XY> trajet;
 
-	public Walk(Personnage owner, InstancePartie partie) {
-		super(owner, partie);
+	public Walk(Personnage owner) {
+		super(owner, 1);
 		this.nom = "Deplacement";
 		this.description = "Le personnage se déplace d'un nombre de cases égal à sa vitesse de déplacement";
 		// TODO Auto-generated constructor stub
 	}
+	
+
+	@Override
+	public boolean isLegal() {
+		// TODO Implémenter le système d'engagement au combat
+		return true;
+	}
+
 
 	@Override
 	public void getParameters() {
@@ -24,12 +31,12 @@ public class Walk extends Move {
 		 * l'utilisateur de saisir une position de destination dans ce rayon
 		 */
 		XY destSelec = null;
-		GrilleDeplacements possibilités = partie.plateau.calculeGrilleDeplacements(
+		GrilleDeplacements possibilités = owner.partie.plateau.calculeGrilleDeplacements(
 				owner.getPosition(), owner.vitesseMarche);
 		do {
-			destSelec = partie.ihm
+			destSelec = owner.partie.ihm
 					.selectionnerCase("Sélectionner une destination");
-		} while (partie.plateau.get(destSelec) == null
+		} while (owner.partie.plateau.get(destSelec) == null
 				|| possibilités.get(destSelec) == null);
 		trajet = possibilités.getTrajet(destSelec);
 	}
@@ -39,7 +46,7 @@ public class Walk extends Move {
 		// Deplace le personnage case par case
 		System.out.print(owner.nom + " se déplace de " + owner.getPosition() + " à ");
 		for (XY etape : trajet) {
-			partie.plateau.deplacePersonnage(owner, owner.getPosition(), etape);
+			owner.partie.plateau.deplacePersonnage(owner, owner.getPosition(), etape);
 			owner.setPositionX(etape);
 		}
 		System.out.println(owner.getPosition());

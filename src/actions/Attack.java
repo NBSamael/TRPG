@@ -5,8 +5,8 @@ import data.InstancePartie;
 
 public abstract class Attack extends Action {
 
-	public Attack(Personnage owner, InstancePartie partie) {
-		super(owner, partie);
-		// TODO Auto-generated constructor stub
+	public Attack(Personnage owner, int coutPA) {
+		super(owner, coutPA);
+		this.typeAction = Action.TYPE_ATTAQUE;
 	}
 }

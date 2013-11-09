@@ -21,5 +21,33 @@ public class Equipe extends ArrayList<Joueur> {
 		this.nom = nom;
 	}
 	
-	
+	public void reinitialisationPersonnages() {
+
+	}
+
+	public void regenerationPointsActions() {
+		for(Joueur j : joueurs)
+			j.regenerationPointsActions();
+	}
+
+	public void recuperationPointsGnose() {
+
+	}
+
+	public void retraitMarqueursEtat() {
+
+	}
+
+	public void gestionInvocations() {
+
+	}
+
+	public void paieCoutsEntretien() {
+		for(Joueur j : joueurs)
+			j.paieCoutsEntretien();
+	}
+
+	public void calculeInitiative() {
+
+	}
 }

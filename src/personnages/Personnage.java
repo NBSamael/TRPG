@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import actions.Action;
+import actions.PersistantEffect;
 import capacites.AttaqueADistance;
 import capacites.Capacite;
+import data.InstancePartie;
 import data.XY;
 
 
@@ -18,19 +20,21 @@ public class Personnage {
 	public static int FACTION_OBSCURITE = 1;
 	public static int FACTION_NEUTRE = 2;
 	
+	public InstancePartie partie;
 	
 	public String nom;
 	public XY position;
+	protected boolean dissimule;
 	
-	public int attaque;
-	private int degats;
-	private int defense;
-	private int armure;
+	protected int attaque;
+	protected int degats;
+	protected int defense;
+	protected int armure;
 	
 	public int nbPVMax;
 	public int nbPVActuel;
 	
-	private int resistance;
+	protected int resistance;
 	
 	public int vitesseMarche;
 	public int vitesseCourse;
@@ -39,17 +43,28 @@ public class Personnage {
 	public int nbPARegen;
 	public int nbPAActuels;
 	
-	private int categorie;
-	//private Organisation organisation; -- A Implementer
-	private int faction;
+	protected int categorie;
+	//protected Organisation organisation; -- A Implementer
+	protected int faction;
 	
-	private int niveau;
+	protected int niveau;
 	
 	public List<Capacite> capacites;
 	public List<Action> actions;
+	public List<PersistantEffect> effetsActifs;
 
-	private int initBase;
-	private int initiativeTour;
+	protected int initBase;
+	protected int initiativeTour;
+	
+	public Personnage() {
+		super();
+		this.actions = new ArrayList<Action>();
+		this.capacites = new ArrayList<Capacite>();
+		this.effetsActifs = new ArrayList<PersistantEffect>();
+		this.position = null;
+		this.partie = null;
+		this.dissimule = false;
+	}
 	
 	public Personnage(String nom, XY position, int vitesseDeplacement,
 			int nbPAActuels, int initBase, int maxPdV, int baseAttaque) {
@@ -60,10 +75,12 @@ public class Personnage {
 		this.nbPAActuels = nbPAActuels;
 		this.actions = new ArrayList<Action>();
 		this.capacites = new ArrayList<Capacite>();
+		this.effetsActifs = new ArrayList<PersistantEffect>();		
 		this.initBase = initBase;
 		this.nbPVMax = maxPdV;
 		this.nbPVActuel = maxPdV;
 		this.attaque = baseAttaque;
+		this.dissimule = false;
 	}
 	
 	
@@ -93,6 +110,38 @@ public class Personnage {
 		return initiativeTour;
 	}
 	
+	public int getAttaque() {
+		return attaque;
+	}
+	
+	public int getDegats() {
+		return degats;
+	}
+	
+	public int getDefense() {
+		return defense;
+	}
+	
+	public int getArmure() {
+		return armure;
+	}
+	
+	public int getNbPAActuels() {
+		return nbPAActuels;
+	}
+
+	public void setNbPAActuels(int nbPAActuels) {
+		this.nbPAActuels = nbPAActuels;
+	}
+
+	public boolean isDissimule() {
+		return dissimule;
+	}
+
+	public void setDissimule(boolean dissimule) {
+		this.dissimule = dissimule;
+	}
+
 	public int getPortee() {
 		for(Capacite c : capacites) {
 			if (c.getType() == "AD") {
@@ -105,10 +154,25 @@ public class Personnage {
 	public ArrayList<Action> getActionsPossibles() {
 		ArrayList<Action> resultat = new ArrayList<Action>();
 		for (Action a : actions) {
-			if (a.getCoutPA() <= nbPAActuels)
+			if (a.getCoutPA() <= nbPAActuels && a.isLegal())
 				resultat.add(a);
 		}
 		return resultat;
+	}
+	
+	public void regenererPointsAction() {
+		nbPAActuels = Math.min(nbPAActuels + nbPARegen, nbPAMax);
+	}
+	
+	public void payerCoutsEntretien() {
+		for (PersistantEffect pe : this.effetsActifs) {
+			if (pe.getCoutEntretien() <= this.getPointsAction()) {
+				if (!this.partie.ihm.repondreOuiNon("Payer le coût d'entretien de l'effet " + pe.getNom() + " ?")) {
+					pe.stop();
+					this.effetsActifs.remove(pe);					
+				}
+			}
+		}
 	}
 	
 }

@@ -2,6 +2,7 @@ package data;
 import java.util.ArrayList;
 
 import capacites.AttaqueADistance;
+import personnages.DereckShezard;
 import personnages.Personnage;
 import actions.*;
 
@@ -61,7 +62,7 @@ public class Test {
 		Terrain t = new Terrain(10,10);
 		t.chargeTerrain();
 		
-		Personnage p1 = new Personnage("John Doe", new XY(4,3), 3, 3, 9, 30, 10);
+		Personnage p1 = new DereckShezard();
 		t.get(new XY(4,3)).setOccupant(p1);
 		t.personnages.add(p1);
 		Personnage p2 = new Personnage("Xena", new XY(7,7), 3, 3, 4, 2, 5);
@@ -83,10 +84,12 @@ public class Test {
 		listeEquipes.add(e2);
 		
 		InstancePartie jeu = new InstancePartie(t, listeEquipes, interf);
-		p1.actions.add(new Walk(p1, jeu));
-		p2.actions.add(new Walk(p2, jeu));
-		p1.actions.add(new BaseAttack(p1, jeu));
-		p2.actions.add(new BaseAttack(p2, jeu));
+		p1.partie = jeu;
+		p2.partie = jeu;
+		//p1.actions.add(new Walk(p1));
+		p2.actions.add(new Walk(p2));
+		//p1.actions.add(new BaseAttack(p1));
+		p2.actions.add(new BaseAttack(p2));
 		p2.capacites.add(new AttaqueADistance(p2, 4));
 		jeu.initialisePartie();
 		jeu.lancePartie();	

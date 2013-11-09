@@ -50,4 +50,13 @@ public class Interface {
 			return null;
 		}
 	}
+	
+	public boolean repondreOuiNon(String prompt) {
+		System.out.print(prompt + " ([O]ui ou [N]on) : ");
+		String str = sc.nextLine();
+		if (str == "O")
+			return true;
+		else 
+			return false;
+	}
 }
