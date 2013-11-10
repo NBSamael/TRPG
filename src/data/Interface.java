@@ -23,7 +23,7 @@ public class Interface {
 		for (int i = 0; i < tmp.size(); i++) {
 			System.out.println(i + " > " + p.actions.get(i).getNom());
 		}
-		System.out.print("\nSaisissez le numéro de l'action voulue : ");
+		System.out.print("\nSaisissez le numéro de l'action voulue (ou n'importe quoi d'autre pour passer) : ");
 		String str = sc.nextLine();		
 		int n = -1;
 		try {

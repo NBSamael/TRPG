@@ -64,14 +64,14 @@ public class Terrain extends HashMap<XY, Case> {
 		return calculeGrilleDeplacements(origine, Integer.MAX_VALUE);
 	}
 
-	public GrilleLigneDeVue calculeGrilleLigneDeVue(XY origine, int limite) {
+	public GrilleLigneDeVue calculeGrilleLigneDeVue(XY origine, int limite, boolean priseEnCompteBlocageLdV, boolean priseEnCompteTerrainInfranchissable) {
 		GrilleLigneDeVue td = new GrilleLigneDeVue(this, origine);
-		td.calculeCiblesPossibles(limite);
+		td.calculeCiblesPossibles(limite, priseEnCompteBlocageLdV, priseEnCompteTerrainInfranchissable);
 		return td;
 	}
 
-	public GrilleLigneDeVue calculeGrilleLigneDeVue(XY origine) {
-		return calculeGrilleLigneDeVue(origine, Math.max(tailleX, tailleY));
+	public GrilleLigneDeVue calculeGrilleLigneDeVue(XY origine, boolean priseEnCompteBlocageLdV, boolean priseEnCompteTerrainInfranchissable) {
+		return calculeGrilleLigneDeVue(origine, Math.max(tailleX, tailleY), priseEnCompteBlocageLdV, priseEnCompteTerrainInfranchissable);
 	}
 
 	public GrilleDeplacements calculeGrilleDeplacements(XY origine, int limite) {

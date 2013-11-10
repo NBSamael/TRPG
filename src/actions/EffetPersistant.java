@@ -2,11 +2,11 @@ package actions;
 
 import personnages.Personnage;
 
-public abstract class PersistantEffect extends Effect {
+public abstract class EffetPersistant extends Effet {
 	
 	int coutEntretien;
 
-	public PersistantEffect(Personnage owner, int coutPA) {
+	public EffetPersistant(Personnage owner, int coutPA) {
 		super(owner, coutPA);
 		this.typeAction = Action.TYPE_EFFET_PERSISTANT;
 	}

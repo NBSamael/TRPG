@@ -23,7 +23,7 @@ public class Joueur {
 			p.regenererPointsAction();
 			for(int i = 1; i <= p.getNbPAActuels(); i++)
 				System.out.print("0");
-			for(int i = p.getNbPAActuels(); i <= p.nbPAMax; i++)
+			for(int i = p.getNbPAActuels(); i < p.nbPAMax; i++)
 				System.out.print("O");
 			System.out.println("\t" + p.nom);
 		}

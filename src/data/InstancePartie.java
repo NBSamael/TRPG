@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import actions.Action;
 import personnages.Personnage;
 
 public class InstancePartie {
@@ -25,6 +26,7 @@ public class InstancePartie {
 		this.equipes = equipes;
 		this.ihm = ihm;
 		this.etat = InstancePartie.ETAT_PREPARATION;
+		this.cptTour = 0;
 	}
 
 	public void initialisePartie() {
@@ -34,6 +36,7 @@ public class InstancePartie {
 	public void lancePartie() {
 		etat = InstancePartie.ETAT_EN_COURS;
 		while (etat == InstancePartie.ETAT_EN_COURS) {
+			cptTour++;
 			phaseRecuperation();
 			phaseEntretien();
 			phaseAction();
@@ -52,8 +55,10 @@ public class InstancePartie {
 	}
 
 	private void regenerationPointsActions() {
-		for(Equipe e : equipes)
-			e.regenerationPointsActions();
+		if (cptTour != 1) {
+			for (Equipe e : equipes)
+				e.regenerationPointsActions();
+		}
 	}
 
 	private void recuperationPointsGnose() {
@@ -76,7 +81,7 @@ public class InstancePartie {
 	}
 
 	private void paieCoutsEntretien() {
-		for(Equipe e : equipes)
+		for (Equipe e : equipes)
 			e.paieCoutsEntretien();
 	}
 
@@ -86,12 +91,24 @@ public class InstancePartie {
 
 	private void phaseAction() {
 		ArrayList<Personnage> persosTries = calculeOrdreAction();
+		BouclePersonnages:
 		for (Personnage p : persosTries) {
-			System.out.println(plateau);
-			int numAction = ihm.selectionnerAction(p);
-			p.actions.get(numAction).payeCout();
-			p.actions.get(numAction).getParameters();
-			p.actions.get(numAction).execute();
+			while (true) {
+				System.out.println(plateau);
+				for(int i = 1; i <= p.getNbPAActuels(); i++)
+					System.out.print("0");
+				for(int i = p.getNbPAActuels(); i < p.nbPAMax; i++)
+					System.out.print("O");
+				System.out.println("\t" + p.nom);
+				int numAction = ihm.selectionnerAction(p);
+				if (numAction == -1
+						|| numAction >= p.getActionsPossibles().size())
+					continue BouclePersonnages;
+				Action a = p.getActionsPossibles().get(numAction);
+				a.payeCout();
+				a.getParameters();
+				a.execute();
+			}
 		}
 	}
 

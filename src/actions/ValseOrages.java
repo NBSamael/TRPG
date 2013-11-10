@@ -2,7 +2,7 @@ package actions;
 
 import personnages.Personnage;
 
-public class ValseOrages extends BaseAttack {
+public class ValseOrages extends AttaqueDeBase {
 	private int nbAttaque = 4;
 
 	public ValseOrages(Personnage owner) {

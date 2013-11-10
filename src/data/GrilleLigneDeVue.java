@@ -12,7 +12,7 @@ public class GrilleLigneDeVue extends ArrayList<XY> {
 		this.origine = origine;
 	}
 	
-	public void calculeCiblesPossibles(int limite) {
+	public void calculeCiblesPossibles(int limite, boolean priseEnCompteBlocageLdV, boolean priseEnCompteTerrainInfranchissable) {
 		for (int i = origine.getY() - limite; i <= origine.getY() + limite; i++) {
 			if (i <= 0 || i > t.getTailleY()) // En dehors du terrain
 				continue;
@@ -23,17 +23,19 @@ public class GrilleLigneDeVue extends ArrayList<XY> {
 					continue;
 
 				XY it = new XY(j, i);
-				if (t.get(it).isFranchissable() && hasLdV(t, origine, it)) {
+				if (t.get(it).isFranchissable() && hasLdV(t, origine, it, priseEnCompteBlocageLdV, priseEnCompteTerrainInfranchissable)) {
 					this.add(it);
 				}
 			}
 		}
 	}
 
-	public static boolean hasLdV(Terrain t, XY origine, XY destination) {
+	public static boolean hasLdV(Terrain t, XY origine, XY destination, boolean priseEnCompteBlocageLdV, boolean priseEnCompteTerrainInfranchissable) {
 		ArrayList<XY> resultat = calculerLdV(t, origine, destination);
 		for (XY etape : resultat) {
-			if (t.get(etape).isBloqueLdV())
+			if (priseEnCompteBlocageLdV && t.get(etape).isBloqueLdV())
+				return false;
+			if (priseEnCompteTerrainInfranchissable && !t.get(etape).isFranchissable())
 				return false;
 		}
 		return true;
@@ -78,5 +80,38 @@ public class GrilleLigneDeVue extends ArrayList<XY> {
 		}
 
 		return resultat;
+	}
+	
+	@Override
+	public String toString() {
+		String aff = new String();
+		aff = aff.concat("X");
+		for (int j = 1; j <= t.getTailleX(); j++) {
+			aff = aff.concat("XXX");
+		}
+		aff = aff.concat("X\n");
+		for (int i = 1; i <= t.getTailleY(); i++) {
+			aff = aff.concat("X");
+			for (int j = 1; j <= t.getTailleX(); j++) {
+				if (this.contains(new XY(j, i))) {
+					int cout = calculerLdV(t, origine, new XY(j, i)).size();
+					if (cout < 10)
+						aff = aff.concat("  " + Integer.toString(cout));
+					else
+						aff = aff.concat(" " + Integer.toString(cout));
+				}
+				else if (origine == new XY(j, i))
+					aff = aff.concat("  0");
+				else
+					aff = aff.concat("   ");
+			}
+			aff = aff.concat("X\n");
+		}
+		aff = aff.concat("X");
+		for (int j = 1; j <= t.getTailleX(); j++) {
+			aff = aff.concat("XXX");
+		}
+		aff = aff.concat("X");
+		return aff;
 	}
 }

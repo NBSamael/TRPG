@@ -2,7 +2,7 @@ package actions;
 
 import personnages.Personnage;
 
-public class Furtivite extends PersistantEffect {
+public class Furtivite extends EffetPersistant {
 
 	public Furtivite(Personnage owner) {
 		super(owner, 2);
@@ -23,7 +23,7 @@ public class Furtivite extends PersistantEffect {
 
 	@Override
 	public boolean isLegal() {
-		return !owner.isDissimule();
+		return (!owner.isDissimule() || !owner.effetsActifs.contains(this));
 	}
 
 	@Override

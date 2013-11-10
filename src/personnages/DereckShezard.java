@@ -3,8 +3,10 @@ package personnages;
 import java.util.ArrayList;
 
 import actions.Action;
-import actions.BaseAttack;
-import actions.Walk;
+import actions.Attaque;
+import actions.AttaqueDeBase;
+import actions.Course;
+import actions.Marche;
 import capacites.Capacite;
 
 public class DereckShezard extends Personnage {
@@ -25,21 +27,22 @@ public class DereckShezard extends Personnage {
 		this.resistance = 10;
 		
 		this.vitesseMarche = 8;
-		this.vitesseMarche = 12;
+		this.vitesseCourse = 12;
 		
 		this.nbPAMax = 5;
-		this.nbPAActuels = 3;
 		this.nbPARegen = 3;
+		this.nbPAActuels = nbPARegen + 1;
 		
 		this.categorie = Personnage.CATEGORIE_COMBATTANT;
 		this.faction = Personnage.FACTION_NEUTRE;
 		
 		this.niveau = 65;
 		
-		this.actions.add(new Walk(this));
-		this.actions.add(new BaseAttack(this));
-		this.actions.add(new BaseAttack(this, 3, "Balle Néo", "Attaque à Distance (16 cases)", 0, 0, 16));
-		this.actions.add(new BaseAttack(this, 5, "Néo Génèse", "Attaque +4 / Dégâts +4", 4, 4, 0));	
+		this.actions.add(new Marche(this));
+		this.actions.add(new Course(this));
+		this.actions.add(new AttaqueDeBase(this));
+		this.actions.add(new Attaque(this, 3, "Balle Néo", "Attaque à Distance (16 cases)", 0, 0, 0, 16));
+		this.actions.add(new Attaque(this, 5, "Néo Génèse", "Attaque +4 / Dégâts +4", 4, 4, 0, 0));	
 	}
 
 }

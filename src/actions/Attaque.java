@@ -6,67 +6,25 @@ import data.GrilleLigneDeVue;
 import data.InstancePartie;
 import data.XY;
 
-public class BaseAttack extends Attack {
-	private Personnage cible;
-	private int bonusAttaque = 0;
-	private int bonusDegats = 0;
-	private int porteeAttaque = 0;
-
-	public BaseAttack(Personnage owner) {
-		super(owner, 2);
-		this.nom = "Attaque de base";
-		this.description = "Le personnage attaque une cible située dans un rayon maximum égal à sa portée d'attaque";
-	}
-
-	public BaseAttack(Personnage owner, int coutPA, String nom,
-			String description, int bonusAttaque, int bonusDegats, int porteeAttaque) {
+public class Attaque extends Action {
+	protected Personnage cible;
+	protected int bonusAttaque = 0;
+	protected int bonusDegats = 0;
+	protected int malusArmure = 0;
+	protected int porteeAttaque = 0;
+	
+	public Attaque(Personnage owner, int coutPA, String nom,
+			String description, int bonusAttaque, int bonusDegats, int malusArmure, int porteeAttaque) {
 		super(owner, coutPA);
 		this.nom = nom;
 		this.description = description;
 		this.bonusAttaque = bonusDegats;
 		this.bonusDegats = bonusDegats;
+		this.malusArmure = malusArmure;
 		this.porteeAttaque = porteeAttaque;
+		this.typeAction = Action.TYPE_ATTAQUE;
 	}
 	
-	@Override
-	public boolean isLegal() {
-		return true;
-	}
-
-	@Override
-	public void getParameters() {
-		/*
-		 * Calcul le rayon d'attaque du personnage puis demande à l'utilisateur
-		 * de saisir une cible dans ce rayon
-		 */
-		XY caseCible = null;
-
-		// Calcul de la portée de l'attaque : Si une portée est définie dans
-		// l'attaque, on prend celle là. Sinon on prend la portée du personnage.
-		int porteeAtt = 1;
-		if (this.porteeAttaque > 0)
-			porteeAtt = this.porteeAttaque;
-		else
-			porteeAtt = owner.getPortee();
-
-		GrilleLigneDeVue possibilités = owner.partie.plateau
-				.calculeGrilleLigneDeVue(owner.getPosition(), porteeAtt);
-		do {
-			caseCible = owner.partie.ihm
-					.selectionnerCase("Sélectionner une cible");
-		} while (owner.partie.plateau.get(caseCible) == null
-				|| !possibilités.contains(caseCible)
-				|| owner.partie.plateau.get(caseCible).getOccupant() == null);
-		cible = owner.partie.plateau.get(caseCible).getOccupant();
-	}
-
-	@Override
-	public void execute() {
-
-		attaque();
-		
-	}
-
 	protected void attaque() {
 		int valeurAttaquePersonnage = owner.getAttaque() + this.bonusAttaque;
 		int valeurAttaqueDes = Des.lanceDe(Des.D10);
@@ -101,8 +59,47 @@ public class BaseAttack extends Attack {
 
 			cible.nbPVActuel = cible.nbPVActuel - valeurBlessure;
 			System.out.println("Valeur des PV de " + cible.nom + " : "
-					+ cible.nbPVActuel + "(enlevé : " + valeurBlessure + ")");
+					+ cible.nbPVActuel + " (enlevé : " + valeurBlessure + ")");
 
 		}
+	}
+
+	@Override
+	public boolean isLegal() {
+		return true;
+	}
+
+	@Override
+	public void getParameters() {
+		/*
+		 * Calcul le rayon d'attaque du personnage puis demande à l'utilisateur
+		 * de saisir une cible dans ce rayon
+		 */
+		XY caseCible = null;
+
+		// Calcul de la portée de l'attaque : Si une portée est définie dans
+		// l'attaque, on prend celle là. Sinon on prend la portée du personnage.
+		int porteeAtt = 1;
+		if (this.porteeAttaque > 0)
+			porteeAtt = this.porteeAttaque;
+		else
+			porteeAtt = owner.getPortee();
+
+		GrilleLigneDeVue possibilités = owner.partie.plateau
+				.calculeGrilleLigneDeVue(owner.getPosition(), porteeAtt, true, false);
+		do {
+			caseCible = owner.partie.ihm
+					.selectionnerCase("Sélectionner une cible");
+		} while (owner.partie.plateau.get(caseCible) == null
+				|| !possibilités.contains(caseCible)
+				|| owner.partie.plateau.get(caseCible).getOccupant() == null);
+		cible = owner.partie.plateau.get(caseCible).getOccupant();
+	}
+
+	@Override
+	public void execute() {
+
+		attaque();
+		
 	}
 }

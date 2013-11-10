@@ -2,6 +2,7 @@ package data;
 import java.util.ArrayList;
 
 import capacites.AttaqueADistance;
+import personnages.AlessaRaincross;
 import personnages.DereckShezard;
 import personnages.Personnage;
 import actions.*;
@@ -51,7 +52,7 @@ public class Test {
 		//System.out.println(GrilleLigneDeVue.calculerLdV(t, origine, destination));
 		//System.out.println(GrilleLigneDeVue.hasLdV(t, origine, destination));
 		
-		GrilleLigneDeVue resultat = t.calculeGrilleLigneDeVue(origine, 4);
+		GrilleLigneDeVue resultat = t.calculeGrilleLigneDeVue(origine, 4, true, false);
 		System.out.println(resultat);
 	}
 	
@@ -63,9 +64,12 @@ public class Test {
 		t.chargeTerrain();
 		
 		Personnage p1 = new DereckShezard();
+		p1.setPositionX(new XY(4,3));
 		t.get(new XY(4,3)).setOccupant(p1);
 		t.personnages.add(p1);
-		Personnage p2 = new Personnage("Xena", new XY(7,7), 3, 3, 4, 2, 5);
+		
+		Personnage p2 = new AlessaRaincross();
+		p2.setPositionX(new XY(7,7));
 		t.get(new XY(7,7)).setOccupant(p2);
 		t.personnages.add(p2);
 		
@@ -84,13 +88,10 @@ public class Test {
 		listeEquipes.add(e2);
 		
 		InstancePartie jeu = new InstancePartie(t, listeEquipes, interf);
+		
 		p1.partie = jeu;
 		p2.partie = jeu;
-		//p1.actions.add(new Walk(p1));
-		p2.actions.add(new Walk(p2));
-		//p1.actions.add(new BaseAttack(p1));
-		p2.actions.add(new BaseAttack(p2));
-		p2.capacites.add(new AttaqueADistance(p2, 4));
+
 		jeu.initialisePartie();
 		jeu.lancePartie();	
 	}

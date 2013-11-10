@@ -143,6 +143,8 @@ public class GrilleDeplacements extends HashMap<XY, Noeud> {
 						aff = aff.concat("  " + Integer.toString(n.cout));
 					else
 						aff = aff.concat(" " + Integer.toString(n.cout));
+				else if (origine == new XY(j, i))
+					aff = aff.concat("  0");
 				else
 					aff = aff.concat("   ");
 			}

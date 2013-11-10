@@ -1,17 +1,18 @@
 package personnages;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import actions.Action;
-import actions.PersistantEffect;
+import actions.EffetPersistant;
 import capacites.AttaqueADistance;
 import capacites.Capacite;
 import data.InstancePartie;
 import data.XY;
 
 
-public class Personnage {
+public abstract class Personnage {
 	public static int CATEGORIE_COMBATTANT = 0;
 	public static int CATEGORIE_MYSTIQUE = 1;
 	public static int CATEGORIE_RODEUR = 2;
@@ -51,38 +52,23 @@ public class Personnage {
 	
 	public List<Capacite> capacites;
 	public List<Action> actions;
-	public List<PersistantEffect> effetsActifs;
+	public List<EffetPersistant> effetsActifs;
 
 	protected int initBase;
 	protected int initiativeTour;
+	protected boolean aDejaBougeDansLeTour;
+	
 	
 	public Personnage() {
 		super();
 		this.actions = new ArrayList<Action>();
 		this.capacites = new ArrayList<Capacite>();
-		this.effetsActifs = new ArrayList<PersistantEffect>();
+		this.effetsActifs = new ArrayList<EffetPersistant>();
 		this.position = null;
 		this.partie = null;
 		this.dissimule = false;
+		this.aDejaBougeDansLeTour = false;
 	}
-	
-	public Personnage(String nom, XY position, int vitesseDeplacement,
-			int nbPAActuels, int initBase, int maxPdV, int baseAttaque) {
-		super();
-		this.nom = nom;
-		this.position = position;
-		this.vitesseMarche = vitesseDeplacement;
-		this.nbPAActuels = nbPAActuels;
-		this.actions = new ArrayList<Action>();
-		this.capacites = new ArrayList<Capacite>();
-		this.effetsActifs = new ArrayList<PersistantEffect>();		
-		this.initBase = initBase;
-		this.nbPVMax = maxPdV;
-		this.nbPVActuel = maxPdV;
-		this.attaque = baseAttaque;
-		this.dissimule = false;
-	}
-	
 	
 	public XY getPosition() {
 		return position;
@@ -114,12 +100,24 @@ public class Personnage {
 		return attaque;
 	}
 	
+	public void setAttaque(int attaque) {
+		this.attaque = attaque;
+	}
+
 	public int getDegats() {
 		return degats;
 	}
 	
+	public void setDegats(int degats) {
+		this.degats = degats;
+	}
+
 	public int getDefense() {
 		return defense;
+	}
+	
+	public void setDefense(int defense) {
+		this.defense = defense;
 	}
 	
 	public int getArmure() {
@@ -165,7 +163,8 @@ public class Personnage {
 	}
 	
 	public void payerCoutsEntretien() {
-		for (PersistantEffect pe : this.effetsActifs) {
+		HashSet<EffetPersistant> tmp = new HashSet<EffetPersistant>(this.effetsActifs);
+		for (EffetPersistant pe : tmp) {
 			if (pe.getCoutEntretien() <= this.getPointsAction()) {
 				if (!this.partie.ihm.repondreOuiNon("Payer le coût d'entretien de l'effet " + pe.getNom() + " ?")) {
 					pe.stop();
@@ -175,4 +174,11 @@ public class Personnage {
 		}
 	}
 	
+	public boolean getADejaBougeDansLeTour() {
+		return aDejaBougeDansLeTour;
+	}
+	
+	public void setADejaBougeDansLeTour(boolean aDejaBougeDansLeTour) {
+		this.aDejaBougeDansLeTour = aDejaBougeDansLeTour;
+	}
 }
