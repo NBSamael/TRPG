@@ -7,17 +7,12 @@ import data.XY;
 import personnages.Personnage;
 
 public class Course extends Mouvement {
-	private ArrayList<XY> trajet;
+	protected ArrayList<XY> trajet;
 
 	public Course(Personnage owner) {
 		super(owner, 2);
 		this.nom = "Course";
 		this.description = "Le personnage se déplace en ligne droite d'un nombre de cases égal à sa vitesse de course";
-	}
-
-	@Override
-	public boolean isLegal() {
-		return true;
 	}
 
 	@Override

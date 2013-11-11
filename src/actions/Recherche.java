@@ -7,7 +7,7 @@ import data.GrilleLigneDeVue;
 import data.XY;
 import personnages.Personnage;
 
-public abstract class Recherche extends Action {
+public class Recherche extends Action {
 	protected int porteeRecherche;
 	protected int bonusRecherche;
 
@@ -18,11 +18,7 @@ public abstract class Recherche extends Action {
 		this.description = description;
 		this.porteeRecherche = porteeRecherche;
 		this.bonusRecherche = bonusRecherche;
-	}
-
-	@Override
-	public boolean isLegal() {
-		return true;
+		this.typeAction = Action.TYPE_RECHERCHE;
 	}
 
 	@Override

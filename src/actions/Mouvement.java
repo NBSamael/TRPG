@@ -9,5 +9,10 @@ public abstract class Mouvement extends Action {
 		super(owner, coutPA);
 		this.typeAction = Action.TYPE_MOUVEMENT;
 	}
+	
+	@Override
+	public boolean isLegal() {
+		return (verifieCoutAction() && !owner.getADejaBougeDansLeTour());
+	}
 
 }

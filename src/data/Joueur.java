@@ -15,7 +15,9 @@ public class Joueur {
 	}
 	
 	public void reinitialisationPersonnages() {
-
+		for(Personnage p : persos) {
+			p.reinitialisation();
+		}
 	}
 
 	public void regenerationPointsActions() {

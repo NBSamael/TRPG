@@ -2,6 +2,7 @@ package personnages;
 
 import capacites.AttaqueADistance;
 import actions.AttaqueDeBase;
+import actions.ChargeDeBase;
 import actions.Course;
 import actions.Furtivite;
 import actions.RechercheDeBase;
@@ -44,6 +45,7 @@ public class AlessaRaincross extends Personnage {
 		this.actions.add(new Course(this));
 		this.actions.add(new RechercheDeBase(this));
 		this.actions.add(new AttaqueDeBase(this));
+		this.actions.add(new ChargeDeBase(this));
 		this.actions.add(new Furtivite(this));
 		this.actions.add(new SniperSombre(this));
 		this.actions.add(new ValseOrages(this));

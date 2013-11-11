@@ -54,7 +54,8 @@ public class InstancePartie {
 	}
 
 	private void reinitialisationPersonnages() {
-
+		for (Equipe e : equipes)
+			e.reinitialisationPersonnages();
 	}
 
 	private void regenerationPointsActions() {

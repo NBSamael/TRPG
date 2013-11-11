@@ -14,14 +14,6 @@ public class Marche extends Mouvement {
 		this.nom = "Marche";
 		this.description = "Le personnage se déplace d'un nombre de cases égal à sa vitesse de marche";
 	}
-	
-
-	@Override
-	public boolean isLegal() {
-		// TODO Implémenter le système d'engagement au combat
-		return true;
-	}
-
 
 	@Override
 	public void getParameters() {

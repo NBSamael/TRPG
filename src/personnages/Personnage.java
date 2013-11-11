@@ -170,10 +170,15 @@ public abstract class Personnage {
 	public ArrayList<Action> getActionsPossibles() {
 		ArrayList<Action> resultat = new ArrayList<Action>();
 		for (Action a : actions) {
-			if (a.getCoutPA() <= nbPAActuels && a.isLegal())
+			if (a.isLegal())
 				resultat.add(a);
 		}
 		return resultat;
+	}
+	
+	public void reinitialisation() {
+		System.out.println("test");
+		setADejaBougeDansLeTour(false);
 	}
 	
 	public void regenererPointsAction() {

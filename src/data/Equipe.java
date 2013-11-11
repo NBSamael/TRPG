@@ -22,7 +22,8 @@ public class Equipe extends ArrayList<Joueur> {
 	}
 	
 	public void reinitialisationPersonnages() {
-
+		for(Joueur j : joueurs)
+			j.reinitialisationPersonnages();
 	}
 
 	public void regenerationPointsActions() {

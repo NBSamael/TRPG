@@ -3,22 +3,23 @@ package actions;
 import personnages.Personnage;
 import data.Des;
 import data.GrilleLigneDeVue;
-import data.InstancePartie;
 import data.XY;
 
 public class Attaque extends Action {
 	protected Personnage cible;
 	protected int bonusAttaque = 0;
+	protected int nbDesLances = 1;
 	protected int bonusDegats = 0;
 	protected int malusArmure = 0;
 	protected int porteeAttaque = 0;
 	
 	public Attaque(Personnage owner, int coutPA, String nom,
-			String description, int bonusAttaque, int bonusDegats, int malusArmure, int porteeAttaque) {
+			String description, int bonusAttaque, int nbDesLances, int bonusDegats, int malusArmure, int porteeAttaque) {
 		super(owner, coutPA);
 		this.nom = nom;
 		this.description = description;
 		this.bonusAttaque = bonusDegats;
+		this.nbDesLances = nbDesLances;
 		this.bonusDegats = bonusDegats;
 		this.malusArmure = malusArmure;
 		this.porteeAttaque = porteeAttaque;
@@ -27,7 +28,7 @@ public class Attaque extends Action {
 	
 	protected void attaque() {
 		int valeurAttaquePersonnage = owner.getAttaque() + this.bonusAttaque;
-		int valeurAttaqueDes = Des.lanceDe(Des.D10);
+		int valeurAttaqueDes = Des.lanceDes(Des.D10, nbDesLances, Des.MAX);
 		int valeurAttaque = valeurAttaquePersonnage + valeurAttaqueDes;
 		System.out.println(owner.nom + " utilise " + this.nom + " contre "
 				+ cible.nom + " : " + valeurAttaque + " ("
@@ -62,11 +63,6 @@ public class Attaque extends Action {
 					+ cible.nbPVActuel + " (enlevé : " + valeurBlessure + ")");
 
 		}
-	}
-
-	@Override
-	public boolean isLegal() {
-		return true;
 	}
 
 	@Override

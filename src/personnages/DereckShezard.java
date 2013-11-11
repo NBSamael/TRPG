@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import actions.Action;
 import actions.Attaque;
 import actions.AttaqueDeBase;
+import actions.ChargeDeBase;
 import actions.Course;
 import actions.Marche;
 import actions.RechercheDeBase;
@@ -43,8 +44,9 @@ public class DereckShezard extends Personnage {
 		this.actions.add(new Course(this));
 		this.actions.add(new RechercheDeBase(this));
 		this.actions.add(new AttaqueDeBase(this));
-		this.actions.add(new Attaque(this, 3, "Balle Néo", "Attaque à Distance (16 cases)", 0, 0, 0, 16));
-		this.actions.add(new Attaque(this, 5, "Néo Génèse", "Attaque +4 / Dégâts +4", 4, 4, 0, 0));	
+		this.actions.add(new ChargeDeBase(this));
+		this.actions.add(new Attaque(this, 3, "Balle Néo", "Attaque à Distance (16 cases)", 0, 1, 0, 0, 16));
+		this.actions.add(new Attaque(this, 5, "Néo Génèse", "Attaque +4 / Dégâts +4", 4, 1, 4, 0, 0));	
 	}
 
 }
