@@ -2,7 +2,6 @@ package actions;
 
 import java.util.ArrayList;
 
-import data.GrilleDeplacements;
 import data.GrilleLigneDeVue;
 import data.XY;
 import personnages.Personnage;

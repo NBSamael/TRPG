@@ -58,6 +58,7 @@ public abstract class Personnage {
 	protected int initiativeTour;
 	protected boolean aDejaBougeDansLeTour;
 	
+	protected int tailleZoneControle;
 	
 	public Personnage() {
 		super();
@@ -68,6 +69,7 @@ public abstract class Personnage {
 		this.partie = null;
 		this.dissimule = false;
 		this.aDejaBougeDansLeTour = false;
+		this.tailleZoneControle = 8;
 	}
 	
 	public XY getPosition() {
@@ -138,6 +140,22 @@ public abstract class Personnage {
 
 	public void setDissimule(boolean dissimule) {
 		this.dissimule = dissimule;
+	}
+
+	public int getTailleZoneControle() {
+		return tailleZoneControle;
+	}
+
+	public int getCategorie() {
+		return categorie;
+	}
+
+	public void setCategorie(int categorie) {
+		this.categorie = categorie;
+	}
+
+	public void setTailleZoneControle(int tailleZoneControle) {
+		this.tailleZoneControle = tailleZoneControle;
 	}
 
 	public int getPortee() {

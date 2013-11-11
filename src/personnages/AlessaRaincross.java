@@ -4,6 +4,7 @@ import capacites.AttaqueADistance;
 import actions.AttaqueDeBase;
 import actions.Course;
 import actions.Furtivite;
+import actions.RechercheDeBase;
 import actions.SniperSombre;
 import actions.ValseOrages;
 import actions.Marche;
@@ -41,6 +42,7 @@ public class AlessaRaincross extends Personnage {
 		
 		this.actions.add(new Marche(this));
 		this.actions.add(new Course(this));
+		this.actions.add(new RechercheDeBase(this));
 		this.actions.add(new AttaqueDeBase(this));
 		this.actions.add(new Furtivite(this));
 		this.actions.add(new SniperSombre(this));

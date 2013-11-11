@@ -37,6 +37,9 @@ public class InstancePartie {
 		etat = InstancePartie.ETAT_EN_COURS;
 		while (etat == InstancePartie.ETAT_EN_COURS) {
 			cptTour++;
+			System.out.println("************************************************************************");
+			System.out.println("				TOUR " + cptTour);
+			System.out.println("************************************************************************");
 			phaseRecuperation();
 			phaseEntretien();
 			phaseAction();
@@ -93,6 +96,7 @@ public class InstancePartie {
 		ArrayList<Personnage> persosTries = calculeOrdreAction();
 		BouclePersonnages:
 		for (Personnage p : persosTries) {
+			System.out.println("------------------------------------------------------------------------");
 			while (true) {
 				System.out.println(plateau);
 				for(int i = 1; i <= p.getNbPAActuels(); i++)
