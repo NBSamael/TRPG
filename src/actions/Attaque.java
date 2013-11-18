@@ -38,7 +38,8 @@ public class Attaque extends Action {
 		System.out.println("Defense de " + cible.nom + " : " + valeurDefense);
 
 		boolean toucheCritique = (valeurAttaqueDes >= 10);
-		System.out.println("Touche critique");
+		if (toucheCritique)
+			System.out.println("Touche critique");
 
 		if (valeurAttaqueDes >= 10 || valeurAttaque >= valeurDefense) {
 

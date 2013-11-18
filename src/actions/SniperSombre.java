@@ -12,7 +12,7 @@ public class SniperSombre extends Attaque {
 
 	@Override
 	public boolean isLegal() {
-		return owner.isDissimule();
+		return (owner.isDissimule() && verifieCoutAction());
 	}
 
 	
