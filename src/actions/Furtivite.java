@@ -23,7 +23,7 @@ public class Furtivite extends EffetPersistant {
 
 	@Override
 	public boolean isLegal() {
-		return (!owner.isDissimule() || !owner.effetsActifs.contains(this));
+		return (verifieCoutAction() && (!owner.isDissimule() || !owner.effetsActifs.contains(this)));
 	}
 
 	@Override

@@ -1,9 +1,11 @@
 package personnages;
 
 import capacites.AttaqueADistance;
+import data.Joueur;
 import actions.AttaqueDeBase;
 import actions.ChargeDeBase;
 import actions.Course;
+import actions.EsquiveDeBase;
 import actions.Furtivite;
 import actions.RechercheDeBase;
 import actions.SniperSombre;
@@ -12,8 +14,8 @@ import actions.Marche;
 
 public class AlessaRaincross extends Personnage {
 
-	public AlessaRaincross() {
-		super();
+	public AlessaRaincross(Joueur owner) {
+		super(owner);
 		
 		this.nom = "Alessa Raincross";
 
@@ -49,6 +51,8 @@ public class AlessaRaincross extends Personnage {
 		this.actions.add(new Furtivite(this));
 		this.actions.add(new SniperSombre(this));
 		this.actions.add(new ValseOrages(this));
+		
+		this.reactions.add(new EsquiveDeBase(this));
 	}
 	
 }

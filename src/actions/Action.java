@@ -43,6 +43,10 @@ public abstract class Action {
 		owner.setNbPAActuels(owner.getNbPAActuels() - coutPA);
 	}
 	
+	public Personnage getOwner() {
+		return owner;
+	}
+
 	public abstract void getParameters();
 	
 	public abstract void execute();

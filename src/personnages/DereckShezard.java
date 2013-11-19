@@ -7,14 +7,16 @@ import actions.Attaque;
 import actions.AttaqueDeBase;
 import actions.ChargeDeBase;
 import actions.Course;
+import actions.EsquiveDeBase;
 import actions.Marche;
 import actions.RechercheDeBase;
 import capacites.Capacite;
+import data.Joueur;
 
 public class DereckShezard extends Personnage {
 	
-	public DereckShezard() {
-		super();
+	public DereckShezard(Joueur owner) {
+		super(owner);
 		
 		this.nom = "Dereck Shezard";
 
@@ -46,7 +48,9 @@ public class DereckShezard extends Personnage {
 		this.actions.add(new AttaqueDeBase(this));
 		this.actions.add(new ChargeDeBase(this));
 		this.actions.add(new Attaque(this, 3, "Balle Néo", "Attaque à Distance (16 cases)", 0, 1, 0, 0, 16));
-		this.actions.add(new Attaque(this, 5, "Néo Génèse", "Attaque +4 / Dégâts +4", 4, 1, 4, 0, 0));	
+		this.actions.add(new Attaque(this, 5, "Néo Génèse", "Attaque +4 / Dégâts +4", 4, 1, 4, 0, 0));
+		
+		this.reactions.add(new EsquiveDeBase(this));
 	}
 
 }

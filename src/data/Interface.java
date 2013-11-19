@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import personnages.Personnage;
 import actions.Action;
+import actions.Reaction;
 
 
 
@@ -33,6 +34,26 @@ public class Interface {
 			return -1;
 		}
 		return n;
+	}
+	
+	public int selectionnerReaction(EvenementJeu ej, Joueur j) {
+		System.out.println("Joueur : " + j.nom);
+		System.out.println("Liste des reactions possibles :");
+		ArrayList<Reaction> tmp = j.getReactionsPossibles(ej);
+		
+		for (int i = 0; i < tmp.size(); i++) {
+			System.out.println(i + " > " + tmp.get(i).getNom());
+		}
+		System.out.print("\nSaisissez le numéro de la reaction voulue (ou n'importe quoi d'autre pour passer) : ");
+		String str = sc.nextLine();		
+		int n = -1;
+		try {
+			n = new Integer(str).intValue();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return -1;
+		}
+		return n;	
 	}
 
 

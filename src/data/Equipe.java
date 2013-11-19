@@ -3,9 +3,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Equipe extends ArrayList<Joueur> {
+public class Equipe extends ArrayList<Joueur> implements ListenerEvenementJeu {
 	private String nom;
 	public List<Joueur> joueurs;
+	public InstancePartie partie;
 
 	public Equipe(String nom) {
 		super();
@@ -50,5 +51,17 @@ public class Equipe extends ArrayList<Joueur> {
 
 	public void calculeInitiative() {
 
+	}
+
+	@Override
+	public void avantJetAttaque(EvenementJeu ej) {
+		for (Joueur j : this.joueurs)
+			j.avantJetAttaque(ej);
+	}
+
+	@Override
+	public void apresJetAttaque(EvenementJeu ej) {
+		for (Joueur j : this.joueurs)
+			j.apresJetAttaque(ej);
 	}
 }

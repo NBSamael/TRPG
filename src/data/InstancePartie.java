@@ -8,7 +8,7 @@ import java.util.Set;
 import actions.Action;
 import personnages.Personnage;
 
-public class InstancePartie {
+public class InstancePartie implements ListenerEvenementJeu {
 
 	public static int ETAT_PREPARATION = 0;
 	public static int ETAT_EN_COURS = 1;
@@ -105,14 +105,19 @@ public class InstancePartie {
 				for(int i = p.getNbPAActuels(); i < p.nbPAMax; i++)
 					System.out.print("O");
 				System.out.println("\t" + p.nom);
-				int numAction = ihm.selectionnerAction(p);
-				if (numAction == -1
-						|| numAction >= p.getActionsPossibles().size())
+				if (p.getActionsPossibles().size() > 0) {
+					int numAction = ihm.selectionnerAction(p);
+					if (numAction == -1
+							|| numAction >= p.getActionsPossibles().size())
+						continue BouclePersonnages;
+					Action a = p.getActionsPossibles().get(numAction);
+					a.payeCout();
+					a.getParameters();
+					a.execute();
+				}
+				else {
 					continue BouclePersonnages;
-				Action a = p.getActionsPossibles().get(numAction);
-				a.payeCout();
-				a.getParameters();
-				a.execute();
+				}
 			}
 		}
 	}
@@ -132,6 +137,18 @@ public class InstancePartie {
 			collectionTriee.add(p);
 		}
 		return collectionTriee;
+	}
+
+	@Override
+	public void avantJetAttaque(EvenementJeu ej) {
+		for (Equipe e : this.equipes)
+			e.avantJetAttaque(ej);
+	}
+
+	@Override
+	public void apresJetAttaque(EvenementJeu ej) {
+		for (Equipe e : this.equipes)
+			e.apresJetAttaque(ej);
 	}
 
 }

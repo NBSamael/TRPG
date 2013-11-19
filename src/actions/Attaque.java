@@ -2,11 +2,12 @@ package actions;
 
 import personnages.Personnage;
 import data.Des;
+import data.EvenementJeu;
 import data.GrilleLigneDeVue;
 import data.XY;
 
 public class Attaque extends Action {
-	protected Personnage cible;
+	public Personnage cible;
 	protected int bonusAttaque = 0;
 	protected int nbDesLances = 1;
 	protected int bonusDegats = 0;
@@ -18,7 +19,7 @@ public class Attaque extends Action {
 		super(owner, coutPA);
 		this.nom = nom;
 		this.description = description;
-		this.bonusAttaque = bonusDegats;
+		this.bonusAttaque = bonusAttaque;
 		this.nbDesLances = nbDesLances;
 		this.bonusDegats = bonusDegats;
 		this.malusArmure = malusArmure;
@@ -27,16 +28,33 @@ public class Attaque extends Action {
 	}
 	
 	protected void attaque() {
+		EvenementJeu ej = new EvenementJeu(this);
+		
+		owner.partie.avantJetAttaque(ej);
+		
 		int valeurAttaquePersonnage = owner.getAttaque() + this.bonusAttaque;
 		int valeurAttaqueDes = Des.lanceDes(Des.D10, nbDesLances, Des.MAX);
 		int valeurAttaque = valeurAttaquePersonnage + valeurAttaqueDes;
 		System.out.println(owner.nom + " utilise " + this.nom + " contre "
 				+ cible.nom + " : " + valeurAttaque + " ("
 				+ valeurAttaquePersonnage + "+" + valeurAttaqueDes + ")");
-
-		int valeurDefense = cible.getDefense();
-		System.out.println("Defense de " + cible.nom + " : " + valeurDefense);
-
+		
+		owner.partie.apresJetAttaque(ej);
+		
+		int valeurDefensePersonnage = cible.getDefense();
+		int valeurDefense;
+		if (ej.esquive) {
+			valeurDefensePersonnage = valeurDefensePersonnage + ej.valeurDefenseBonus;
+			int valeurDefenseDes = ej.valeurDefenseDes;
+			valeurDefense = valeurDefensePersonnage + valeurDefenseDes;
+			System.out.println("Defense de " + cible.nom + " : " + valeurDefense  + " ("
+					+ valeurDefensePersonnage + "+" + valeurDefenseDes + ")");
+		}
+		else {
+			valeurDefense = valeurDefensePersonnage;
+			System.out.println("Defense de " + cible.nom + " : " + valeurDefensePersonnage);
+		}
+		
 		boolean toucheCritique = (valeurAttaqueDes >= 10);
 		if (toucheCritique)
 			System.out.println("Touche critique");

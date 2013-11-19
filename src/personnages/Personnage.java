@@ -6,13 +6,17 @@ import java.util.List;
 
 import actions.Action;
 import actions.EffetPersistant;
+import actions.Reaction;
 import capacites.AttaqueADistance;
 import capacites.Capacite;
+import data.EvenementJeu;
 import data.InstancePartie;
+import data.Joueur;
+import data.ListenerEvenementJeu;
 import data.XY;
 
 
-public abstract class Personnage {
+public abstract class Personnage implements ListenerEvenementJeu {
 	public static int CATEGORIE_COMBATTANT = 0;
 	public static int CATEGORIE_MYSTIQUE = 1;
 	public static int CATEGORIE_RODEUR = 2;
@@ -22,6 +26,7 @@ public abstract class Personnage {
 	public static int FACTION_NEUTRE = 2;
 	
 	public InstancePartie partie;
+	public Joueur owner;
 	
 	public String nom;
 	public XY position;
@@ -52,6 +57,7 @@ public abstract class Personnage {
 	
 	public List<Capacite> capacites;
 	public List<Action> actions;
+	public List<Reaction> reactions;
 	public List<EffetPersistant> effetsActifs;
 
 	protected int initBase;
@@ -60,9 +66,11 @@ public abstract class Personnage {
 	
 	protected int tailleZoneControle;
 	
-	public Personnage() {
+	public Personnage(Joueur owner) {
 		super();
+		this.owner = owner;
 		this.actions = new ArrayList<Action>();
+		this.reactions = new ArrayList<Reaction>();
 		this.capacites = new ArrayList<Capacite>();
 		this.effetsActifs = new ArrayList<EffetPersistant>();
 		this.position = null;
@@ -203,5 +211,17 @@ public abstract class Personnage {
 	
 	public void setADejaBougeDansLeTour(boolean aDejaBougeDansLeTour) {
 		this.aDejaBougeDansLeTour = aDejaBougeDansLeTour;
+	}
+
+	@Override
+	public void avantJetAttaque(EvenementJeu ej) {
+		for(Reaction r : this.reactions)
+			r.avantJetAttaque(ej);
+	}
+
+	@Override
+	public void apresJetAttaque(EvenementJeu ej) {
+		for(Reaction r : this.reactions)
+			r.apresJetAttaque(ej);	
 	}
 }

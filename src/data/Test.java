@@ -63,18 +63,19 @@ public class Test {
 		Terrain t = new Terrain(10,10);
 		t.chargeTerrain();
 		
-		Personnage p1 = new DereckShezard();
+		Joueur j1 = new Joueur("NBS");
+		Joueur j2 = new Joueur("Mirth");
+		
+		Personnage p1 = new DereckShezard(j1);
 		p1.setPositionX(new XY(4,3));
 		t.get(new XY(4,3)).setOccupant(p1);
 		t.personnages.add(p1);
 		
-		Personnage p2 = new AlessaRaincross();
+		Personnage p2 = new AlessaRaincross(j2);
 		p2.setPositionX(new XY(7,7));
 		t.get(new XY(7,7)).setOccupant(p2);
 		t.personnages.add(p2);
 		
-		Joueur j1 = new Joueur("NBS");
-		Joueur j2 = new Joueur("Mirth");
 		j1.persos.add(p1);
 		j2.persos.add(p2);
 		
@@ -88,6 +89,12 @@ public class Test {
 		listeEquipes.add(e2);
 		
 		InstancePartie jeu = new InstancePartie(t, listeEquipes, interf);
+		
+		j1.equipe = e1;
+		j2.equipe = e2;
+		
+		e1.partie = jeu;
+		e2.partie = jeu;
 		
 		p1.partie = jeu;
 		p2.partie = jeu;
