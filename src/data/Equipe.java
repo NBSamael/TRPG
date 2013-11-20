@@ -2,6 +2,8 @@ package data;
 import java.util.ArrayList;
 import java.util.List;
 
+import personnages.Personnage;
+
 
 public class Equipe extends ArrayList<Joueur> implements ListenerEvenementJeu {
 	private String nom;
@@ -51,6 +53,14 @@ public class Equipe extends ArrayList<Joueur> implements ListenerEvenementJeu {
 
 	public void calculeInitiative() {
 
+	}
+	
+	public boolean aPerdu() {
+		boolean statut = false;
+		for (Joueur j : this.joueurs) {
+			statut = statut || !j.aPerdu();
+		}
+		return !statut;
 	}
 
 	@Override

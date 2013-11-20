@@ -31,6 +31,7 @@ public abstract class Personnage implements ListenerEvenementJeu {
 	public String nom;
 	public XY position;
 	protected boolean dissimule;
+	protected boolean vivant;
 	
 	protected int attaque;
 	protected int degats;
@@ -78,6 +79,7 @@ public abstract class Personnage implements ListenerEvenementJeu {
 		this.dissimule = false;
 		this.aDejaBougeDansLeTour = false;
 		this.tailleZoneControle = 8;
+		this.vivant = true;
 	}
 	
 	public XY getPosition() {
@@ -148,6 +150,22 @@ public abstract class Personnage implements ListenerEvenementJeu {
 
 	public void setDissimule(boolean dissimule) {
 		this.dissimule = dissimule;
+	}
+	
+	public boolean isVivant() {
+		return vivant;
+	}
+
+	public void setVivant(boolean vivant) {
+		this.vivant = vivant;
+	}
+
+	public void recoitBlessure(int valeurBlessure) {
+		nbPVActuel = nbPVActuel - valeurBlessure;
+		if (nbPVActuel < 0) {
+			nbPVActuel = 0;
+			setVivant(false);
+		}
 	}
 
 	public int getTailleZoneControle() {

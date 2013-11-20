@@ -83,7 +83,7 @@ public class Attaque extends Action {
 			else
 				valeurBlessure = Math.max(0, valeurDegats - valeurArmure);
 
-			cible.nbPVActuel = cible.nbPVActuel - valeurBlessure;
+			cible.recoitBlessure(valeurBlessure);
 			System.out.println("Valeur des PV de " + cible.nom + " : "
 					+ cible.nbPVActuel + " (enlevé : " + valeurBlessure + ")");
 

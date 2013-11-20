@@ -82,7 +82,7 @@ public class Test {
 		Equipe e1 = new Equipe("Equipe 1");
 		Equipe e2 = new Equipe("Equipe 2");
 		e1.joueurs.add(j1);
-		e1.joueurs.add(j2);
+		e2.joueurs.add(j2);
 		
 		ArrayList<Equipe> listeEquipes = new ArrayList<Equipe>();
 		listeEquipes.add(e1);

@@ -55,6 +55,14 @@ public class Joueur implements ListenerEvenementJeu {
 	public void calculeInitiative() {
 
 	}
+	
+	public boolean aPerdu() {
+		boolean statut = false;
+		for (Personnage p : this.persos) {
+			statut = statut || p.isVivant();
+		}
+		return !statut;
+	}
 
 	@Override
 	public boolean avantJetAttaque(EvenementJeu ej) {

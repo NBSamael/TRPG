@@ -44,7 +44,14 @@ public class InstancePartie implements ListenerEvenementJeu {
 			phaseEntretien();
 			phaseAction();
 		}
-
+		
+		for(Equipe e : equipes)
+			if (!e.aPerdu()) {
+				System.out.println(e.getNom() + " gagne la partie");
+			}
+			else {
+				System.out.println(e.getNom() + " perd la partie");		
+			}
 	}
 
 	private void phaseRecuperation() {
@@ -114,6 +121,13 @@ public class InstancePartie implements ListenerEvenementJeu {
 					a.payeCout();
 					a.getParameters();
 					a.execute();
+					
+					for(Equipe e : equipes) {
+						if (e.aPerdu()) {
+							etat = InstancePartie.TERMINE;
+							return;
+						}
+					}
 				}
 				else {
 					continue BouclePersonnages;
