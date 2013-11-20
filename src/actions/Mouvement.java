@@ -7,7 +7,7 @@ public abstract class Mouvement extends Action {
 
 	public Mouvement(Personnage owner, int coutPA) {
 		super(owner, coutPA);
-		this.typeAction = Action.TYPE_MOUVEMENT;
+		this.typeAction = ActionGenerique.TYPE_MOUVEMENT;
 	}
 	
 	@Override

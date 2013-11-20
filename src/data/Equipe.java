@@ -54,14 +54,16 @@ public class Equipe extends ArrayList<Joueur> implements ListenerEvenementJeu {
 	}
 
 	@Override
-	public void avantJetAttaque(EvenementJeu ej) {
+	public boolean avantJetAttaque(EvenementJeu ej) {
 		for (Joueur j : this.joueurs)
 			j.avantJetAttaque(ej);
+		return false;
 	}
 
 	@Override
-	public void apresJetAttaque(EvenementJeu ej) {
+	public boolean apresJetAttaque(EvenementJeu ej) {
 		for (Joueur j : this.joueurs)
 			j.apresJetAttaque(ej);
+		return false;
 	}
 }

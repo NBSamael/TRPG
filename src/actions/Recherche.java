@@ -18,7 +18,7 @@ public class Recherche extends Action {
 		this.description = description;
 		this.porteeRecherche = porteeRecherche;
 		this.bonusRecherche = bonusRecherche;
-		this.typeAction = Action.TYPE_RECHERCHE;
+		this.typeAction = ActionGenerique.TYPE_RECHERCHE;
 	}
 
 	@Override

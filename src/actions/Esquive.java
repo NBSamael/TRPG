@@ -18,21 +18,22 @@ public class Esquive extends Reaction {
 	}
 
 	@Override
-	public void avantJetAttaque(EvenementJeu ej) {
-		if (isLegal()
-				&& ((ej.actionOrigine.typeAction == Action.TYPE_ATTAQUE && ((Attaque) ej.actionOrigine).cible == owner) || (ej.actionOrigine.typeAction == Action.TYPE_CHARGE && ((Charge) ej.actionOrigine).cible == owner)))
-			ej.reactionsPossibles.add(this);
-		this.ej = ej;
+	public boolean isLegal(EvenementJeu ej) {
+		return (super.isLegal(ej) && ((ej.actionOrigine.typeAction == ActionGenerique.TYPE_ATTAQUE && ((Attaque) ej.actionOrigine).cible == owner) || (ej.actionOrigine.typeAction == ActionGenerique.TYPE_CHARGE && ((Charge) ej.actionOrigine).cible == owner)));
 	}
 
 	@Override
-	public void execute() {
+	public boolean avantJetAttaque(EvenementJeu ej) {
+		return isLegal(ej);
+	}
+
+	@Override
+	public void execute(EvenementJeu ej) {
 		ej.esquive = true;
 		ej.valeurDefenseBonus = bonusEsquive;
 		ej.valeurDefenseDes = Des.lanceDes(Des.D10, nbDesLances, Des.MAX);
 		System.out.println(owner.nom + " tente d'equiver "
 				+ ej.actionOrigine.nom);
-		this.ej = null;
 	}
 
 }

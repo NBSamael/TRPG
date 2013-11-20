@@ -140,15 +140,17 @@ public class InstancePartie implements ListenerEvenementJeu {
 	}
 
 	@Override
-	public void avantJetAttaque(EvenementJeu ej) {
+	public boolean avantJetAttaque(EvenementJeu ej) {
 		for (Equipe e : this.equipes)
 			e.avantJetAttaque(ej);
+		return false;
 	}
 
 	@Override
-	public void apresJetAttaque(EvenementJeu ej) {
+	public boolean apresJetAttaque(EvenementJeu ej) {
 		for (Equipe e : this.equipes)
 			e.apresJetAttaque(ej);
+		return false;
 	}
 
 }

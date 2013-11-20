@@ -24,7 +24,7 @@ public class Attaque extends Action {
 		this.bonusDegats = bonusDegats;
 		this.malusArmure = malusArmure;
 		this.porteeAttaque = porteeAttaque;
-		this.typeAction = Action.TYPE_ATTAQUE;
+		this.typeAction = ActionGenerique.TYPE_ATTAQUE;
 	}
 	
 	protected void attaque() {

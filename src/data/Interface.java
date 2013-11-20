@@ -36,13 +36,12 @@ public class Interface {
 		return n;
 	}
 	
-	public int selectionnerReaction(EvenementJeu ej, Joueur j) {
+	public int selectionnerReaction(ArrayList<Reaction> possibilites, Joueur j) {
 		System.out.println("Joueur : " + j.nom);
 		System.out.println("Liste des reactions possibles :");
-		ArrayList<Reaction> tmp = j.getReactionsPossibles(ej);
 		
-		for (int i = 0; i < tmp.size(); i++) {
-			System.out.println(i + " > " + tmp.get(i).getNom());
+		for (int i = 0; i < possibilites.size(); i++) {
+			System.out.println(i + " > " + possibilites.get(i).getNom());
 		}
 		System.out.print("\nSaisissez le numéro de la reaction voulue (ou n'importe quoi d'autre pour passer) : ");
 		String str = sc.nextLine();		

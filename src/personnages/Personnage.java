@@ -214,14 +214,12 @@ public abstract class Personnage implements ListenerEvenementJeu {
 	}
 
 	@Override
-	public void avantJetAttaque(EvenementJeu ej) {
-		for(Reaction r : this.reactions)
-			r.avantJetAttaque(ej);
+	public boolean avantJetAttaque(EvenementJeu ej) {
+		return false;
 	}
 
 	@Override
-	public void apresJetAttaque(EvenementJeu ej) {
-		for(Reaction r : this.reactions)
-			r.apresJetAttaque(ej);	
+	public boolean apresJetAttaque(EvenementJeu ej) {
+		return false;
 	}
 }

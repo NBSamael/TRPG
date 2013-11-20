@@ -4,36 +4,35 @@ import data.EvenementJeu;
 import data.ListenerEvenementJeu;
 import personnages.Personnage;
 
-public class Reaction extends Action implements ListenerEvenementJeu {
-	protected EvenementJeu ej;
+public abstract class Reaction extends ActionGenerique implements ListenerEvenementJeu {
 
 	public Reaction(Personnage owner, int coutPA) {
 		super(owner, coutPA);
-		this.ej = null;
+	}
+	
+	public boolean isLegal(EvenementJeu ej) {
+		return verifieCoutAction();
 	}
 
-	@Override
-	public void avantJetAttaque(EvenementJeu ej) {
+	public void getParameters(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void execute(EvenementJeu ej) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void apresJetAttaque(EvenementJeu ej) {
+	public boolean avantJetAttaque(EvenementJeu ej) {
 		// TODO Auto-generated method stub
-
+		return false;
 	}
 
 	@Override
-	public void getParameters() {
+	public boolean apresJetAttaque(EvenementJeu ej) {
 		// TODO Auto-generated method stub
-
+		return false;
 	}
-
-	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
-
-	}
-
 }

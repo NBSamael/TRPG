@@ -55,37 +55,50 @@ public class Joueur implements ListenerEvenementJeu {
 	public void calculeInitiative() {
 
 	}
-	
-	public ArrayList<Reaction> getReactionsPossibles(EvenementJeu ej) {
+
+	@Override
+	public boolean avantJetAttaque(EvenementJeu ej) {
 		ArrayList<Reaction> tmp = new ArrayList<Reaction>();
 		
-		for (Reaction r : ej.reactionsPossibles)
-			if (r.getOwner().owner == this)
-				tmp.add(r);
-		
-		return tmp;
-	}
-
-	@Override
-	public void avantJetAttaque(EvenementJeu ej) {
 		for(Personnage p : this.persos)
-			p.avantJetAttaque(ej);
+			for (Reaction r : p.reactions)
+				if (r.avantJetAttaque(ej))
+					tmp.add(r);
 		
-		if (getReactionsPossibles(ej).size() > 0) {
-			int numAction = equipe.partie.ihm.selectionnerReaction(ej, this);
+		if (tmp.size() > 0) {
+			int numAction = equipe.partie.ihm.selectionnerReaction(tmp, this);
 			if (numAction == -1
-					|| numAction >= getReactionsPossibles(ej).size())
-				return;
-			Reaction r = getReactionsPossibles(ej).get(numAction);
+					|| numAction >= tmp.size())
+				return false;
+			Reaction r = tmp.get(numAction);
 			r.payeCout();
-			r.getParameters();
-			r.execute();
+			r.getParameters(ej);
+			r.execute(ej);
 		}
+		
+		return false;
 	}
 
 	@Override
-	public void apresJetAttaque(EvenementJeu ej) {
+	public boolean apresJetAttaque(EvenementJeu ej) {
+		ArrayList<Reaction> tmp = new ArrayList<Reaction>();
+		
 		for(Personnage p : this.persos)
-			p.apresJetAttaque(ej);
+			for (Reaction r : p.reactions)
+				if (r.apresJetAttaque(ej))
+					tmp.add(r);
+		
+		if (tmp.size() > 0) {
+			int numAction = equipe.partie.ihm.selectionnerReaction(tmp, this);
+			if (numAction == -1
+					|| numAction >= tmp.size())
+				return false;
+			Reaction r = tmp.get(numAction);
+			r.payeCout();
+			r.getParameters(ej);
+			r.execute(ej);
+		}
+		
+		return false;
 	}
 }

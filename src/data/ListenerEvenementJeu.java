@@ -1,7 +1,7 @@
 package data;
 
 public interface ListenerEvenementJeu {
-	public void avantJetAttaque(EvenementJeu ej);
+	public boolean avantJetAttaque(EvenementJeu ej);
 	
-	public void apresJetAttaque(EvenementJeu ej);
+	public boolean apresJetAttaque(EvenementJeu ej);
 }

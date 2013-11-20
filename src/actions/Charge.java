@@ -26,7 +26,7 @@ public class Charge extends Action {
 		this.bonusDegats = bonusDegats;
 		this.malusArmure = malusArmure;
 		this.vitesseCharge = vitesseCharge;
-		this.typeAction = Action.TYPE_CHARGE;
+		this.typeAction = ActionGenerique.TYPE_CHARGE;
 	}
 
 	@Override

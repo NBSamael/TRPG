@@ -8,7 +8,7 @@ public abstract class EffetPersistant extends Effet {
 
 	public EffetPersistant(Personnage owner, int coutPA) {
 		super(owner, coutPA);
-		this.typeAction = Action.TYPE_EFFET_PERSISTANT;
+		this.typeAction = ActionGenerique.TYPE_EFFET_PERSISTANT;
 	}
 
 	public int getCoutEntretien() {
