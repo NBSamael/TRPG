@@ -107,7 +107,8 @@ public class Attaque extends Action {
 					.selectionnerCase("Sélectionner une cible");
 		} while (owner.partie.plateau.get(caseCible) == null
 				|| !possibilités.contains(caseCible)
-				|| owner.partie.plateau.get(caseCible).getOccupant() == null);
+				|| owner.partie.plateau.get(caseCible).getOccupant() == null
+				|| owner.partie.plateau.get(caseCible).getOccupant().isDissimule());
 		cible = owner.partie.plateau.get(caseCible).getOccupant();
 	}
 

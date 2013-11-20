@@ -185,7 +185,6 @@ public abstract class Personnage implements ListenerEvenementJeu {
 	}
 	
 	public void reinitialisation() {
-		System.out.println("test");
 		setADejaBougeDansLeTour(false);
 	}
 	
