@@ -9,7 +9,7 @@ import data.XY;
 public class Attaque extends Action {
 	public Personnage cible;
 	protected int bonusAttaque = 0;
-	protected int nbDesLances = 1;
+	protected int nbDesLancesAttaque = 1;
 	protected int bonusDegats = 0;
 	protected int malusArmure = 0;
 	protected int porteeAttaque = 0;
@@ -20,20 +20,22 @@ public class Attaque extends Action {
 		this.nom = nom;
 		this.description = description;
 		this.bonusAttaque = bonusAttaque;
-		this.nbDesLances = nbDesLances;
+		this.nbDesLancesAttaque = nbDesLances;
 		this.bonusDegats = bonusDegats;
 		this.malusArmure = malusArmure;
 		this.porteeAttaque = porteeAttaque;
 		this.typeAction = ActionGenerique.TYPE_ATTAQUE;
 	}
 	
-	protected void attaque() {
+	public void attaque() {
+		owner.setDissimule(false);
+		
 		EvenementJeu ej = new EvenementJeu(this);
 		
 		owner.partie.avantJetAttaque(ej);
 		
 		int valeurAttaquePersonnage = owner.getAttaque() + this.bonusAttaque;
-		int valeurAttaqueDes = Des.lanceDes(Des.D10, nbDesLances, Des.MAX);
+		int valeurAttaqueDes = Des.lanceDes(Des.D10, nbDesLancesAttaque, Des.MAX);
 		int valeurAttaque = valeurAttaquePersonnage + valeurAttaqueDes;
 		System.out.println(owner.nom + " utilise " + this.nom + " contre "
 				+ cible.nom + " : " + valeurAttaque + " ("
@@ -56,11 +58,15 @@ public class Attaque extends Action {
 		}
 		
 		boolean toucheCritique = (valeurAttaqueDes >= 10);
-		if (toucheCritique)
+		if (toucheCritique) {
+			owner.partie.touchecritique(new EvenementJeu(this));
 			System.out.println("Touche critique");
+		}
 
 		if (valeurAttaqueDes >= 10 || valeurAttaque >= valeurDefense) {
 
+			owner.partie.attaqueReussie(new EvenementJeu(this));
+			
 			int niveauSucces = Math.max(0, valeurAttaque - valeurDefense);
 			int baseDegats = owner.getDegats() + this.bonusDegats;
 
@@ -81,6 +87,10 @@ public class Attaque extends Action {
 			System.out.println("Valeur des PV de " + cible.nom + " : "
 					+ cible.nbPVActuel + " (enlevé : " + valeurBlessure + ")");
 
+		}
+		else {
+			System.out.println("Echec de l'attaque");
+			owner.partie.attaqueRatee(new EvenementJeu(this));
 		}
 	}
 

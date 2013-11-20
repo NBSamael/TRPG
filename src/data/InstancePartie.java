@@ -153,4 +153,25 @@ public class InstancePartie implements ListenerEvenementJeu {
 		return false;
 	}
 
+	@Override
+	public boolean touchecritique(EvenementJeu ej) {
+		for (Equipe e : this.equipes)
+			e.touchecritique(ej);
+		return false;
+	}
+
+	@Override
+	public boolean attaqueReussie(EvenementJeu ej) {
+		for (Equipe e : this.equipes)
+			e.attaqueReussie(ej);
+		return false;
+	}
+
+	@Override
+	public boolean attaqueRatee(EvenementJeu ej) {
+		for (Equipe e : this.equipes)
+			e.attaqueRatee(ej);
+		return false;
+	}
+
 }

@@ -2,24 +2,53 @@ package actions;
 
 import data.Des;
 import data.EvenementJeu;
+import data.GrilleLigneDeVue;
+import data.XY;
 import personnages.Personnage;
 
 public class Esquive extends Reaction {
+	protected boolean actif = false;
+
 	protected int bonusEsquive = 0;
-	protected int nbDesLances = 1;
+	protected int nbDesLancesEsquive = 1;
 
 	public Esquive(Personnage owner, int coutPA, String nom,
-			String description, int bonusEsquive, int nbDesLances) {
+			String description, int bonusEsquive, int nbDesLancesEsquive) {
 		super(owner, coutPA);
 		this.nom = nom;
 		this.description = description;
 		this.bonusEsquive = bonusEsquive;
-		this.nbDesLances = nbDesLances;
+		this.nbDesLancesEsquive = nbDesLancesEsquive;
+		this.typeAction = ActionGenerique.TYPE_ESQUIVE;
 	}
 
 	@Override
 	public boolean isLegal(EvenementJeu ej) {
-		return (super.isLegal(ej) && ((ej.actionOrigine.typeAction == ActionGenerique.TYPE_ATTAQUE && ((Attaque) ej.actionOrigine).cible == owner) || (ej.actionOrigine.typeAction == ActionGenerique.TYPE_CHARGE && ((Charge) ej.actionOrigine).cible == owner)));
+		boolean verifClasseMere = super.isLegal(ej); // Fait les vérifications
+														// de la classe mère
+		boolean typeCibleAttaque = ej.actionOrigine.typeAction == ActionGenerique.TYPE_ATTAQUE
+				&& ((Attaque) ej.actionOrigine).cible == owner; // Vérifie si
+																// l'action est
+																// une attaque
+																// avec pour
+																// cible le
+																// personnage
+		boolean typeCibleCharge = ej.actionOrigine.typeAction == ActionGenerique.TYPE_CHARGE
+				&& ((Charge) ej.actionOrigine).cible == owner; // Vérifie si
+																// l'action est
+																// une charge
+																// avec pour
+																// cible le
+																// personnage
+		boolean typeCibleContreAttaque = ej.actionOrigine.typeAction == ActionGenerique.TYPE_CONTREATTAQUE
+				&& ((ContreAttaque) ej.actionOrigine).cible == owner; // Vérifie si
+																// l'action est
+																// une contre attaque
+																// avec pour
+																// cible le
+																// personnage
+
+		return (verifClasseMere && (typeCibleAttaque || typeCibleCharge || typeCibleContreAttaque));
 	}
 
 	@Override
@@ -28,12 +57,22 @@ public class Esquive extends Reaction {
 	}
 
 	@Override
+	public boolean apresJetAttaque(EvenementJeu ej) {
+		if (actif) {
+			ej.esquive = true;
+			ej.valeurDefenseBonus = bonusEsquive;
+			ej.valeurDefenseDes = Des.lanceDes(Des.D10, nbDesLancesEsquive,
+					Des.MAX);
+			actif = false;
+			System.out.println(owner.nom + " tente d'equiver "
+					+ ej.actionOrigine.nom);
+		}
+		return false;
+	}
+
+	@Override
 	public void execute(EvenementJeu ej) {
-		ej.esquive = true;
-		ej.valeurDefenseBonus = bonusEsquive;
-		ej.valeurDefenseDes = Des.lanceDes(Des.D10, nbDesLances, Des.MAX);
-		System.out.println(owner.nom + " tente d'equiver "
-				+ ej.actionOrigine.nom);
+		this.actif = true;
 	}
 
 }

@@ -18,6 +18,9 @@ public class ActionGenerique {
 	public static int TYPE_MOUVEMENT = 3;
 	public static int TYPE_CHARGE = 4;
 	public static int TYPE_RECHERCHE = 5;
+	public static int TYPE_ESQUIVE = 6;
+	public static int TYPE_CONTREATTAQUE = 7;
+	
 	public static int CATEGORIE_KI = 0;
 	public static int CATEGORIE_MAGIE = 1;
 	public static int CATEGORIE_SUBTERFUGE = 2;

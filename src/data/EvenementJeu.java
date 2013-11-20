@@ -7,7 +7,6 @@ import actions.Reaction;
 
 public class EvenementJeu {
 	public ActionGenerique actionOrigine;
-	public ArrayList<Reaction> reactionsPossibles;
 	
 	public boolean esquive = false;
 	public int valeurDefenseDes = 0;
@@ -16,6 +15,5 @@ public class EvenementJeu {
 	public EvenementJeu(ActionGenerique actionOrigine) {
 		super();
 		this.actionOrigine = actionOrigine;
-		this.reactionsPossibles = new ArrayList<Reaction>();
 	}
 }

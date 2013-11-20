@@ -4,6 +4,7 @@ import capacites.AttaqueADistance;
 import data.Joueur;
 import actions.AttaqueDeBase;
 import actions.ChargeDeBase;
+import actions.ContreAttaqueDeBase;
 import actions.Course;
 import actions.EsquiveDeBase;
 import actions.Furtivite;
@@ -53,6 +54,7 @@ public class AlessaRaincross extends Personnage {
 		this.actions.add(new ValseOrages(this));
 		
 		this.reactions.add(new EsquiveDeBase(this));
+		this.reactions.add(new ContreAttaqueDeBase(this));
 	}
 	
 }

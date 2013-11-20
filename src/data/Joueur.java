@@ -101,4 +101,74 @@ public class Joueur implements ListenerEvenementJeu {
 		
 		return false;
 	}
+
+	@Override
+	public boolean touchecritique(EvenementJeu ej) {
+		ArrayList<Reaction> tmp = new ArrayList<Reaction>();
+		
+		for(Personnage p : this.persos)
+			for (Reaction r : p.reactions)
+				if (r.touchecritique(ej))
+					tmp.add(r);
+		
+		if (tmp.size() > 0) {
+			int numAction = equipe.partie.ihm.selectionnerReaction(tmp, this);
+			if (numAction == -1
+					|| numAction >= tmp.size())
+				return false;
+			Reaction r = tmp.get(numAction);
+			r.payeCout();
+			r.getParameters(ej);
+			r.execute(ej);
+		}
+		
+		return false;
+	}
+
+	@Override
+	public boolean attaqueReussie(EvenementJeu ej) {
+		ArrayList<Reaction> tmp = new ArrayList<Reaction>();
+		
+		for(Personnage p : this.persos)
+			for (Reaction r : p.reactions)
+				if (r.attaqueReussie(ej))
+					tmp.add(r);
+		
+		if (tmp.size() > 0) {
+			int numAction = equipe.partie.ihm.selectionnerReaction(tmp, this);
+			if (numAction == -1
+					|| numAction >= tmp.size())
+				return false;
+			Reaction r = tmp.get(numAction);
+			r.payeCout();
+			r.getParameters(ej);
+			r.execute(ej);
+		}
+		
+		return false;
+	}
+
+	@Override
+	public boolean attaqueRatee(EvenementJeu ej) {
+		ArrayList<Reaction> tmp = new ArrayList<Reaction>();
+		
+		for(Personnage p : this.persos)
+			for (Reaction r : p.reactions)
+				if (r.attaqueRatee(ej))
+					tmp.add(r);
+		
+		if (tmp.size() > 0) {
+			int numAction = equipe.partie.ihm.selectionnerReaction(tmp, this);
+			if (numAction == -1
+					|| numAction >= tmp.size())
+				return false;
+			Reaction r = tmp.get(numAction);
+			r.payeCout();
+			r.getParameters(ej);
+			r.execute(ej);
+		}
+		
+		return false;
+	}
+	
 }

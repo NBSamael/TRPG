@@ -35,4 +35,22 @@ public abstract class Reaction extends ActionGenerique implements ListenerEvenem
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	public boolean touchecritique(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean attaqueReussie(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean attaqueRatee(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

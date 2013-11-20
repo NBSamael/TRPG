@@ -6,6 +6,7 @@ import actions.Action;
 import actions.Attaque;
 import actions.AttaqueDeBase;
 import actions.ChargeDeBase;
+import actions.ContreAttaqueDeBase;
 import actions.Course;
 import actions.EsquiveDeBase;
 import actions.Marche;
@@ -51,6 +52,7 @@ public class DereckShezard extends Personnage {
 		this.actions.add(new Attaque(this, 5, "Néo Génèse", "Attaque +4 / Dégâts +4", 4, 1, 4, 0, 0));
 		
 		this.reactions.add(new EsquiveDeBase(this));
+		this.reactions.add(new ContreAttaqueDeBase(this));
 	}
 
 }

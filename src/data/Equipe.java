@@ -66,4 +66,26 @@ public class Equipe extends ArrayList<Joueur> implements ListenerEvenementJeu {
 			j.apresJetAttaque(ej);
 		return false;
 	}
+
+	@Override
+	public boolean touchecritique(EvenementJeu ej) {
+		for (Joueur j : this.joueurs)
+			j.touchecritique(ej);
+		return false;
+	}
+
+	@Override
+	public boolean attaqueReussie(EvenementJeu ej) {
+		for (Joueur j : this.joueurs)
+			j.attaqueReussie(ej);
+		return false;
+	}
+
+	@Override
+	public boolean attaqueRatee(EvenementJeu ej) {
+		for (Joueur j : this.joueurs)
+			j.attaqueRatee(ej);
+		return false;
+	}
+	
 }
