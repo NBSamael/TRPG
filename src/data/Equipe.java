@@ -38,8 +38,9 @@ public class Equipe extends ArrayList<Joueur> implements ListenerEvenementJeu {
 
 	}
 
-	public void retraitMarqueursEtat() {
-
+	public void gestionMarqueursAttitude() {
+		for(Joueur j : joueurs)
+			j.gestionMarqueursAttitude();
 	}
 
 	public void gestionInvocations() {

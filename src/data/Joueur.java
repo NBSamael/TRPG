@@ -39,8 +39,9 @@ public class Joueur implements ListenerEvenementJeu {
 
 	}
 
-	public void retraitMarqueursEtat() {
-
+	public void gestionMarqueursAttitude() {
+		for(Personnage p : persos)
+			p.gestionMarqueursAttitude();
 	}
 
 	public void gestionInvocations() {

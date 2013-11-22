@@ -101,7 +101,7 @@ public class ContreAttaque extends Reaction {
 	public boolean attaqueRatee(EvenementJeu ej) {
 		if (actif) {
 			this.actif = false;
-			attaque();
+			attaque(cible, bonusAttaque, nbDesLancesAttaque, bonusDegats);
 		}
 		return false;
 	}
@@ -115,73 +115,6 @@ public class ContreAttaque extends Reaction {
 	@Override
 	public void execute(EvenementJeu ej) {
 		this.actif = true;
-	}
-
-	public void attaque() {
-		EvenementJeu ej = new EvenementJeu(this);
-
-		owner.partie.avantJetAttaque(ej);
-
-		int valeurAttaquePersonnage = owner.getAttaque() + this.bonusAttaque;
-		int valeurAttaqueDes = Des.lanceDes(Des.D10, nbDesLancesAttaque,
-				Des.MAX);
-		int valeurAttaque = valeurAttaquePersonnage + valeurAttaqueDes - 2;
-		System.out.println(owner.nom + " utilise " + this.nom + " contre "
-				+ cible.nom + " : " + valeurAttaque + " ("
-				+ valeurAttaquePersonnage + "+" + valeurAttaqueDes + "-2)");
-
-		owner.partie.apresJetAttaque(ej);
-
-		int valeurDefensePersonnage = cible.getDefense();
-		int valeurDefense;
-		if (ej.esquive) {
-			valeurDefensePersonnage = valeurDefensePersonnage
-					+ ej.valeurDefenseBonus;
-			int valeurDefenseDes = ej.valeurDefenseDes;
-			valeurDefense = valeurDefensePersonnage + valeurDefenseDes;
-			System.out.println("Defense de " + cible.nom + " : "
-					+ valeurDefense + " (" + valeurDefensePersonnage + "+"
-					+ valeurDefenseDes + ")");
-		} else {
-			valeurDefense = valeurDefensePersonnage;
-			System.out.println("Defense de " + cible.nom + " : "
-					+ valeurDefensePersonnage);
-		}
-
-		boolean toucheCritique = (valeurAttaqueDes >= 10);
-		if (toucheCritique) {
-			owner.partie.touchecritique(new EvenementJeu(this));
-			System.out.println("Touche critique");
-		}
-
-		if (valeurAttaqueDes >= 10 || valeurAttaque >= valeurDefense) {
-
-			owner.partie.attaqueReussie(new EvenementJeu(this));
-
-			int niveauSucces = Math.max(0, valeurAttaque - valeurDefense);
-			int baseDegats = owner.getDegats() + this.bonusDegats;
-
-			int valeurDegats = niveauSucces + baseDegats;
-			System.out.println("Valeur des degats : " + valeurDegats + " ("
-					+ baseDegats + "+" + niveauSucces + ")");
-
-			int valeurArmure = cible.getArmure();
-			System.out.println("Armure de " + cible.nom + " : " + valeurArmure);
-
-			int valeurBlessure;
-			if (toucheCritique)
-				valeurBlessure = Math.max(1, valeurDegats - valeurArmure);
-			else
-				valeurBlessure = Math.max(0, valeurDegats - valeurArmure);
-
-			cible.recoitBlessure(valeurBlessure);
-			System.out.println("Valeur des PV de " + cible.nom + " : "
-					+ cible.nbPVActuel + " (enlevé : " + valeurBlessure + ")");
-
-		} else {
-			owner.partie.attaqueRatee(new EvenementJeu(this));
-			System.out.println("Echec de l'attaque");
-		}
 	}
 
 }

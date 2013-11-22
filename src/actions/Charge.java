@@ -10,19 +10,19 @@ import personnages.Personnage;
 public class Charge extends Action {
 	protected Personnage cible;
 	protected int bonusAttaque = 0;
-	protected int nbDesLances = 1;
+	protected int nbDesLancesAttaque = 1;
 	protected int bonusDegats = 0;
 	protected int malusArmure = 0;
 	protected int vitesseCharge = 0;
 	protected ArrayList<XY> trajet;
 
 	public Charge(Personnage owner, int coutPA, String nom,
-			String description, int bonusAttaque, int nbDesLances,  int bonusDegats, int malusArmure, int vitesseCharge) {
+			String description, int bonusAttaque, int nbDesLancesAttaque,  int bonusDegats, int malusArmure, int vitesseCharge) {
 		super(owner, coutPA);
 		this.nom = nom;
 		this.description = description;
 		this.bonusAttaque = bonusDegats;
-		this.nbDesLances = nbDesLances;
+		this.nbDesLancesAttaque = nbDesLancesAttaque;
 		this.bonusDegats = bonusDegats;
 		this.malusArmure = malusArmure;
 		this.vitesseCharge = vitesseCharge;
@@ -53,9 +53,12 @@ public class Charge extends Action {
 		do {
 			caseCible = owner.partie.ihm
 					.selectionnerCase("Sélectionner une cible");
+			System.out.println( owner.partie.plateau.get(caseCible).getOccupant());
+			System.out.println(XY.calculeDistance( owner.getPosition(), caseCible));
 		} while (owner.partie.plateau.get(caseCible) == null
 				|| !possibilités.contains(caseCible)
 				|| owner.partie.plateau.get(caseCible).getOccupant() == null
+				|| owner.partie.plateau.get(caseCible).getOccupant().isDissimule()
 				|| XY.calculeDistance( owner.getPosition(), caseCible) <= 2); // On vérifie que la cible n'est pas déjà au contact avec le personnage
 		cible = owner.partie.plateau.get(caseCible).getOccupant();
 		
@@ -86,47 +89,8 @@ public class Charge extends Action {
 		}
 		System.out.println(owner.getPosition());
 		
-		attaque();
+		attaque(cible, bonusAttaque, nbDesLancesAttaque, bonusDegats);
 		
 		owner.setADejaBougeDansLeTour(true);
 	}
-	
-	protected void attaque() {
-		int valeurAttaquePersonnage = owner.getAttaque() + this.bonusAttaque;
-		int valeurAttaqueDes = Des.lanceDes(Des.D10, nbDesLances, Des.MAX);
-		int valeurAttaque = valeurAttaquePersonnage + valeurAttaqueDes;
-		System.out.println(owner.nom + " utilise " + this.nom + " contre "
-				+ cible.nom + " : " + valeurAttaque + " ("
-				+ valeurAttaquePersonnage + "+" + valeurAttaqueDes + ")");
-
-		int valeurDefense = cible.getDefense();
-		System.out.println("Defense de " + cible.nom + " : " + valeurDefense);
-
-		boolean toucheCritique = (valeurAttaqueDes >= 10);
-		System.out.println("Touche critique");
-
-		if (valeurAttaqueDes >= 10 || valeurAttaque >= valeurDefense) {
-
-			int niveauSucces = Math.max(0, valeurAttaque - valeurDefense);
-			int baseDegats = owner.getDegats() + this.bonusDegats;
-
-			int valeurDegats = niveauSucces + baseDegats;
-			System.out.println("Valeur des degats : " + valeurDegats + " ("
-					+ baseDegats + "+" + niveauSucces + ")");
-
-			int valeurArmure = cible.getArmure();
-			System.out.println("Armure de " + cible.nom + " : " + valeurArmure);
-
-			int valeurBlessure;
-			if (toucheCritique)
-				valeurBlessure = Math.max(1, valeurDegats - valeurArmure);
-			else
-				valeurBlessure = Math.max(0, valeurDegats - valeurArmure);
-
-			cible.nbPVActuel = cible.nbPVActuel - valeurBlessure;
-			System.out.println("Valeur des PV de " + cible.nom + " : "
-					+ cible.nbPVActuel + " (enlevé : " + valeurBlessure + ")");
-		}
-	}
-
 }

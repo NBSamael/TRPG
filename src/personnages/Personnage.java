@@ -3,10 +3,12 @@ package personnages;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import actions.Action;
 import actions.EffetPersistant;
 import actions.Reaction;
+import attitudes.Attitude;
 import capacites.AttaqueADistance;
 import capacites.Capacite;
 import data.EvenementJeu;
@@ -60,6 +62,7 @@ public abstract class Personnage implements ListenerEvenementJeu {
 	public List<Action> actions;
 	public List<Reaction> reactions;
 	public List<EffetPersistant> effetsActifs;
+	public List<Attitude> attitudes;
 
 	protected int initBase;
 	protected int initiativeTour;
@@ -74,6 +77,7 @@ public abstract class Personnage implements ListenerEvenementJeu {
 		this.reactions = new ArrayList<Reaction>();
 		this.capacites = new ArrayList<Capacite>();
 		this.effetsActifs = new ArrayList<EffetPersistant>();
+		this.attitudes = new ArrayList<Attitude>();
 		this.position = null;
 		this.partie = null;
 		this.dissimule = false;
@@ -142,6 +146,27 @@ public abstract class Personnage implements ListenerEvenementJeu {
 
 	public void setNbPAActuels(int nbPAActuels) {
 		this.nbPAActuels = nbPAActuels;
+	}
+	
+	public void ajoutAttitude(Attitude ajout) {
+		for(Attitude a : attitudes) {
+			if (a.equals(ajout)) {
+				if (a.getNiveau() < ajout.getNiveau())
+					a.setNiveau(ajout.getNiveau());
+				return;
+			}	
+		}
+		attitudes.add(ajout);
+	}
+	
+	public void gestionMarqueursAttitude() {
+		Set<Attitude> ensembleAttitudes = new HashSet<Attitude>(attitudes);
+		for(Attitude a : ensembleAttitudes) {
+			a.setNiveau(a.getNiveau() - 1);
+			if (a.getNiveau() == 0) {
+				attitudes.remove(a);
+			}
+		}
 	}
 
 	public boolean isDissimule() {

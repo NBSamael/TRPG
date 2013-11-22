@@ -16,7 +16,7 @@ public class ValseOrages extends AttaqueDeBase {
 	public void execute() {
 		for (int i = 1; i <= nbAttaque; i++) {
 			System.out.println("Attaque numéro " + i);
-			attaque();
+			attaque(cible, bonusAttaque, nbDesLancesAttaque, bonusDegats);
 		}
 	}
 }

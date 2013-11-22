@@ -77,14 +77,15 @@ public class InstancePartie implements ListenerEvenementJeu {
 	}
 
 	private void phaseEntretien() {
-		retraitMarqueursEtat();
+		gestionMarqueursAttitude();
 		gestionInvocations();
 		paieCoutsEntretien();
 		calculeInitiative();
 	}
 
-	private void retraitMarqueursEtat() {
-
+	private void gestionMarqueursAttitude() {
+		for (Equipe e : equipes)
+			e.gestionMarqueursAttitude();
 	}
 
 	private void gestionInvocations() {
