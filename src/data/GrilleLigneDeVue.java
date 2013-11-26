@@ -2,6 +2,8 @@ package data;
 
 import java.util.*;
 
+import personnages.Personnage;
+
 public class GrilleLigneDeVue extends ArrayList<XY> {
 	private XY origine;
 	private Terrain t;
@@ -28,6 +30,39 @@ public class GrilleLigneDeVue extends ArrayList<XY> {
 				}
 			}
 		}
+	}
+	
+	public ArrayList<Personnage> getPersonnagesDansZone() {
+		ArrayList<Personnage> valeurRetour = new ArrayList<Personnage>();
+		for (XY coord : this) {
+			Case c  = this.t.get(coord);
+			if (c.isOccuped()) {
+				valeurRetour.add(c.getOccupant());
+			}
+		}
+		return valeurRetour;
+	}
+	
+	public ArrayList<Personnage> getAlliesDansZone(Personnage demandeur) {
+		ArrayList<Personnage> valeurRetour = new ArrayList<Personnage>();
+		for (XY coord : this) {
+			Case c  = this.t.get(coord);
+			if (c.isOccuped() && c.getOccupant().owner.equipe == demandeur.owner.equipe) {
+				valeurRetour.add(c.getOccupant());
+			}
+		}
+		return valeurRetour;
+	}
+	
+	public ArrayList<Personnage> getEnnemisDansZone(Personnage demandeur) {
+		ArrayList<Personnage> valeurRetour = new ArrayList<Personnage>();
+		for (XY coord : this) {
+			Case c  = this.t.get(coord);
+			if (c.isOccuped() && c.getOccupant().owner.equipe != demandeur.owner.equipe) {
+				valeurRetour.add(c.getOccupant());
+			}
+		}
+		return valeurRetour;
 	}
 
 	public static boolean hasLdV(Terrain t, XY origine, XY destination, boolean priseEnCompteBlocageLdV, boolean priseEnCompteTerrainInfranchissable) {

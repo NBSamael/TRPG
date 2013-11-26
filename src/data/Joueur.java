@@ -96,7 +96,7 @@ public class Joueur implements ListenerEvenementJeu {
 	public boolean resteEncoreUnPersonnageAJouer() {
 		boolean valeurRetour = false;
 		for (Personnage p : this.persosActifs) {
-			valeurRetour = valeurRetour || !p.getADejaBougeDansLeTour();
+			valeurRetour = valeurRetour || (!p.getADejaBougeDansLeTour() && !p.paralyse);
 		}
 		return valeurRetour;
 	}
@@ -104,7 +104,7 @@ public class Joueur implements ListenerEvenementJeu {
 	public ArrayList<Personnage> getPersonnagesRestantsAJouer() {
 		ArrayList<Personnage> valeurRetour = new ArrayList<Personnage>();
 		for (Personnage p : this.persosActifs) {
-			if (!p.getADejaBougeDansLeTour())
+			if (!p.getADejaBougeDansLeTour() && !p.paralyse)
 				valeurRetour.add(p);
 		}
 		return valeurRetour;
@@ -129,11 +129,13 @@ public class Joueur implements ListenerEvenementJeu {
 									.invoke(a, ej);
 					}
 
-				for (Reaction r : p.reactions)
+				if (!p.paralyse) {
+					for (Reaction r : p.reactions)
 						if ((boolean) r.getClass()
 								.getMethod(methodStr, parameterTypes)
 								.invoke(r, ej))
 							tmp.add(r);
+				}
 			}
 
 			if (tmp.size() > 0) {

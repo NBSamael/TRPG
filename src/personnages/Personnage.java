@@ -163,6 +163,14 @@ public abstract class Personnage implements ListenerEvenementJeu {
 		return armure;
 	}
 	
+	public int getResistance() {
+		return resistance;
+	}
+
+	public void setResistance(int resistance) {
+		this.resistance = resistance;
+	}
+
 	public int getNbPAActuels() {
 		return nbPAActuels;
 	}
@@ -180,6 +188,7 @@ public abstract class Personnage implements ListenerEvenementJeu {
 			}	
 		}
 		attitudes.add(ajout);
+		ajout.start();
 	}
 	
 	public void gestionMarqueursAttitude() {

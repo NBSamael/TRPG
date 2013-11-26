@@ -3,9 +3,11 @@ import java.util.ArrayList;
 
 import capacites.AttaqueADistance;
 import personnages.AlessaRaincross;
+import personnages.Bael;
 import personnages.DereckShezard;
 import personnages.Personnage;
 import actions.*;
+import attitudes.Aveugle;
 
 
 public class Test {
@@ -13,7 +15,6 @@ public class Test {
 	public static void main(String[] args) {
 		//testdes();
 		test2();
-		//testNomMethode();
 	}
 	
 	private static void test1() {
@@ -77,8 +78,14 @@ public class Test {
 		t.get(new XY(7,7)).setOccupant(p2);
 		t.personnages.add(p2);
 		
+		Personnage p3 = new Bael(j2);
+		p3.setPositionX(new XY(8,6));
+		t.get(new XY(8,6)).setOccupant(p3);
+		t.personnages.add(p3);
+		
 		j1.persosActifs.add(p1);
 		j2.persosActifs.add(p2);
+		j2.persosActifs.add(p3);
 		
 		Equipe e1 = new Equipe("Equipe 1");
 		Equipe e2 = new Equipe("Equipe 2");
@@ -99,6 +106,7 @@ public class Test {
 		
 		p1.partie = jeu;
 		p2.partie = jeu;
+		p3.partie = jeu;
 
 		jeu.initialisePartie();
 		jeu.lancePartie();	
@@ -114,12 +122,5 @@ public class Test {
 		Des.lanceDes(Des.D6, 6, Des.SOMME);
 		
 		Des.lanceDes(Des.D20, 3, Des.MIN);
-	}
-	
-	private static void testNomMethode() {
-		String methodStr = new Exception().getStackTrace()[0].toString();
-		methodStr = methodStr.substring(0,methodStr.indexOf('('));
-		methodStr = methodStr.split("\\.")[methodStr.split("\\.").length - 1];
-		System.out.println(methodStr);
 	}
 }
