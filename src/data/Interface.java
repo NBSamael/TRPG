@@ -79,4 +79,25 @@ public class Interface {
 		else 
 			return false;
 	}
+	
+	public Personnage selectionnerPersonnage(ArrayList<Personnage> listePersos) {
+		System.out.println("Liste des personnages sélectionnables :");
+		
+		for (int i = 0; i < listePersos.size(); i++) {
+			System.out.println(i + " > " + listePersos.get(i).nom);
+		}
+		System.out.print("\nSaisissez le numéro du personnage voulu (ou n'importe quoi d'autre pour passer) : ");
+		String str = sc.nextLine();		
+		int n = -1;
+		try {
+			n = new Integer(str).intValue();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return null;
+		}
+		if (n >= listePersos.size() || n < 0)
+			return null;
+		
+		return listePersos.get(n);	
+	}
 }

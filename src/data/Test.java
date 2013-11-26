@@ -13,6 +13,7 @@ public class Test {
 	public static void main(String[] args) {
 		//testdes();
 		test2();
+		//testNomMethode();
 	}
 	
 	private static void test1() {
@@ -76,13 +77,13 @@ public class Test {
 		t.get(new XY(7,7)).setOccupant(p2);
 		t.personnages.add(p2);
 		
-		j1.persos.add(p1);
-		j2.persos.add(p2);
+		j1.persosActifs.add(p1);
+		j2.persosActifs.add(p2);
 		
 		Equipe e1 = new Equipe("Equipe 1");
 		Equipe e2 = new Equipe("Equipe 2");
-		e1.joueurs.add(j1);
-		e2.joueurs.add(j2);
+		e1.joueursActifs.add(j1);
+		e2.joueursActifs.add(j2);
 		
 		ArrayList<Equipe> listeEquipes = new ArrayList<Equipe>();
 		listeEquipes.add(e1);
@@ -114,5 +115,11 @@ public class Test {
 		
 		Des.lanceDes(Des.D20, 3, Des.MIN);
 	}
-
+	
+	private static void testNomMethode() {
+		String methodStr = new Exception().getStackTrace()[0].toString();
+		methodStr = methodStr.substring(0,methodStr.indexOf('('));
+		methodStr = methodStr.split("\\.")[methodStr.split("\\.").length - 1];
+		System.out.println(methodStr);
+	}
 }

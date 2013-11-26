@@ -75,4 +75,111 @@ public class Esquive extends Reaction {
 		this.actif = true;
 	}
 
+	@Override
+	public boolean avantPhaseRecuperation(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean apresPhaseRecuperation(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean avantReinitialisationPersonnages(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean apresReinitialisationPersonnages(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean avantRegenerationPointsActions(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean apresRegenerationPointsActions(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean avantRecuperationPointsGnose(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean apresRecuperationPointsGnose(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean avantPhaseEntretien(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean apresPhaseEntretien(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean avantGestionMarqueursAttitude(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean apresGestionMarqueursAttitude(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean avantGestionInvocations(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean apresGestionInvocations(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean avantPaieCoutsEntretien(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean apresPaieCoutsEntretien(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean avantCalculeInitiative(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean apresCalculeInitiative(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

@@ -1,15 +1,20 @@
 package attitudes;
 
-public abstract class Attitude {
+import personnages.Personnage;
+import data.Persistant;
+
+public abstract class Attitude implements Persistant {
 	protected String nom;
 	protected String description;
 	protected int niveau;
+	protected Personnage cible;
 	
-	public Attitude(String nom, String description, int niveau) {
+	public Attitude(String nom, String description, int niveau, Personnage cible) {
 		super();
 		this.nom = nom;
 		this.description = description;
 		this.niveau = niveau;
+		this.cible = cible;
 	}
 
 	public String getNom() {
@@ -27,7 +32,7 @@ public abstract class Attitude {
 	public void setNiveau(int niveau) {
 		this.niveau = niveau;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		return (this.nom == ((Attitude)obj).getNom());
@@ -37,6 +42,4 @@ public abstract class Attitude {
 	public String toString() {
 		return getNom();
 	}
-	
-	
 }

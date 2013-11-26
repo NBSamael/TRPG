@@ -11,6 +11,7 @@ import actions.Reaction;
 import attitudes.Attitude;
 import capacites.AttaqueADistance;
 import capacites.Capacite;
+import data.BonusMalus;
 import data.EvenementJeu;
 import data.InstancePartie;
 import data.Joueur;
@@ -36,14 +37,22 @@ public abstract class Personnage implements ListenerEvenementJeu {
 	protected boolean vivant;
 	
 	protected int attaque;
+	public List<BonusMalus> modAttaque;
+	
 	protected int degats;
+	public List<BonusMalus> modDegats;
+	
 	protected int defense;
+	public List<BonusMalus> modDefense;
+	
 	protected int armure;
+	public List<BonusMalus> modArmure;
 	
 	public int nbPVMax;
 	public int nbPVActuel;
 	
 	protected int resistance;
+	public List<BonusMalus> modResistance;
 	
 	public int vitesseMarche;
 	public int vitesseCourse;
@@ -51,6 +60,7 @@ public abstract class Personnage implements ListenerEvenementJeu {
 	public int nbPAMax;
 	public int nbPARegen;
 	public int nbPAActuels;
+	public List<BonusMalus> modNbPARegen;
 	
 	protected int categorie;
 	//protected Organisation organisation; -- A Implementer
@@ -70,9 +80,19 @@ public abstract class Personnage implements ListenerEvenementJeu {
 	
 	protected int tailleZoneControle;
 	
+	public boolean bloque;
+	public boolean paralyse;
+	public boolean berserk;
+	
 	public Personnage(Joueur owner) {
 		super();
 		this.owner = owner;
+		this.modAttaque = new ArrayList<BonusMalus>();
+		this.modDefense = new ArrayList<BonusMalus>();
+		this.modDegats = new ArrayList<BonusMalus>();
+		this.modArmure = new ArrayList<BonusMalus>();
+		this.modResistance = new ArrayList<BonusMalus>();
+		this.modNbPARegen = new ArrayList<BonusMalus>();
 		this.actions = new ArrayList<Action>();
 		this.reactions = new ArrayList<Reaction>();
 		this.capacites = new ArrayList<Capacite>();
@@ -84,6 +104,9 @@ public abstract class Personnage implements ListenerEvenementJeu {
 		this.aDejaBougeDansLeTour = false;
 		this.tailleZoneControle = 8;
 		this.vivant = true;
+		this.bloque = false;
+		this.paralyse = false;
+		this.berserk = false;
 	}
 	
 	public XY getPosition() {
@@ -190,7 +213,12 @@ public abstract class Personnage implements ListenerEvenementJeu {
 		if (nbPVActuel < 0) {
 			nbPVActuel = 0;
 			setVivant(false);
+			this.owner.rendreInactif(this);
 		}
+	}
+	
+	public void guerit(int valeurGuerison) {
+		nbPVActuel = Math.min(nbPVActuel + valeurGuerison, nbPVMax);
 	}
 
 	public int getTailleZoneControle() {
@@ -282,5 +310,112 @@ public abstract class Personnage implements ListenerEvenementJeu {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
+	@Override
+	public boolean avantPhaseRecuperation(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean apresPhaseRecuperation(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean avantReinitialisationPersonnages(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean apresReinitialisationPersonnages(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean avantRegenerationPointsActions(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean apresRegenerationPointsActions(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean avantRecuperationPointsGnose(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean apresRecuperationPointsGnose(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean avantPhaseEntretien(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean apresPhaseEntretien(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean avantGestionMarqueursAttitude(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean apresGestionMarqueursAttitude(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean avantGestionInvocations(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean apresGestionInvocations(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean avantPaieCoutsEntretien(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean apresPaieCoutsEntretien(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean avantCalculeInitiative(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean apresCalculeInitiative(EvenementJeu ej) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
