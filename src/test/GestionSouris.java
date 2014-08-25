@@ -38,7 +38,10 @@ public class GestionSouris extends MouseAdapter {
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-
+//		System.out.println("Moved (" + ((picture.getViewX() +e.getX()) / 50) + ", "
+//				+ ((picture.getViewY() + e.getY()) / 50) + ")");
+		picture.setMouseCaseX((picture.getViewX() +e.getX()) / 50);
+		picture.setMouseCaseY((picture.getViewY() + e.getY()) / 50);
 	}
 
 	@Override

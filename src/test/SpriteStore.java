@@ -82,8 +82,8 @@ public class SpriteStore {
 		BufferedImage sourceImageRougeLeger = Copie(sourceImage);
 		BufferedImage sourceImageRougeLourd = Copie(sourceImage);
 		
-		for(int x=0; x < sourceImage.getWidth(); x++) {
-			for(int y=0; y < sourceImage.getHeight(); y++) {
+		for(int x=1; x < sourceImage.getWidth(); x++) {
+			for(int y=1; y < sourceImage.getHeight(); y++) {
 				Color c = new Color(sourceImage.getRGB(x, y));
 				sourceImageRougeLeger.setRGB(x, y, new Color(Math.min(c.getRed() + 100, 255), c.getGreen(), c.getBlue()).getRGB());
 				sourceImageRougeLourd.setRGB(x, y, new Color(Math.min(c.getRed() + 200, 255), c.getGreen(), c.getBlue()).getRGB());

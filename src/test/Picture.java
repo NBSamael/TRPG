@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 class Picture extends JPanel {
-	private Image image;
 	private int width, height;
 
 	private BufferedImage imageCase;
@@ -20,11 +19,16 @@ class Picture extends JPanel {
 
 	private int viewX = 0;
 	private int viewY = 0;
+	
+	private int MouseCaseX = -1;
+	private int MouseCaseY = -1;
+	
+	BufferedImage imagePlateau;
 
 	public Picture() {
 		imageCase = SpriteStore.get().getSprite("sprites/herbe50.jpg");
 
-		BufferedImage imagePlateau = new BufferedImage(imageCase.getWidth()
+		imagePlateau = new BufferedImage(imageCase.getWidth()
 				* nbX, imageCase.getHeight() * nbY, imageCase.getType());
 		Graphics2D g = imagePlateau.createGraphics();
 
@@ -38,8 +42,6 @@ class Picture extends JPanel {
 			}
 
 		}
-
-		setImage(imagePlateau);
 
 		GestionSouris gs = new GestionSouris(this);
 		addMouseListener(gs);
@@ -71,17 +73,46 @@ class Picture extends JPanel {
 
 	@Override
 	protected void paintComponent(final Graphics g) {
-		super.paintComponent(g);
-
+		BufferedImage image = new BufferedImage(imagePlateau.getWidth(), imagePlateau.getHeight(), imagePlateau.getType());
+		Graphics2D gTemp = image.createGraphics();
+		gTemp.drawImage(imagePlateau, 0, 0, null);
+		
+		drawCalques(gTemp);
+		
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), viewX, viewY, viewX
 				+ getWidth(), viewY + getHeight(), null);
 	}
+	
+	public void drawCalques(Graphics g) {
+		BufferedImage imageCase = SpriteStore.get().getSprite("sprites/herbe50.jpg_rg_lg");
+		
+		g.drawImage(imageCase, MouseCaseX * imageCase.getWidth(), MouseCaseY
+				* imageCase.getHeight(), null);
+	}
 
-	public void setImage(final Image img) {
-		this.image = img;
-		width = img.getWidth(this);
-		height = img.getHeight(this);
-		revalidate();
+	public int getMouseCaseX() {
+		return MouseCaseX;
+	}
+
+	public void setMouseCaseX(int mouseCaseX) {
+		MouseCaseX = mouseCaseX;
 		repaint();
+	}
+
+	public int getMouseCaseY() {
+		return MouseCaseY;
+	}
+
+	public void setMouseCaseY(int mouseCaseY) {
+		MouseCaseY = mouseCaseY;
+		repaint();
+	}
+
+	public int getViewX() {
+		return viewX;
+	}
+
+	public int getViewY() {
+		return viewY;
 	}
 }
