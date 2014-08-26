@@ -18,8 +18,9 @@ public class GestionSouris extends MouseAdapter {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println("Clicked (" + (e.getX() / 50) + ", "
-				+ (e.getY() / 50) + ")");
+		System.out.println("Clicked ("
+				+ (e.getX() / SpriteStore.MAP_TILE_SIZE) + ", "
+				+ (e.getY() / SpriteStore.MAP_TILE_SIZE) + ")");
 	}
 
 	@Override
@@ -38,10 +39,13 @@ public class GestionSouris extends MouseAdapter {
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-//		System.out.println("Moved (" + ((picture.getViewX() +e.getX()) / 50) + ", "
-//				+ ((picture.getViewY() + e.getY()) / 50) + ")");
-		picture.setMouseCaseX((picture.getViewX() +e.getX()) / 50);
-		picture.setMouseCaseY((picture.getViewY() + e.getY()) / 50);
+		// System.out.println("Moved (" + ((picture.getViewX() +e.getX()) / 50)
+		// + ", "
+		// + ((picture.getViewY() + e.getY()) / 50) + ")");
+		picture.setMouseCaseX((picture.getViewX() + e.getX())
+				/ SpriteStore.MAP_TILE_SIZE);
+		picture.setMouseCaseY((picture.getViewY() + e.getY())
+				/ SpriteStore.MAP_TILE_SIZE);
 	}
 
 	@Override

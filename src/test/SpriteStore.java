@@ -1,33 +1,50 @@
 package test;
 
 import java.awt.Color;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsEnvironment;
-import java.awt.Image;
-import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
-/**
- * A resource manager for sprites in the game. Its often quite important how and
- * where you get your game resources from. In most cases it makes sense to have
- * a central resource loader that goes away, gets your resources and caches them
- * for future use.
- * <p>
- * [singleton]
- * <p>
- * 
- * @author Kevin Glass
- */
+import data.XY;
+
 public class SpriteStore {
 	/** The single instance of this class */
 	private static SpriteStore single = new SpriteStore();
+	public static int MAP_TILE_SIZE = 16;
+
+	public static String TILE_GRASS = "TILE_GRASS";
+	public static String TILE_FOREST = "TILE_FOREST";
+	public static String TILE_MOUNTAIN = "TILE_MOUNTAIN";
+	public static String TILE_WATER = "TILE_WATER";
+
+	/** The cached sprite map, from reference to sprite instance */
+	private HashMap<String, BufferedImage> sprites;
+	private HashMap<String, XY> coordonnees;
+	private BufferedImage tileset;
+
+	public SpriteStore() {
+		sprites = new HashMap<String, BufferedImage>();
+		coordonnees = new HashMap<String, XY>();
+
+		try {
+			tileset = ImageIO.read(new File(this.getClass()
+					.getResource("overworld-tileset.png").getFile()));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		coordonnees.put("TILE_GRASS", new XY(16, 16));
+		coordonnees.put("TILE_FOREST", new XY(112, 64));
+		coordonnees.put("TILE_MOUNTAIN", new XY(224, 96));
+		coordonnees.put("TILE_WATER", new XY(64, 128));
+	}
 
 	/**
 	 * Get the single instance of this class
@@ -38,8 +55,23 @@ public class SpriteStore {
 		return single;
 	}
 
-	/** The cached sprite map, from reference to sprite instance */
-	private HashMap<String, BufferedImage> sprites = new HashMap<String, BufferedImage>();
+	public static BufferedImage getSprite(String ref) {
+
+		if (single.sprites.get(ref) != null) {
+			return single.sprites.get(ref);
+		}
+
+		if (single.coordonnees.get(ref) != null) {
+			XY coord = single.coordonnees.get(ref);
+			BufferedImage image = single.tileset.getSubimage(coord.getX(),
+					coord.getY(), MAP_TILE_SIZE, MAP_TILE_SIZE);
+			single.sprites.put(ref, image);
+
+			return image;
+		}
+
+		return null;
+	}
 
 	/**
 	 * Retrieve a sprite from the store
@@ -49,7 +81,7 @@ public class SpriteStore {
 	 * @return A sprite instance containing an accelerate image of the request
 	 *         reference
 	 */
-	public BufferedImage getSprite(String ref) {
+	public BufferedImage getSprite2(String ref) {
 		// if we've already got the sprite in the cache
 		// then just return the existing version
 		if (sprites.get(ref) != null) {
@@ -81,19 +113,23 @@ public class SpriteStore {
 
 		BufferedImage sourceImageRougeLeger = Copie(sourceImage);
 		BufferedImage sourceImageRougeLourd = Copie(sourceImage);
-		
-		for(int x=1; x < sourceImage.getWidth(); x++) {
-			for(int y=1; y < sourceImage.getHeight(); y++) {
+
+		for (int x = 1; x < sourceImage.getWidth(); x++) {
+			for (int y = 1; y < sourceImage.getHeight(); y++) {
 				Color c = new Color(sourceImage.getRGB(x, y));
-				sourceImageRougeLeger.setRGB(x, y, new Color(Math.min(c.getRed() + 100, 255), c.getGreen(), c.getBlue()).getRGB());
-				sourceImageRougeLourd.setRGB(x, y, new Color(Math.min(c.getRed() + 200, 255), c.getGreen(), c.getBlue()).getRGB());
+				sourceImageRougeLeger.setRGB(x, y,
+						new Color(Math.min(c.getRed() + 100, 255),
+								c.getGreen(), c.getBlue()).getRGB());
+				sourceImageRougeLourd.setRGB(x, y,
+						new Color(Math.min(c.getRed() + 200, 255),
+								c.getGreen(), c.getBlue()).getRGB());
 			}
 		}
 
 		sprites.put(ref + "_rg_lg", sourceImageRougeLeger);
 
 		sprites.put(ref + "_rg_lr", sourceImageRougeLourd);
-		
+
 		return sourceImage;
 	}
 

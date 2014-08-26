@@ -3,7 +3,6 @@ package test;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
@@ -14,22 +13,22 @@ class Picture extends JPanel {
 
 	private BufferedImage imageCase;
 
-	private int nbX = 30;
-	private int nbY = 20;
+	private int nbX = 100;
+	private int nbY = 80;
 
 	private int viewX = 0;
 	private int viewY = 0;
-	
+
 	private int MouseCaseX = -1;
 	private int MouseCaseY = -1;
-	
+
 	BufferedImage imagePlateau;
 
 	public Picture() {
-		imageCase = SpriteStore.get().getSprite("sprites/herbe50.jpg");
+		imageCase = SpriteStore.getSprite(SpriteStore.TILE_GRASS);
 
-		imagePlateau = new BufferedImage(imageCase.getWidth()
-				* nbX, imageCase.getHeight() * nbY, imageCase.getType());
+		imagePlateau = new BufferedImage(imageCase.getWidth() * nbX,
+				imageCase.getHeight() * nbY, imageCase.getType());
 		Graphics2D g = imagePlateau.createGraphics();
 
 		for (int x = 0; x < nbX; x++) {
@@ -37,8 +36,8 @@ class Picture extends JPanel {
 				g.drawImage(imageCase, null, x * imageCase.getWidth(), y
 						* imageCase.getHeight());
 
-				g.drawString(x + "/" + y, x * imageCase.getWidth(), y
-						* imageCase.getHeight() + imageCase.getHeight());
+				// g.drawString(x + "/" + y, x * imageCase.getWidth(), y
+				// * imageCase.getHeight() + imageCase.getHeight());
 			}
 
 		}
@@ -73,19 +72,21 @@ class Picture extends JPanel {
 
 	@Override
 	protected void paintComponent(final Graphics g) {
-		BufferedImage image = new BufferedImage(imagePlateau.getWidth(), imagePlateau.getHeight(), imagePlateau.getType());
+		BufferedImage image = new BufferedImage(imagePlateau.getWidth(),
+				imagePlateau.getHeight(), imagePlateau.getType());
 		Graphics2D gTemp = image.createGraphics();
 		gTemp.drawImage(imagePlateau, 0, 0, null);
-		
+
 		drawCalques(gTemp);
-		
+
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), viewX, viewY, viewX
 				+ getWidth(), viewY + getHeight(), null);
 	}
-	
+
 	public void drawCalques(Graphics g) {
-		BufferedImage imageCase = SpriteStore.get().getSprite("sprites/herbe50.jpg_rg_lg");
-		
+		BufferedImage imageCase = SpriteStore
+				.getSprite(SpriteStore.TILE_FOREST);
+
 		g.drawImage(imageCase, MouseCaseX * imageCase.getWidth(), MouseCaseY
 				* imageCase.getHeight(), null);
 	}
