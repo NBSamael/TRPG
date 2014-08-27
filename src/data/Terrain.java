@@ -1,13 +1,19 @@
 package data;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import personnages.Personnage;
 
-public class Terrain extends HashMap<XY, Case> {
-	public Set<Personnage> personnages;
+public class Terrain extends HashMap<XY, Case> implements java.io.Serializable {
+	public transient Set<Personnage> personnages;
 	// private Map<Coordonnees, Case> cases;
 	private int tailleX;
 	private int tailleY;
@@ -19,15 +25,69 @@ public class Terrain extends HashMap<XY, Case> {
 		personnages = new HashSet<Personnage>();
 	}
 
-	public void chargeTerrain() {
+	public void load(String filename) {
+		ObjectInputStream ois = null;
+
+		try {
+			final FileInputStream fichier = new FileInputStream(filename);
+			ois = new ObjectInputStream(fichier);
+			Terrain temp = (Terrain) ois.readObject();
+			this.tailleX = temp.tailleX;
+			this.tailleY = temp.tailleY;
+			this.putAll(temp);
+		} catch (final java.io.IOException e) {
+			e.printStackTrace();
+		} catch (final ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (ois != null) {
+					ois.close();
+				}
+			} catch (final IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+
+	public void save(String filename) {
+		ObjectOutputStream oos = null;
+
+		try {
+			final FileOutputStream fichier = new FileOutputStream(filename);
+			oos = new ObjectOutputStream(fichier);
+			oos.writeObject(this);
+			oos.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (oos != null) {
+					oos.flush();
+					oos.close();
+				}
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+
+	}
+
+	public void genereTerrainAleatoire() {
 		for (int i = 1; i <= tailleY; i++) {
 			for (int j = 1; j <= tailleX; j++) {
-				// Code pour faire un mur
-				if (j == 3 && i > 2 && i < 6)
-					put(new XY(j, i), new Case(new XY(j, i), 1));
-				else
-					// fin code pour un mur
-					put(new XY(j, i), new Case(new XY(j, i), 0));
+				int type = Case.TYPE_GRASS;
+				switch (new Random().nextInt(12)) {
+				case 0:
+					type = Case.TYPE_MOUNTAIN;
+					break;
+				case 1:
+					type = Case.TYPE_WATER;
+					break;
+				default:
+					type = Case.TYPE_GRASS;
+				}
+				put(new XY(j, i), new Case(new XY(j, i), type));
 			}
 		}
 	}
@@ -64,14 +124,20 @@ public class Terrain extends HashMap<XY, Case> {
 		return calculeGrilleDeplacements(origine, Integer.MAX_VALUE);
 	}
 
-	public GrilleLigneDeVue calculeGrilleLigneDeVue(XY origine, int limite, boolean priseEnCompteBlocageLdV, boolean priseEnCompteTerrainInfranchissable) {
+	public GrilleLigneDeVue calculeGrilleLigneDeVue(XY origine, int limite,
+			boolean priseEnCompteBlocageLdV,
+			boolean priseEnCompteTerrainInfranchissable) {
 		GrilleLigneDeVue td = new GrilleLigneDeVue(this, origine);
-		td.calculeCiblesPossibles(limite, priseEnCompteBlocageLdV, priseEnCompteTerrainInfranchissable);
+		td.calculeCiblesPossibles(limite, priseEnCompteBlocageLdV,
+				priseEnCompteTerrainInfranchissable);
 		return td;
 	}
 
-	public GrilleLigneDeVue calculeGrilleLigneDeVue(XY origine, boolean priseEnCompteBlocageLdV, boolean priseEnCompteTerrainInfranchissable) {
-		return calculeGrilleLigneDeVue(origine, Math.max(tailleX, tailleY), priseEnCompteBlocageLdV, priseEnCompteTerrainInfranchissable);
+	public GrilleLigneDeVue calculeGrilleLigneDeVue(XY origine,
+			boolean priseEnCompteBlocageLdV,
+			boolean priseEnCompteTerrainInfranchissable) {
+		return calculeGrilleLigneDeVue(origine, Math.max(tailleX, tailleY),
+				priseEnCompteBlocageLdV, priseEnCompteTerrainInfranchissable);
 	}
 
 	public GrilleDeplacements calculeGrilleDeplacements(XY origine, int limite) {
@@ -123,10 +189,12 @@ public class Terrain extends HashMap<XY, Case> {
 				Case c = get(new XY(j, i));
 				if (c.getOccupant() != null)
 					aff = aff.concat(c.getOccupant().nom.substring(0, 1));
-				else if (c.getType() == 0)
+				else if (c.getType() == Case.TYPE_GRASS)
 					aff = aff.concat(" ");
-				else if (c.getType() == 1)
+				else if (c.getType() == Case.TYPE_MOUNTAIN)
 					aff = aff.concat("*");
+				else if (c.getType() == Case.TYPE_WATER)
+					aff = aff.concat("~");
 				// aff = aff.concat(String.valueOf((char) 219));
 				if (j + 1 <= tailleX)
 					aff = aff.concat("|");
