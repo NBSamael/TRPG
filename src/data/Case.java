@@ -13,10 +13,11 @@ public class Case implements java.io.Serializable {
 	public static int TYPE_MOUNTAIN = 2;
 	public static int TYPE_WATER = 3;
 
-	public Case(XY coordonnees, int type) {
+	public Case(XY coordonnees, int type, String sprite) {
 		super();
 		this.coordonnees = coordonnees;
 		this.type = type;
+		this.sprite = sprite;
 		this.occupant = null;
 	}
 
@@ -30,6 +31,10 @@ public class Case implements java.io.Serializable {
 
 	public int getType() {
 		return type;
+	}
+
+	public String getSprite() {
+		return sprite;
 	}
 
 	public XY getCoordonnees() {

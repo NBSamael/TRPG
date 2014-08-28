@@ -11,6 +11,7 @@ import java.util.Random;
 import java.util.Set;
 
 import personnages.Personnage;
+import test.SpriteStore;
 
 public class Terrain extends HashMap<XY, Case> implements java.io.Serializable {
 	public transient Set<Personnage> personnages;
@@ -77,17 +78,25 @@ public class Terrain extends HashMap<XY, Case> implements java.io.Serializable {
 		for (int i = 1; i <= tailleY; i++) {
 			for (int j = 1; j <= tailleX; j++) {
 				int type = Case.TYPE_GRASS;
+				String sprite = SpriteStore.TILE_GRASS;
 				switch (new Random().nextInt(12)) {
 				case 0:
 					type = Case.TYPE_MOUNTAIN;
+					sprite = SpriteStore.TILE_MOUNTAIN;
 					break;
 				case 1:
 					type = Case.TYPE_WATER;
+					sprite = SpriteStore.TILE_WATER;
+					break;
+				case 2:
+					type = Case.TYPE_FOREST;
+					sprite = SpriteStore.TILE_FOREST;
 					break;
 				default:
 					type = Case.TYPE_GRASS;
+					sprite = SpriteStore.TILE_GRASS;
 				}
-				put(new XY(j, i), new Case(new XY(j, i), type));
+				put(new XY(j, i), new Case(new XY(j, i), type, sprite));
 			}
 		}
 	}
@@ -195,6 +204,8 @@ public class Terrain extends HashMap<XY, Case> implements java.io.Serializable {
 					aff = aff.concat("*");
 				else if (c.getType() == Case.TYPE_WATER)
 					aff = aff.concat("~");
+				else if (c.getType() == Case.TYPE_FOREST)
+					aff = aff.concat("^");
 				// aff = aff.concat(String.valueOf((char) 219));
 				if (j + 1 <= tailleX)
 					aff = aff.concat("|");

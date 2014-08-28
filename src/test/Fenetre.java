@@ -2,11 +2,12 @@ package test;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import data.InstancePartie;
 
 public class Fenetre extends JFrame {
 
@@ -14,26 +15,31 @@ public class Fenetre extends JFrame {
 
 	private JPanel contentPane;
 
+	private InstancePartie jeu;
+
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Fenetre frame = new Fenetre();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	// public static void main(String[] args) {
+	// EventQueue.invokeLater(new Runnable() {
+	// public void run() {
+	// try {
+	// Fenetre frame = new Fenetre();
+	// frame.setVisible(true);
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// }
+	// });
+	// }
 
 	/**
 	 * Create the frame.
+	 * 
+	 * @param jeu
 	 */
-	public Fenetre() {
+	public Fenetre(InstancePartie jeu) {
+		this.jeu = jeu;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 917, 557);
 		contentPane = new JPanel();
@@ -42,7 +48,7 @@ public class Fenetre extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 
-		picture = new Picture();
+		picture = new Picture(jeu);
 
 		contentPane.add(picture);
 	}

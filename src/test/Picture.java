@@ -1,5 +1,6 @@
 package test;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -7,14 +8,17 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+import data.InstancePartie;
+
 @SuppressWarnings("serial")
 class Picture extends JPanel {
+	InstancePartie jeu;
 	private int width, height;
 
 	private BufferedImage imageCase;
 
-	private int nbX = 100;
-	private int nbY = 80;
+	private int nbX;
+	private int nbY;
 
 	private int viewX = 0;
 	private int viewY = 0;
@@ -24,22 +28,27 @@ class Picture extends JPanel {
 
 	BufferedImage imagePlateau;
 
-	public Picture() {
-		imageCase = SpriteStore.getSprite(SpriteStore.TILE_GRASS);
+	public Picture(InstancePartie jeu) {
+		this.jeu = jeu;
+		this.nbX = jeu.plateau.getTailleX();
+		this.nbY = jeu.plateau.getTailleY();
 
+		imageCase = SpriteStore.getSprite(SpriteStore.TILE_GRASS);
 		imagePlateau = new BufferedImage(imageCase.getWidth() * nbX,
 				imageCase.getHeight() * nbY, imageCase.getType());
 		Graphics2D g = imagePlateau.createGraphics();
 
 		for (int x = 0; x < nbX; x++) {
 			for (int y = 0; y < nbY; y++) {
+				if (jeu.plateau.get(x + 1, y + 1).getSprite() == SpriteStore.TILE_FOREST) {
+					imageCase = SpriteStore.getSprite(SpriteStore.TILE_GRASS);
+				} else {
+					imageCase = SpriteStore.getSprite(jeu.plateau.get(x + 1,
+							y + 1).getSprite());
+				}
 				g.drawImage(imageCase, null, x * imageCase.getWidth(), y
 						* imageCase.getHeight());
-
-				// g.drawString(x + "/" + y, x * imageCase.getWidth(), y
-				// * imageCase.getHeight() + imageCase.getHeight());
 			}
-
 		}
 
 		GestionSouris gs = new GestionSouris(this);
@@ -77,18 +86,35 @@ class Picture extends JPanel {
 		Graphics2D gTemp = image.createGraphics();
 		gTemp.drawImage(imagePlateau, 0, 0, null);
 
-		drawCalques(gTemp);
+		drawDecors(gTemp);
+
+		drawFiltre(gTemp);
 
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), viewX, viewY, viewX
 				+ getWidth(), viewY + getHeight(), null);
 	}
 
-	public void drawCalques(Graphics g) {
-		BufferedImage imageCase = SpriteStore
-				.getSprite(SpriteStore.TILE_FOREST);
+	public void drawDecors(Graphics g) {
+		imageCase = SpriteStore.getSprite(SpriteStore.TILE_FOREST);
+		for (int x = 0; x < nbX; x++) {
+			for (int y = 0; y < nbY; y++) {
+				if (jeu.plateau.get(x + 1, y + 1).getSprite() == SpriteStore.TILE_FOREST) {
+					g.drawImage(imageCase, x * imageCase.getWidth(), y
+							* imageCase.getHeight(), null);
+				}
+			}
+		}
+	}
 
-		g.drawImage(imageCase, MouseCaseX * imageCase.getWidth(), MouseCaseY
-				* imageCase.getHeight(), null);
+	public void drawFiltre(Graphics g) {
+		Color couleurFiltre = new Color(255, 0, 0, 64);
+		g.setColor(couleurFiltre);
+		g.fillRect(MouseCaseX * SpriteStore.MAP_TILE_SIZE, MouseCaseY
+				* SpriteStore.MAP_TILE_SIZE, SpriteStore.MAP_TILE_SIZE,
+				SpriteStore.MAP_TILE_SIZE);
+		// g.drawRect(MouseCaseX * SpriteStore.MAP_TILE_SIZE, MouseCaseY
+		// * SpriteStore.MAP_TILE_SIZE, SpriteStore.MAP_TILE_SIZE,
+		// SpriteStore.MAP_TILE_SIZE);
 	}
 
 	public int getMouseCaseX() {

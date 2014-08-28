@@ -1,5 +1,6 @@
 package data;
 
+import java.awt.EventQueue;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -7,6 +8,7 @@ import personnages.AlessaRaincross;
 import personnages.Bael;
 import personnages.DereckShezard;
 import personnages.Personnage;
+import test.Fenetre;
 
 public class Test {
 
@@ -63,82 +65,95 @@ public class Test {
 	}
 
 	private static void test2() {
-		int WIDTH = 10;
-		int HEIGHT = 10;
-		Interface interf = new Interface();
 
-		Terrain t = new Terrain(WIDTH, HEIGHT);
-		t.genereTerrainAleatoire();
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					int WIDTH = 100;
+					int HEIGHT = 60;
+					Interface interf = new Interface();
 
-		Joueur j1 = new Joueur("NBS");
-		Joueur j2 = new Joueur("Mirth");
+					Terrain t = new Terrain(WIDTH, HEIGHT);
+					t.genereTerrainAleatoire();
 
-		Personnage p1 = new DereckShezard(j1);
+					Joueur j1 = new Joueur("NBS");
+					Joueur j2 = new Joueur("Mirth");
 
-		Random r = new Random();
-		int rX, rY;
+					Personnage p1 = new DereckShezard(j1);
 
-		do {
-			rX = 1 + r.nextInt(WIDTH);
-			rY = 1 + r.nextInt(HEIGHT);
-		} while (!t.get(new XY(rX, rY)).isFranchissable()
-				&& !t.get(new XY(rX, rY)).isOccuped());
+					Random r = new Random();
+					int rX, rY;
 
-		p1.setPositionX(new XY(rX, rY));
-		t.get(new XY(rX, rY)).setOccupant(p1);
-		t.personnages.add(p1);
+					do {
+						rX = 1 + r.nextInt(WIDTH);
+						rY = 1 + r.nextInt(HEIGHT);
+					} while (!t.get(new XY(rX, rY)).isFranchissable()
+							&& !t.get(new XY(rX, rY)).isOccuped());
 
-		Personnage p2 = new AlessaRaincross(j2);
+					p1.setPositionX(new XY(rX, rY));
+					t.get(new XY(rX, rY)).setOccupant(p1);
+					t.personnages.add(p1);
 
-		do {
-			rX = 1 + r.nextInt(WIDTH);
-			rY = 1 + r.nextInt(HEIGHT);
-		} while (!t.get(new XY(rX, rY)).isFranchissable()
-				&& !t.get(new XY(rX, rY)).isOccuped());
+					Personnage p2 = new AlessaRaincross(j2);
 
-		p2.setPositionX(new XY(rX, rY));
-		t.get(new XY(rX, rY)).setOccupant(p2);
-		t.personnages.add(p2);
+					do {
+						rX = 1 + r.nextInt(WIDTH);
+						rY = 1 + r.nextInt(HEIGHT);
+					} while (!t.get(new XY(rX, rY)).isFranchissable()
+							&& !t.get(new XY(rX, rY)).isOccuped());
 
-		Personnage p3 = new Bael(j2);
+					p2.setPositionX(new XY(rX, rY));
+					t.get(new XY(rX, rY)).setOccupant(p2);
+					t.personnages.add(p2);
 
-		do {
-			rX = 1 + r.nextInt(WIDTH);
-			rY = 1 + r.nextInt(HEIGHT);
-		} while (!t.get(new XY(rX, rY)).isFranchissable()
-				&& !t.get(new XY(rX, rY)).isOccuped());
+					Personnage p3 = new Bael(j2);
 
-		p3.setPositionX(new XY(rX, rY));
-		t.get(new XY(rX, rY)).setOccupant(p3);
-		t.personnages.add(p3);
+					do {
+						rX = 1 + r.nextInt(WIDTH);
+						rY = 1 + r.nextInt(HEIGHT);
+					} while (!t.get(new XY(rX, rY)).isFranchissable()
+							&& !t.get(new XY(rX, rY)).isOccuped());
 
-		j1.persosActifs.add(p1);
-		j2.persosActifs.add(p2);
-		j2.persosActifs.add(p3);
+					p3.setPositionX(new XY(rX, rY));
+					t.get(new XY(rX, rY)).setOccupant(p3);
+					t.personnages.add(p3);
 
-		Equipe e1 = new Equipe("Equipe 1");
-		Equipe e2 = new Equipe("Equipe 2");
-		e1.joueursActifs.add(j1);
-		e2.joueursActifs.add(j2);
+					j1.persosActifs.add(p1);
+					j2.persosActifs.add(p2);
+					j2.persosActifs.add(p3);
 
-		ArrayList<Equipe> listeEquipes = new ArrayList<Equipe>();
-		listeEquipes.add(e1);
-		listeEquipes.add(e2);
+					Equipe e1 = new Equipe("Equipe 1");
+					Equipe e2 = new Equipe("Equipe 2");
+					e1.joueursActifs.add(j1);
+					e2.joueursActifs.add(j2);
 
-		InstancePartie jeu = new InstancePartie(t, listeEquipes, interf);
+					ArrayList<Equipe> listeEquipes = new ArrayList<Equipe>();
+					listeEquipes.add(e1);
+					listeEquipes.add(e2);
 
-		j1.equipe = e1;
-		j2.equipe = e2;
+					InstancePartie jeu = new InstancePartie(t, listeEquipes,
+							interf);
 
-		e1.partie = jeu;
-		e2.partie = jeu;
+					j1.equipe = e1;
+					j2.equipe = e2;
 
-		p1.partie = jeu;
-		p2.partie = jeu;
-		p3.partie = jeu;
+					e1.partie = jeu;
+					e2.partie = jeu;
 
-		jeu.initialisePartie();
-		jeu.lancePartie();
+					p1.partie = jeu;
+					p2.partie = jeu;
+					p3.partie = jeu;
+
+					Fenetre frame = new Fenetre(jeu);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+
+		// jeu.initialisePartie();
+		// jeu.lancePartie();
 	}
 
 	private static void testdes() {
