@@ -18,56 +18,55 @@ import data.Joueur;
 import data.ListenerEvenementJeu;
 import data.XY;
 
-
 public abstract class Personnage implements ListenerEvenementJeu {
 	public static int CATEGORIE_COMBATTANT = 0;
 	public static int CATEGORIE_MYSTIQUE = 1;
 	public static int CATEGORIE_RODEUR = 2;
-	
+
 	public static int FACTION_LUMIERE = 0;
 	public static int FACTION_OBSCURITE = 1;
 	public static int FACTION_NEUTRE = 2;
-	
+
 	public InstancePartie partie;
 	public Joueur owner;
-	
+
 	public String nom;
 	public XY position;
 	protected boolean dissimule;
 	protected boolean vivant;
-	
+
 	protected int attaque;
 	public List<BonusMalus> modAttaque;
-	
+
 	protected int degats;
 	public List<BonusMalus> modDegats;
-	
+
 	protected int defense;
 	public List<BonusMalus> modDefense;
-	
+
 	protected int armure;
 	public List<BonusMalus> modArmure;
-	
+
 	public int nbPVMax;
 	public int nbPVActuel;
-	
+
 	protected int resistance;
 	public List<BonusMalus> modResistance;
-	
+
 	public int vitesseMarche;
 	public int vitesseCourse;
-	
+
 	public int nbPAMax;
 	public int nbPARegen;
 	public int nbPAActuels;
 	public List<BonusMalus> modNbPARegen;
-	
+
 	protected int categorie;
-	//protected Organisation organisation; -- A Implementer
+	// protected Organisation organisation; -- A Implementer
 	protected int faction;
-	
+
 	protected int niveau;
-	
+
 	public List<Capacite> capacites;
 	public List<Action> actions;
 	public List<Reaction> reactions;
@@ -77,13 +76,15 @@ public abstract class Personnage implements ListenerEvenementJeu {
 	protected int initBase;
 	protected int initiativeTour;
 	protected boolean aDejaBougeDansLeTour;
-	
+
 	protected int tailleZoneControle;
-	
+
 	public boolean bloque;
 	public boolean paralyse;
 	public boolean berserk;
-	
+
+	public String sprite;
+
 	public Personnage(Joueur owner) {
 		super();
 		this.owner = owner;
@@ -108,37 +109,39 @@ public abstract class Personnage implements ListenerEvenementJeu {
 		this.paralyse = false;
 		this.berserk = false;
 	}
-	
+
 	public XY getPosition() {
 		return position;
 	}
+
 	public void setPositionX(XY position) {
 		this.position = position;
 	}
-	
+
 	public int getPointsAction() {
 		return nbPAActuels;
 	}
+
 	public void setPointsAction(int pointsAction) {
 		this.nbPAActuels = pointsAction;
 	}
-	
+
 	public int getInitBase() {
 		return this.initBase;
 	}
-	
+
 	public int calculInitiative() {
 		return initiativeTour = initBase + 10;
 	}
-	
+
 	public int getInitiative() {
 		return initiativeTour;
 	}
-	
+
 	public int getAttaque() {
 		return attaque;
 	}
-	
+
 	public void setAttaque(int attaque) {
 		this.attaque = attaque;
 	}
@@ -146,7 +149,7 @@ public abstract class Personnage implements ListenerEvenementJeu {
 	public int getDegats() {
 		return degats;
 	}
-	
+
 	public void setDegats(int degats) {
 		this.degats = degats;
 	}
@@ -154,15 +157,15 @@ public abstract class Personnage implements ListenerEvenementJeu {
 	public int getDefense() {
 		return defense;
 	}
-	
+
 	public void setDefense(int defense) {
 		this.defense = defense;
 	}
-	
+
 	public int getArmure() {
 		return armure;
 	}
-	
+
 	public int getResistance() {
 		return resistance;
 	}
@@ -178,22 +181,22 @@ public abstract class Personnage implements ListenerEvenementJeu {
 	public void setNbPAActuels(int nbPAActuels) {
 		this.nbPAActuels = nbPAActuels;
 	}
-	
+
 	public void ajoutAttitude(Attitude ajout) {
-		for(Attitude a : attitudes) {
+		for (Attitude a : attitudes) {
 			if (a.equals(ajout)) {
 				if (a.getNiveau() < ajout.getNiveau())
 					a.setNiveau(ajout.getNiveau());
 				return;
-			}	
+			}
 		}
 		attitudes.add(ajout);
 		ajout.start();
 	}
-	
+
 	public void gestionMarqueursAttitude() {
 		Set<Attitude> ensembleAttitudes = new HashSet<Attitude>(attitudes);
-		for(Attitude a : ensembleAttitudes) {
+		for (Attitude a : ensembleAttitudes) {
 			a.setNiveau(a.getNiveau() - 1);
 			if (a.getNiveau() == 0) {
 				attitudes.remove(a);
@@ -208,7 +211,7 @@ public abstract class Personnage implements ListenerEvenementJeu {
 	public void setDissimule(boolean dissimule) {
 		this.dissimule = dissimule;
 	}
-	
+
 	public boolean isVivant() {
 		return vivant;
 	}
@@ -225,7 +228,7 @@ public abstract class Personnage implements ListenerEvenementJeu {
 			this.owner.rendreInactif(this);
 		}
 	}
-	
+
 	public void guerit(int valeurGuerison) {
 		nbPVActuel = Math.min(nbPVActuel + valeurGuerison, nbPVMax);
 	}
@@ -247,14 +250,18 @@ public abstract class Personnage implements ListenerEvenementJeu {
 	}
 
 	public int getPortee() {
-		for(Capacite c : capacites) {
+		for (Capacite c : capacites) {
 			if (c.getType() == "AD") {
-				return ((AttaqueADistance)c).portee;
+				return ((AttaqueADistance) c).portee;
 			}
 		}
 		return 1;
 	}
-	
+
+	public String getSprite() {
+		return sprite;
+	}
+
 	public ArrayList<Action> getActionsPossibles() {
 		ArrayList<Action> resultat = new ArrayList<Action>();
 		for (Action a : actions) {
@@ -263,31 +270,34 @@ public abstract class Personnage implements ListenerEvenementJeu {
 		}
 		return resultat;
 	}
-	
+
 	public void reinitialisation() {
 		setADejaBougeDansLeTour(false);
 	}
-	
+
 	public void regenererPointsAction() {
 		nbPAActuels = Math.min(nbPAActuels + nbPARegen, nbPAMax);
 	}
-	
+
 	public void payerCoutsEntretien() {
-		HashSet<EffetPersistant> tmp = new HashSet<EffetPersistant>(this.effetsActifs);
+		HashSet<EffetPersistant> tmp = new HashSet<EffetPersistant>(
+				this.effetsActifs);
 		for (EffetPersistant pe : tmp) {
 			if (pe.getCoutEntretien() <= this.getPointsAction()) {
-				if (!this.partie.ihm.repondreOuiNon("Payer le coût d'entretien de l'effet " + pe.getNom() + " ?")) {
+				if (!this.partie.ihm
+						.repondreOuiNon("Payer le coût d'entretien de l'effet "
+								+ pe.getNom() + " ?")) {
 					pe.stop();
-					this.effetsActifs.remove(pe);					
+					this.effetsActifs.remove(pe);
 				}
 			}
 		}
 	}
-	
+
 	public boolean getADejaBougeDansLeTour() {
 		return aDejaBougeDansLeTour;
 	}
-	
+
 	public void setADejaBougeDansLeTour(boolean aDejaBougeDansLeTour) {
 		this.aDejaBougeDansLeTour = aDejaBougeDansLeTour;
 	}

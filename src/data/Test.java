@@ -146,14 +146,14 @@ public class Test {
 
 					Fenetre frame = new Fenetre(jeu);
 					frame.setVisible(true);
+
+					// jeu.initialisePartie();
+					// jeu.lancePartie();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-
-		// jeu.initialisePartie();
-		// jeu.lancePartie();
 	}
 
 	private static void testdes() {

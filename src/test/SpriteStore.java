@@ -23,6 +23,10 @@ public class SpriteStore {
 	public static String TILE_MOUNTAIN = "TILE_MOUNTAIN";
 	public static String TILE_WATER = "TILE_WATER";
 
+	public static String SPRITE_DERECK = "SPRITE_DERECK";
+	public static String SPRITE_ALESSA = "SPRITE_ALESSA";
+	public static String SPRITE_BAEL = "SPRITE_BAEL";
+
 	/** The cached sprite map, from reference to sprite instance */
 	private HashMap<String, BufferedImage> sprites;
 	private HashMap<String, XY> coordonnees;
@@ -35,6 +39,19 @@ public class SpriteStore {
 		try {
 			tileset = ImageIO.read(new File(this.getClass()
 					.getResource("overworld-tileset.png").getFile()));
+
+			BufferedImage spritePerso = ImageIO.read(new File(this.getClass()
+					.getResource("dereck.gif").getFile()));
+			sprites.put("SPRITE_DERECK", spritePerso);
+
+			spritePerso = ImageIO.read(new File(this.getClass()
+					.getResource("alessa.gif").getFile()));
+			sprites.put("SPRITE_ALESSA", spritePerso);
+
+			spritePerso = ImageIO.read(new File(this.getClass()
+					.getResource("bael.gif").getFile()));
+			sprites.put("SPRITE_BAEL", spritePerso);
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,7 +86,6 @@ public class SpriteStore {
 
 			return image;
 		}
-
 		return null;
 	}
 

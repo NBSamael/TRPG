@@ -8,7 +8,9 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+import personnages.Personnage;
 import data.InstancePartie;
+import data.XY;
 
 @SuppressWarnings("serial")
 class Picture extends JPanel {
@@ -88,7 +90,11 @@ class Picture extends JPanel {
 
 		drawDecors(gTemp);
 
+		drawPersonnages(gTemp);
+
 		drawFiltre(gTemp);
+
+		drawCurseur(gTemp);
 
 		g.drawImage(image, 0, 0, getWidth(), getHeight(), viewX, viewY, viewX
 				+ getWidth(), viewY + getHeight(), null);
@@ -106,15 +112,31 @@ class Picture extends JPanel {
 		}
 	}
 
+	public void drawPersonnages(Graphics g) {
+		for (Personnage p : jeu.plateau.personnages) {
+			XY pos = p.getPosition();
+			// System.out.println(p.nom + "(" + pos.getX() + ", " + pos.getY()
+			// + ")");
+			BufferedImage imagePerso = SpriteStore.getSprite(p.getSprite());
+			g.drawImage(imagePerso, (pos.getX() - 1) * imagePerso.getWidth(),
+					(pos.getY() - 1) * imagePerso.getHeight(), null);
+		}
+	}
+
 	public void drawFiltre(Graphics g) {
 		Color couleurFiltre = new Color(255, 0, 0, 64);
 		g.setColor(couleurFiltre);
 		g.fillRect(MouseCaseX * SpriteStore.MAP_TILE_SIZE, MouseCaseY
 				* SpriteStore.MAP_TILE_SIZE, SpriteStore.MAP_TILE_SIZE,
 				SpriteStore.MAP_TILE_SIZE);
-		// g.drawRect(MouseCaseX * SpriteStore.MAP_TILE_SIZE, MouseCaseY
-		// * SpriteStore.MAP_TILE_SIZE, SpriteStore.MAP_TILE_SIZE,
-		// SpriteStore.MAP_TILE_SIZE);
+	}
+
+	public void drawCurseur(Graphics g) {
+		Color couleurCurseur = new Color(255, 0, 0);
+		g.setColor(couleurCurseur);
+		g.drawRect(MouseCaseX * SpriteStore.MAP_TILE_SIZE, MouseCaseY
+				* SpriteStore.MAP_TILE_SIZE, SpriteStore.MAP_TILE_SIZE,
+				SpriteStore.MAP_TILE_SIZE);
 	}
 
 	public int getMouseCaseX() {
