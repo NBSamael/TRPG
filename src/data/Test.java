@@ -17,132 +17,12 @@ public class Test {
 		test2();
 	}
 
-	private static void test1() {
-		/*
-		 * Créé un plateau puis demande une position à l'utilisateur. Retourne
-		 * le chemin du point (4,2) jusqu'au point saisi.
-		 */
-		Interface interf = new Interface();
-		Terrain t = new Terrain(10, 10);
-		t.genereTerrainAleatoire();
-		System.out.println(t);
-
-		XY origine = new XY(4, 2);
-		XY destination = interf
-				.selectionnerCase("Selectionner une destination");
-
-		GrilleDeplacements resultat = t.calculeGrilleDeplacements(origine);
-		// System.out.println(resultat);
-		// System.out.println();
-		System.out.println("Distance entre " + origine + " et " + destination
-				+ " : " + resultat.getDistance(destination));
-
-		ArrayList<XY> chemin = resultat.getTrajet(destination);
-		System.out.println();
-		System.out.println(chemin);
-	}
-
-	private static void testLdV() {
-		/*
-		 * Créé un plateau puis demande une position à l'utilisateur. Retourne
-		 * le chemin du point (4,2) jusqu'au point saisi.
-		 */
-		// Interface interf = new Interface();
-		Terrain t = new Terrain(10, 10);
-		t.genereTerrainAleatoire();
-		System.out.println(t);
-
-		XY origine = new XY(4, 2);
-		XY destination = new XY(6, 7);
-
-		// System.out.println(GrilleLigneDeVue.calculerLdV(t, origine,
-		// destination));
-		// System.out.println(GrilleLigneDeVue.hasLdV(t, origine, destination));
-
-		GrilleLigneDeVue resultat = t.calculeGrilleLigneDeVue(origine, 4, true,
-				false);
-		System.out.println(resultat);
-	}
-
 	private static void test2() {
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					int WIDTH = 100;
-					int HEIGHT = 60;
-					Interface interf = new Interface();
-
-					Terrain t = new Terrain(WIDTH, HEIGHT);
-					t.genereTerrainAleatoire();
-
-					Joueur j1 = new Joueur("NBS");
-					Joueur j2 = new Joueur("Mirth");
-
-					Personnage p1 = new DereckShezard(j1);
-
-					Random r = new Random();
-					int rX, rY;
-
-					do {
-						rX = 1 + r.nextInt(WIDTH);
-						rY = 1 + r.nextInt(HEIGHT);
-					} while (!t.get(new XY(rX, rY)).isFranchissable()
-							&& !t.get(new XY(rX, rY)).isOccuped());
-
-					p1.setPositionX(new XY(rX, rY));
-					t.get(new XY(rX, rY)).setOccupant(p1);
-					t.personnages.add(p1);
-
-					Personnage p2 = new AlessaRaincross(j2);
-
-					do {
-						rX = 1 + r.nextInt(WIDTH);
-						rY = 1 + r.nextInt(HEIGHT);
-					} while (!t.get(new XY(rX, rY)).isFranchissable()
-							&& !t.get(new XY(rX, rY)).isOccuped());
-
-					p2.setPositionX(new XY(rX, rY));
-					t.get(new XY(rX, rY)).setOccupant(p2);
-					t.personnages.add(p2);
-
-					Personnage p3 = new Bael(j2);
-
-					do {
-						rX = 1 + r.nextInt(WIDTH);
-						rY = 1 + r.nextInt(HEIGHT);
-					} while (!t.get(new XY(rX, rY)).isFranchissable()
-							&& !t.get(new XY(rX, rY)).isOccuped());
-
-					p3.setPositionX(new XY(rX, rY));
-					t.get(new XY(rX, rY)).setOccupant(p3);
-					t.personnages.add(p3);
-
-					j1.persosActifs.add(p1);
-					j2.persosActifs.add(p2);
-					j2.persosActifs.add(p3);
-
-					Equipe e1 = new Equipe("Equipe 1");
-					Equipe e2 = new Equipe("Equipe 2");
-					e1.joueursActifs.add(j1);
-					e2.joueursActifs.add(j2);
-
-					ArrayList<Equipe> listeEquipes = new ArrayList<Equipe>();
-					listeEquipes.add(e1);
-					listeEquipes.add(e2);
-
-					InstancePartie jeu = new InstancePartie(t, listeEquipes,
-							interf);
-
-					j1.equipe = e1;
-					j2.equipe = e2;
-
-					e1.partie = jeu;
-					e2.partie = jeu;
-
-					p1.partie = jeu;
-					p2.partie = jeu;
-					p3.partie = jeu;
+					InstancePartie jeu = createGame(100, 60);
 
 					Fenetre frame = new Fenetre(jeu);
 					frame.setVisible(true);
@@ -153,18 +33,82 @@ public class Test {
 					e.printStackTrace();
 				}
 			}
+
+			private InstancePartie createGame(int width, int height) {
+
+				Interface interf = new Interface();
+
+				Terrain t = new Terrain(width, height);
+				t.genereTerrainAleatoire();
+
+				Joueur j1 = new Joueur("NBS");
+				Joueur j2 = new Joueur("Mirth");
+
+				Personnage p1 = new DereckShezard(j1);
+
+				Random r = new Random();
+				int rX, rY;
+
+				do {
+					rX = 1 + r.nextInt(width);
+					rY = 1 + r.nextInt(height);
+				} while (!t.get(new XY(rX, rY)).isFranchissable()
+						&& !t.get(new XY(rX, rY)).isOccuped());
+
+				p1.setPositionX(new XY(rX, rY));
+				t.get(new XY(rX, rY)).setOccupant(p1);
+				t.personnages.add(p1);
+
+				Personnage p2 = new AlessaRaincross(j2);
+
+				do {
+					rX = 1 + r.nextInt(width);
+					rY = 1 + r.nextInt(height);
+				} while (!t.get(new XY(rX, rY)).isFranchissable()
+						&& !t.get(new XY(rX, rY)).isOccuped());
+
+				p2.setPositionX(new XY(rX, rY));
+				t.get(new XY(rX, rY)).setOccupant(p2);
+				t.personnages.add(p2);
+
+				Personnage p3 = new Bael(j2);
+
+				do {
+					rX = 1 + r.nextInt(width);
+					rY = 1 + r.nextInt(height);
+				} while (!t.get(new XY(rX, rY)).isFranchissable()
+						&& !t.get(new XY(rX, rY)).isOccuped());
+
+				p3.setPositionX(new XY(rX, rY));
+				t.get(new XY(rX, rY)).setOccupant(p3);
+				t.personnages.add(p3);
+
+				j1.persosActifs.add(p1);
+				j2.persosActifs.add(p2);
+				j2.persosActifs.add(p3);
+
+				Equipe e1 = new Equipe("Equipe 1");
+				Equipe e2 = new Equipe("Equipe 2");
+				e1.joueursActifs.add(j1);
+				e2.joueursActifs.add(j2);
+
+				ArrayList<Equipe> listeEquipes = new ArrayList<Equipe>();
+				listeEquipes.add(e1);
+				listeEquipes.add(e2);
+
+				InstancePartie jeu = new InstancePartie(t, listeEquipes, interf);
+
+				j1.equipe = e1;
+				j2.equipe = e2;
+
+				e1.partie = jeu;
+				e2.partie = jeu;
+
+				p1.partie = jeu;
+				p2.partie = jeu;
+				p3.partie = jeu;
+				return jeu;
+			}
 		});
-	}
-
-	private static void testdes() {
-		Des.lanceDe(Des.D20);
-		Des.lanceDes(Des.D20, 2, Des.MAX);
-
-		Des.lanceDe(Des.D10);
-		Des.lanceDes(Des.D10, 12, Des.MAX);
-
-		Des.lanceDes(Des.D6, 6, Des.SOMME);
-
-		Des.lanceDes(Des.D20, 3, Des.MIN);
 	}
 }
