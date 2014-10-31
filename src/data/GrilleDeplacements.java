@@ -1,4 +1,5 @@
 package data;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -37,11 +38,11 @@ public class GrilleDeplacements extends HashMap<XY, Noeud> {
 			this.ajouterCasesAdjacentes(courant);
 		}
 	}
-	
+
 	public int getDistance(XY destination) {
 		return get(destination).cout;
 	}
-	
+
 	public ArrayList<XY> getTrajet(XY destination) {
 		ArrayList<XY> trajet = new ArrayList<XY>();
 		trajet.add(0, destination);
@@ -63,7 +64,8 @@ public class GrilleDeplacements extends HashMap<XY, Noeud> {
 		aTraiter.keySet();
 		for (XY coord : aTraiter.keySet()) {
 			Noeud tmp = aTraiter.get(coord);
-			if (tmp.cout <= limite && (tmp.cout * 10000 + tmp.coutEclidien) < (minCout * 10000 + minCoutEclidien)) {
+			if (tmp.cout <= limite
+					&& (tmp.cout * 10000 + tmp.coutEclidien) < (minCout * 10000 + minCoutEclidien)) {
 				minCout = tmp.cout;
 				minCoutEclidien = tmp.coutEclidien;
 				minNoeud = coord;
@@ -82,10 +84,10 @@ public class GrilleDeplacements extends HashMap<XY, Noeud> {
 		Noeud tmp = new Noeud();
 
 		for (int i = ori.getY() - 1; i <= ori.getY() + 1; i++) {
-			if (i <= 0 || i > t.getTailleY()) // En dehors du terrain
+			if (i < 0 || i >= t.getTailleY()) // En dehors du terrain
 				continue;
 			for (int j = ori.getX() - 1; j <= ori.getX() + 1; j++) {
-				if (j <= 0 || j > t.getTailleX()) // En dehors du terrain
+				if (j < 0 || j >= t.getTailleX()) // En dehors du terrain
 					continue;
 				if (i == ori.getY() && j == ori.getX()) // Case d'origine
 					continue;
@@ -101,8 +103,9 @@ public class GrilleDeplacements extends HashMap<XY, Noeud> {
 					 * + distance jusqu'au parent
 					 */
 					tmp.cout = get(ori).cout + 1; // XY.calculeDistance(ori,
-														// it);
-					tmp.coutEclidien = get(ori).coutEclidien + XY.calculeDistance(ori, it);
+													// it);
+					tmp.coutEclidien = get(ori).coutEclidien
+							+ XY.calculeDistance(ori, it);
 					tmp.parent = ori;
 
 					if (aTraiter.containsKey(it)) {
@@ -110,7 +113,10 @@ public class GrilleDeplacements extends HashMap<XY, Noeud> {
 						 * le noeud est déjà présent dans la liste ouverte, il
 						 * faut comparer les couts
 						 */
-						if (tmp.cout * 10000 + tmp.coutEclidien < aTraiter.get(it).cout * 10000 + aTraiter.get(it).coutEclidien) {
+						if (tmp.cout * 10000 + tmp.coutEclidien < aTraiter
+								.get(it).cout
+								* 10000
+								+ aTraiter.get(it).coutEclidien) {
 							/* si le nouveau chemin est meilleur, on met à jour */
 							aTraiter.put(it, tmp);
 						}
@@ -130,13 +136,13 @@ public class GrilleDeplacements extends HashMap<XY, Noeud> {
 	public String toString() {
 		String aff = new String();
 		aff = aff.concat("X");
-		for (int j = 1; j <= t.getTailleX(); j++) {
+		for (int j = 0; j < t.getTailleX(); j++) {
 			aff = aff.concat("XXX");
 		}
 		aff = aff.concat("X\n");
-		for (int i = 1; i <= t.getTailleY(); i++) {
+		for (int i = 0; i < t.getTailleY(); i++) {
 			aff = aff.concat("X");
-			for (int j = 1; j <= t.getTailleX(); j++) {
+			for (int j = 0; j < t.getTailleX(); j++) {
 				Noeud n = get(new XY(j, i));
 				if (n != null)
 					if (n.cout < 10)
@@ -151,7 +157,7 @@ public class GrilleDeplacements extends HashMap<XY, Noeud> {
 			aff = aff.concat("X\n");
 		}
 		aff = aff.concat("X");
-		for (int j = 1; j <= t.getTailleX(); j++) {
+		for (int j = 0; j < t.getTailleX(); j++) {
 			aff = aff.concat("XXX");
 		}
 		aff = aff.concat("X");

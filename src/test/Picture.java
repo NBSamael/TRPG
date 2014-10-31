@@ -44,11 +44,11 @@ class Picture extends JPanel {
 
 		for (int x = 0; x < nbX; x++) {
 			for (int y = 0; y < nbY; y++) {
-				if (jeu.plateau.get(x + 1, y + 1).getSprite() == SpriteStore.TILE_FOREST) {
+				if (jeu.plateau.get(x, y).getSprite() == SpriteStore.TILE_FOREST) {
 					imageCase = SpriteStore.getSprite(SpriteStore.TILE_GRASS);
 				} else {
-					imageCase = SpriteStore.getSprite(jeu.plateau.get(x + 1,
-							y + 1).getSprite());
+					imageCase = SpriteStore.getSprite(jeu.plateau.get(x, y)
+							.getSprite());
 				}
 				g.drawImage(imageCase, null, x * imageCase.getWidth(), y
 						* imageCase.getHeight());
@@ -106,7 +106,7 @@ class Picture extends JPanel {
 		imageCase = SpriteStore.getSprite(SpriteStore.TILE_FOREST);
 		for (int x = 0; x < nbX; x++) {
 			for (int y = 0; y < nbY; y++) {
-				if (jeu.plateau.get(x + 1, y + 1).getSprite() == SpriteStore.TILE_FOREST) {
+				if (jeu.plateau.get(x, y).getSprite() == SpriteStore.TILE_FOREST) {
 					g.drawImage(imageCase, x * imageCase.getWidth(), y
 							* imageCase.getHeight(), null);
 				}
@@ -120,8 +120,8 @@ class Picture extends JPanel {
 			// System.out.println(p.nom + "(" + pos.getX() + ", " + pos.getY()
 			// + ")");
 			BufferedImage imagePerso = SpriteStore.getSprite(p.getSprite());
-			g.drawImage(imagePerso, (pos.getX() - 1) * imagePerso.getWidth(),
-					(pos.getY() - 1) * imagePerso.getHeight(), null);
+			g.drawImage(imagePerso, (pos.getX()) * imagePerso.getWidth(),
+					(pos.getY()) * imagePerso.getHeight(), null);
 		}
 	}
 

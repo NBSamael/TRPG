@@ -17,13 +17,15 @@ public class Interface {
 	}
 
 	public void caseClicked(XY coordonnées) {
-		if (listeDemandes.get(0).t == Type.CASE) {
-			Demande d = listeDemandes.get(0);
-			d.SelectedCase = coordonnées;
-			listeDemandes.remove(0);
-			ArrayList<Demande> temp = new ArrayList<Demande>();
-			temp.add(d);
-			d.action.setParameters(temp);
+		if (!listeDemandes.isEmpty()) {
+			if (listeDemandes.get(0).t == Type.CASE) {
+				Demande d = listeDemandes.get(0);
+				d.SelectedCase = coordonnées;
+				listeDemandes.remove(0);
+				ArrayList<Demande> temp = new ArrayList<Demande>();
+				temp.add(d);
+				d.action.setParameters(temp);
+			}
 		}
 	}
 

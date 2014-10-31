@@ -26,8 +26,8 @@ public class PictureMouseListener extends MouseAdapter {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println("Clicked (" + (e.getX() / SpriteStore.MAP_TILE_SIZE)
-				+ ", " + (e.getY() / SpriteStore.MAP_TILE_SIZE) + ")");
+		System.out.println("Clicked (" + actualCoord.getX() + ", "
+				+ actualCoord.getY() + ")");
 
 		picture.jeu.ihm.caseClicked(actualCoord);
 

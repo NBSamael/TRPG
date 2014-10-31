@@ -196,10 +196,10 @@ public class AnimaTacticsUI {
 	}
 
 	public void updateInfosPersos() {
-		if (jeu.plateau.get(plateau.getMouseCaseX() + 1,
-				plateau.getMouseCaseY() + 1).isOccuped()) {
-			Personnage p = jeu.plateau.get(plateau.getMouseCaseX() + 1,
-					plateau.getMouseCaseY() + 1).getOccupant();
+		if (jeu.plateau.get(plateau.getMouseCaseX(), plateau.getMouseCaseY())
+				.isOccuped()) {
+			Personnage p = jeu.plateau.get(plateau.getMouseCaseX(),
+					plateau.getMouseCaseY()).getOccupant();
 			infosPersos.chargeInfosPersos(p);
 		}
 	}
