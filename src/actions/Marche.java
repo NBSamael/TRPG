@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import personnages.Personnage;
 import data.Demande;
+import data.Demande.Filtre;
 import data.Demande.Type;
 import data.GrilleDeplacements;
 import data.XY;
@@ -28,9 +29,9 @@ public class Marche extends Mouvement {
 		possibilites = owner.partie.plateau.calculeGrilleDeplacements(
 				owner.getPosition(), owner.vitesseMarche);
 		System.out.println(possibilites);
-
 		ArrayList<Demande> listeDemandes = new ArrayList<Demande>();
-		listeDemandes.add(new Demande(this, Type.CASE, possibilites));
+		listeDemandes.add(new Demande(this, Type.CASE, Filtre.DEPL,
+				possibilites.keySet()));
 		owner.partie.ihm.addSelect(listeDemandes);
 
 		// do {

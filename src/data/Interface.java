@@ -2,10 +2,12 @@ package data;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Set;
 
 import personnages.Personnage;
 import actions.Action;
 import actions.Reaction;
+import data.Demande.Filtre;
 import data.Demande.Type;
 
 public class Interface {
@@ -14,6 +16,16 @@ public class Interface {
 
 	public void addSelect(ArrayList<Demande> listeDemandes) {
 		this.listeDemandes.addAll(listeDemandes);
+	}
+
+	public Set<XY> getZoneDeplacement() {
+		if (!listeDemandes.isEmpty()) {
+			if (listeDemandes.get(0).f == Filtre.DEPL) {
+				System.out.println(listeDemandes.get(0).listePossibilites);
+				return listeDemandes.get(0).listePossibilites;
+			}
+		}
+		return null;
 	}
 
 	public void caseClicked(XY coordonnées) {

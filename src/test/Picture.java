@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.Set;
 
 import javax.swing.JPanel;
 
@@ -126,11 +127,26 @@ class Picture extends JPanel {
 	}
 
 	public void drawFiltre(Graphics g) {
-		Color couleurFiltre = new Color(255, 0, 0, 64);
-		g.setColor(couleurFiltre);
-		g.fillRect(MouseCaseX * SpriteStore.MAP_TILE_SIZE, MouseCaseY
-				* SpriteStore.MAP_TILE_SIZE, SpriteStore.MAP_TILE_SIZE,
-				SpriteStore.MAP_TILE_SIZE);
+		if (ui != null) {
+			Set<XY> zoneDepl = ui.jeu.ihm.getZoneDeplacement();
+			if (zoneDepl != null) {
+				Color couleurFiltre = new Color(0, 0, 255, 64);
+				g.setColor(couleurFiltre);
+
+				for (XY c : zoneDepl) {
+					g.fillRect(c.getX() * SpriteStore.MAP_TILE_SIZE, c.getY()
+							* SpriteStore.MAP_TILE_SIZE,
+							SpriteStore.MAP_TILE_SIZE,
+							SpriteStore.MAP_TILE_SIZE);
+				}
+			}
+		}
+
+		// Color couleurFiltre = new Color(255, 0, 0, 64);
+		// g.setColor(couleurFiltre);
+		// g.fillRect(MouseCaseX * SpriteStore.MAP_TILE_SIZE, MouseCaseY
+		// * SpriteStore.MAP_TILE_SIZE, SpriteStore.MAP_TILE_SIZE,
+		// SpriteStore.MAP_TILE_SIZE);
 	}
 
 	public void drawCurseur(Graphics g) {
