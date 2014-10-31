@@ -48,7 +48,7 @@ public class Fenetre extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 
-		picture = new Picture(jeu);
+		// picture = new Picture(jeu);
 
 		contentPane.add(picture);
 	}

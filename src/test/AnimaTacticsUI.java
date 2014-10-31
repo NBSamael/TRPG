@@ -27,11 +27,15 @@ import data.XY;
 
 public class AnimaTacticsUI {
 
+	public InstancePartie jeu;
+
 	public JFrame mainWindow;
 
 	private JTextPane textAreaMessages;
 
 	private JPanel tableauPrincipal;
+	private FichePerso infosPersos;
+	private Picture plateau;
 
 	/**
 	 * Launch the application.
@@ -52,7 +56,7 @@ public class AnimaTacticsUI {
 	 * Create the application.
 	 */
 	public AnimaTacticsUI() {
-		InstancePartie jeu = createGame(100, 60);
+		jeu = createGame(100, 60);
 		initialize(jeu);
 		mainWindow.setVisible(true);
 		mainWindow.addWindowListener(new WindowAdapter() {
@@ -90,13 +94,13 @@ public class AnimaTacticsUI {
 		list.setMaximumSize(new Dimension(200, 500));
 		tableauPrincipal.add(list);
 
-		JPanel plateau = new Picture(jeu);
+		plateau = new Picture(jeu, this);
 		plateau.setMinimumSize(new Dimension(800, 500));
 		plateau.setPreferredSize(new Dimension(800, 500));
 		plateau.setMaximumSize(new Dimension(800, 500));
 		tableauPrincipal.add(plateau);
 
-		JPanel infosPersos = new JPanel();
+		infosPersos = new FichePerso();
 		infosPersos.setMinimumSize(new Dimension(200, 500));
 		infosPersos.setPreferredSize(new Dimension(200, 500));
 		infosPersos.setMaximumSize(new Dimension(200, 500));
@@ -189,6 +193,20 @@ public class AnimaTacticsUI {
 		p2.partie = jeu;
 		p3.partie = jeu;
 		return jeu;
+	}
+
+	public void updateInfosPersos() {
+		if (jeu.plateau.get(plateau.getMouseCaseX() + 1,
+				plateau.getMouseCaseY() + 1).isOccuped()) {
+			Personnage p = jeu.plateau.get(plateau.getMouseCaseX() + 1,
+					plateau.getMouseCaseY() + 1).getOccupant();
+			infosPersos.chargeInfosPersos(p);
+		}
+	}
+
+	public void repaintAll() {
+		infosPersos.repaint();
+		plateau.repaint();
 	}
 
 }

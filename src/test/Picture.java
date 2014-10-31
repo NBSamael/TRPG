@@ -14,7 +14,7 @@ import data.XY;
 
 @SuppressWarnings("serial")
 class Picture extends JPanel {
-	InstancePartie jeu;
+	public InstancePartie jeu;
 	private int width, height;
 
 	private BufferedImage imageCase;
@@ -28,9 +28,11 @@ class Picture extends JPanel {
 	private int MouseCaseX = -1;
 	private int MouseCaseY = -1;
 
+	private AnimaTacticsUI ui;
+
 	BufferedImage imagePlateau;
 
-	public Picture(InstancePartie jeu) {
+	public Picture(InstancePartie jeu, AnimaTacticsUI ui) {
 		this.jeu = jeu;
 		this.nbX = jeu.plateau.getTailleX();
 		this.nbY = jeu.plateau.getTailleY();
@@ -53,7 +55,7 @@ class Picture extends JPanel {
 			}
 		}
 
-		GestionSouris gs = new GestionSouris(this);
+		PictureMouseListener gs = new PictureMouseListener(this, ui);
 		addMouseListener(gs);
 		addMouseMotionListener(gs);
 
@@ -145,7 +147,6 @@ class Picture extends JPanel {
 
 	public void setMouseCaseX(int mouseCaseX) {
 		MouseCaseX = mouseCaseX;
-		repaint();
 	}
 
 	public int getMouseCaseY() {
@@ -154,7 +155,6 @@ class Picture extends JPanel {
 
 	public void setMouseCaseY(int mouseCaseY) {
 		MouseCaseY = mouseCaseY;
-		repaint();
 	}
 
 	public int getViewX() {

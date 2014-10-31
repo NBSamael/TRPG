@@ -3,24 +3,35 @@ package test;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class GestionSouris extends MouseAdapter {
+import data.XY;
+
+public class PictureMouseListener extends MouseAdapter {
 	private Picture picture;
 	boolean enfonce;
+
+	private XY actualCoord;
 
 	private int clickX;
 	private int clickY;
 
-	public GestionSouris(Picture picture) {
+	private AnimaTacticsUI ui;
+
+	public PictureMouseListener(Picture picture, AnimaTacticsUI ui) {
 		super();
 		this.picture = picture;
 		this.enfonce = false;
+		this.ui = ui;
+		this.actualCoord = new XY(-1, -1);
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println("Clicked ("
-				+ (e.getX() / SpriteStore.MAP_TILE_SIZE) + ", "
-				+ (e.getY() / SpriteStore.MAP_TILE_SIZE) + ")");
+		System.out.println("Clicked (" + (e.getX() / SpriteStore.MAP_TILE_SIZE)
+				+ ", " + (e.getY() / SpriteStore.MAP_TILE_SIZE) + ")");
+
+		picture.jeu.ihm.caseClicked(actualCoord);
+
+		ui.repaintAll();
 	}
 
 	@Override
@@ -46,6 +57,14 @@ public class GestionSouris extends MouseAdapter {
 				/ SpriteStore.MAP_TILE_SIZE);
 		picture.setMouseCaseY((picture.getViewY() + e.getY())
 				/ SpriteStore.MAP_TILE_SIZE);
+		XY coord = new XY(picture.getMouseCaseX(), picture.getMouseCaseY());
+
+		if (!actualCoord.equals(coord)) {
+			caseChanged(actualCoord, coord);
+			actualCoord = coord;
+		}
+
+		ui.repaintAll();
 	}
 
 	@Override
@@ -57,5 +76,9 @@ public class GestionSouris extends MouseAdapter {
 			clickX = e.getX();
 			clickY = e.getY();
 		}
+	}
+
+	public void caseChanged(XY oldCoord, XY newCoord) {
+		ui.updateInfosPersos();
 	}
 }
