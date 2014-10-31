@@ -7,13 +7,16 @@ import actions.Action;
 
 public class FichePersoActionListener implements ActionListener {
 	Action action;
+	AnimaTacticsUI ui;
 
-	public FichePersoActionListener(Action action) {
+	public FichePersoActionListener(Action action, AnimaTacticsUI ui) {
 		this.action = action;
+		this.ui = ui;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		action.getParameters();
+		ui.repaintAll();
 	}
 }

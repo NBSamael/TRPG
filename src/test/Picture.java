@@ -37,6 +37,7 @@ class Picture extends JPanel {
 		this.jeu = jeu;
 		this.nbX = jeu.plateau.getTailleX();
 		this.nbY = jeu.plateau.getTailleY();
+		this.ui = ui;
 
 		imageCase = SpriteStore.getSprite(SpriteStore.TILE_GRASS);
 		imagePlateau = new BufferedImage(imageCase.getWidth() * nbX,
@@ -127,18 +128,28 @@ class Picture extends JPanel {
 	}
 
 	public void drawFiltre(Graphics g) {
-		if (ui != null) {
-			Set<XY> zoneDepl = ui.jeu.ihm.getZoneDeplacement();
-			if (zoneDepl != null) {
-				Color couleurFiltre = new Color(0, 0, 255, 64);
-				g.setColor(couleurFiltre);
+		Set<XY> zoneDepl = ui.jeu.ihm.getZoneDeplacement();
+		Set<XY> path = ui.jeu.ihm.getPathTo(new XY(MouseCaseX, MouseCaseY));
 
-				for (XY c : zoneDepl) {
-					g.fillRect(c.getX() * SpriteStore.MAP_TILE_SIZE, c.getY()
-							* SpriteStore.MAP_TILE_SIZE,
-							SpriteStore.MAP_TILE_SIZE,
-							SpriteStore.MAP_TILE_SIZE);
-				}
+		if (zoneDepl != null) {
+			Color couleurFiltre = new Color(0, 0, 255, 64);
+			g.setColor(couleurFiltre);
+
+			for (XY c : zoneDepl) {
+				g.fillRect(c.getX() * SpriteStore.MAP_TILE_SIZE, c.getY()
+						* SpriteStore.MAP_TILE_SIZE, SpriteStore.MAP_TILE_SIZE,
+						SpriteStore.MAP_TILE_SIZE);
+			}
+		}
+
+		if (path != null) {
+			Color couleurFiltre = new Color(0, 0, 255, 128);
+			g.setColor(couleurFiltre);
+
+			for (XY c : path) {
+				g.fillRect(c.getX() * SpriteStore.MAP_TILE_SIZE, c.getY()
+						* SpriteStore.MAP_TILE_SIZE, SpriteStore.MAP_TILE_SIZE,
+						SpriteStore.MAP_TILE_SIZE);
 			}
 		}
 

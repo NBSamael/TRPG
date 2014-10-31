@@ -8,7 +8,7 @@ public class Demande {
 	Action action;
 	Type t;
 	Filtre f;
-	Set<XY> listePossibilites;
+	GrilleDeplacements deplPossibles;
 	public XY SelectedCase;
 
 	public enum Type {
@@ -19,11 +19,11 @@ public class Demande {
 		DEPL, ATT
 	}
 
-	public Demande(Action action, Type t, Filtre f, Set<XY> listePossibilites) {
+	public Demande(Action action, Type t, Filtre f, GrilleDeplacements possibilites) {
 		this.action = action;
 		this.t = t;
 		this.f = f;
-		this.listePossibilites = listePossibilites;
+		this.deplPossibles = possibilites;
 	}
 
 }

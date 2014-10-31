@@ -100,7 +100,7 @@ public class AnimaTacticsUI {
 		plateau.setMaximumSize(new Dimension(800, 500));
 		tableauPrincipal.add(plateau);
 
-		infosPersos = new FichePerso();
+		infosPersos = new FichePerso(this);
 		infosPersos.setMinimumSize(new Dimension(200, 500));
 		infosPersos.setPreferredSize(new Dimension(200, 500));
 		infosPersos.setMaximumSize(new Dimension(200, 500));
@@ -135,8 +135,8 @@ public class AnimaTacticsUI {
 		int rX, rY;
 
 		do {
-			rX = 1 + r.nextInt(width);
-			rY = 1 + r.nextInt(height);
+			rX = r.nextInt(width);
+			rY = r.nextInt(height);
 		} while (!t.get(new XY(rX, rY)).isFranchissable()
 				&& !t.get(new XY(rX, rY)).isOccuped());
 
@@ -147,8 +147,8 @@ public class AnimaTacticsUI {
 		Personnage p2 = new AlessaRaincross(j2);
 
 		do {
-			rX = 1 + r.nextInt(width);
-			rY = 1 + r.nextInt(height);
+			rX = r.nextInt(width);
+			rY = r.nextInt(height);
 		} while (!t.get(new XY(rX, rY)).isFranchissable()
 				&& !t.get(new XY(rX, rY)).isOccuped());
 
@@ -159,8 +159,8 @@ public class AnimaTacticsUI {
 		Personnage p3 = new Bael(j2);
 
 		do {
-			rX = 1 + r.nextInt(width);
-			rY = 1 + r.nextInt(height);
+			rX = r.nextInt(width);
+			rY = r.nextInt(height);
 		} while (!t.get(new XY(rX, rY)).isFranchissable()
 				&& !t.get(new XY(rX, rY)).isOccuped());
 

@@ -12,6 +12,7 @@ import personnages.Personnage;
 import actions.Action;
 
 public class FichePerso extends JPanel {
+	AnimaTacticsUI ui;
 	private JLabel lblNom;
 	private JLabel lblValeurAtt;
 	private JLabel lblValeurDeg;
@@ -21,7 +22,8 @@ public class FichePerso extends JPanel {
 
 	private static int ESPACE_BOUTONS = 10;
 
-	public FichePerso() {
+	public FichePerso(AnimaTacticsUI ui) {
+		this.ui = ui;
 		setLayout(null);
 
 		lblNom = new JLabel("Nom");
@@ -88,7 +90,7 @@ public class FichePerso extends JPanel {
 			btnTemp.setToolTipText(a.getDescription());
 			btnTemp.setBounds(36, 188 + (i * (30 + FichePerso.ESPACE_BOUTONS)),
 					128, 30);
-			btnTemp.addActionListener(new FichePersoActionListener(a));
+			btnTemp.addActionListener(new FichePersoActionListener(a, ui));
 			add(btnTemp);
 			btnActionsList.add(btnTemp);
 		}

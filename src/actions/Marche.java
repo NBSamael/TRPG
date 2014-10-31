@@ -31,7 +31,7 @@ public class Marche extends Mouvement {
 		System.out.println(possibilites);
 		ArrayList<Demande> listeDemandes = new ArrayList<Demande>();
 		listeDemandes.add(new Demande(this, Type.CASE, Filtre.DEPL,
-				possibilites.keySet()));
+				possibilites));
 		owner.partie.ihm.addSelect(listeDemandes);
 
 		// do {

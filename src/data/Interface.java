@@ -1,6 +1,7 @@
 package data;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -21,8 +22,19 @@ public class Interface {
 	public Set<XY> getZoneDeplacement() {
 		if (!listeDemandes.isEmpty()) {
 			if (listeDemandes.get(0).f == Filtre.DEPL) {
-				System.out.println(listeDemandes.get(0).listePossibilites);
-				return listeDemandes.get(0).listePossibilites;
+				return listeDemandes.get(0).deplPossibles.keySet();
+			}
+		}
+		return null;
+	}
+
+	public Set<XY> getPathTo(XY dest) {
+		if (!listeDemandes.isEmpty()) {
+			if (listeDemandes.get(0).f == Filtre.DEPL) {
+				GrilleDeplacements dp = listeDemandes.get(0).deplPossibles;
+				if (dp.containsKey(dest)) {
+					return new HashSet<XY>(dp.getTrajet(dest));
+				}
 			}
 		}
 		return null;
@@ -32,11 +44,13 @@ public class Interface {
 		if (!listeDemandes.isEmpty()) {
 			if (listeDemandes.get(0).t == Type.CASE) {
 				Demande d = listeDemandes.get(0);
-				d.SelectedCase = coordonnées;
-				listeDemandes.remove(0);
-				ArrayList<Demande> temp = new ArrayList<Demande>();
-				temp.add(d);
-				d.action.setParameters(temp);
+				if (d.deplPossibles.containsKey(coordonnées)) {
+					d.SelectedCase = coordonnées;
+					listeDemandes.remove(0);
+					ArrayList<Demande> temp = new ArrayList<Demande>();
+					temp.add(d);
+					d.action.setParameters(temp);
+				}
 			}
 		}
 	}
