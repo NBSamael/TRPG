@@ -1,6 +1,7 @@
 package actions;
 
 import personnages.Personnage;
+import data.Demande;
 
 public class Furtivite extends EffetPersistant {
 
@@ -12,30 +13,42 @@ public class Furtivite extends EffetPersistant {
 	}
 
 	@Override
-	public void start() {
+	public void startEffet() {
 		owner.setDissimule(true);
 	}
 
 	@Override
-	public void stop() {
+	public void stopEffet() {
 		owner.setDissimule(false);
 	}
 
 	@Override
 	public boolean isLegal() {
-		return (verifieCoutAction() && (!owner.isDissimule() || !owner.effetsActifs.contains(this)));
+		return (verifieCoutAction() && (!owner.isDissimule() || !owner.effetsActifs
+				.contains(this)));
 	}
 
 	@Override
 	public void getParameters() {
 		// Pas de parametre à définir
-
+		execute();
 	}
 
 	@Override
-	public void execute() {
-		this.start();
-		owner.effetsActifs.add(this);
+	public void setParameter(Demande reponseUtilsateur) {
+		// Pas de parametre à définir
 	}
 
+	public void execute() {
+		ExecutionAction exec = new ExecutionAction();
+		exec.start();
+	}
+
+	class ExecutionAction extends Thread {
+		@Override
+		public void run() {
+			startEffet();
+			owner.effetsActifs.add(actions.Furtivite.this);
+		}
+	}
 }

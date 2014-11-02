@@ -1,7 +1,6 @@
 package data;
 
-import java.util.Set;
-
+import personnages.Personnage;
 import actions.Action;
 
 public class Demande {
@@ -9,7 +8,9 @@ public class Demande {
 	Type t;
 	Filtre f;
 	GrilleDeplacements deplPossibles;
+	GrilleLigneDeVue ciblesPossibles;
 	public XY SelectedCase;
+	public Personnage SelectedPerso;
 
 	public enum Type {
 		CASE, PERSO, JOUEUR
@@ -19,11 +20,13 @@ public class Demande {
 		DEPL, ATT
 	}
 
-	public Demande(Action action, Type t, Filtre f, GrilleDeplacements possibilites) {
+	public Demande(Action action, Type t, Filtre f,
+			GrilleDeplacements possibilites, GrilleLigneDeVue ciblesPossibles) {
 		this.action = action;
 		this.t = t;
 		this.f = f;
 		this.deplPossibles = possibilites;
+		this.ciblesPossibles = ciblesPossibles;
 	}
 
 }

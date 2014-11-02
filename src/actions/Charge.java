@@ -3,6 +3,9 @@ package actions;
 import java.util.ArrayList;
 
 import personnages.Personnage;
+import data.Demande;
+import data.Demande.Filtre;
+import data.Demande.Type;
 import data.GrilleLigneDeVue;
 import data.XY;
 
@@ -48,74 +51,99 @@ public class Charge extends Action {
 		if (this.vitesseCharge <= 0)
 			vitesseChg = owner.vitesseCourse;
 
-		GrilleLigneDeVue possibilités = owner.partie.plateau
+		GrilleLigneDeVue possibilites = owner.partie.plateau
 				.calculeGrilleLigneDeVue(owner.getPosition(), vitesseChg + 1,
 						true, false);
-		do {
-			caseCible = owner.partie.ihm
-					.selectionnerCase("Sélectionner une cible");
-			System.out.println(owner.partie.plateau.get(caseCible)
-					.getOccupant());
-			System.out.println(XY.calculeDistance(owner.getPosition(),
-					caseCible));
-		} while (owner.partie.plateau.get(caseCible) == null
-				|| !possibilités.contains(caseCible)
-				|| owner.partie.plateau.get(caseCible).getOccupant() == null
-				|| owner.partie.plateau.get(caseCible).getOccupant()
-						.isDissimule()
-				|| XY.calculeDistance(owner.getPosition(), caseCible) <= 2); // On
-																				// vérifie
-																				// que
-																				// la
-																				// cible
-																				// n'est
-																				// pas
-																				// déjà
-																				// au
-																				// contact
-																				// avec
-																				// le
-																				// personnage
-		cible = owner.partie.plateau.get(caseCible).getOccupant();
+		// do {
+		// caseCible = owner.partie.ihm
+		// .selectionnerCase("Sélectionner une cible");
+		// System.out.println(owner.partie.plateau.get(caseCible)
+		// .getOccupant());
+		// System.out.println(XY.calculeDistance(owner.getPosition(),
+		// caseCible));
+		// } while (owner.partie.plateau.get(caseCible) == null
+		// || !possibilites.contains(caseCible)
+		// || owner.partie.plateau.get(caseCible).getOccupant() == null
+		// || owner.partie.plateau.get(caseCible).getOccupant()
+		// .isDissimule()
+		// || XY.calculeDistance(owner.getPosition(), caseCible) <= 2); // On
+		// // vérifie
+		// // que
+		// // la
+		// // cible
+		// // n'est
+		// // pas
+		// // déjà
+		// // au
+		// // contact
+		// // avec
+		// // le
+		// // personnage
+		// cible = owner.partie.plateau.get(caseCible).getOccupant();
 
-		/*
-		 * Calcul le rayon de deplacement du personnage puis demande à
-		 * l'utilisateur de saisir une position de destination dans ce rayon
-		 */
-		XY destSelec = null;
-		possibilités = owner.partie.plateau.calculeGrilleLigneDeVue(
-				owner.getPosition(), vitesseChg, false, true);
-		System.out.println(possibilités);
-		do {
-			destSelec = owner.partie.ihm
-					.selectionnerCase("Sélectionner une destination");
-		} while (owner.partie.plateau.get(destSelec) == null
-				|| !possibilités.contains(destSelec)
-				|| owner.partie.plateau.get(destSelec).getOccupant() != null
-				|| XY.calculeDistance(caseCible, destSelec) > 2); // On vérifie
-																	// que la
-																	// destination
-																	// est au
-																	// contact
-																	// de la
-																	// cible
-		trajet = GrilleLigneDeVue.calculerLdV(owner.partie.plateau,
-				owner.getPosition(), destSelec);
+		listeDemandes.add(new Demande(this, Type.PERSO, Filtre.ATT, null,
+				possibilites));
+		owner.partie.ihm.addSelect(listeDemandes);
+
+		// /*
+		// * Calcul le rayon de deplacement du personnage puis demande à
+		// * l'utilisateur de saisir une position de destination dans ce rayon
+		// */
+		// XY destSelec = null;
+		// possibilites = owner.partie.plateau.calculeGrilleLigneDeVue(
+		// owner.getPosition(), vitesseChg, false, true);
+		// System.out.println(possibilites);
+		// do {
+		// destSelec = owner.partie.ihm
+		// .selectionnerCase("Sélectionner une destination");
+		// } while (owner.partie.plateau.get(destSelec) == null
+		// || !possibilites.contains(destSelec)
+		// || owner.partie.plateau.get(destSelec).getOccupant() != null
+		// || XY.calculeDistance(caseCible, destSelec) > 2); // On vérifie
+		// // que la
+		// // destination
+		// // est au
+		// // contact
+		// // de la
+		// // cible
+		// trajet = GrilleLigneDeVue.calculerLdV(owner.partie.plateau,
+		// owner.getPosition(), destSelec);
 	}
 
 	@Override
+	public void setParameter(Demande reponseUtilsateur) {
+		cible = reponseUtilsateur.SelectedPerso;
+		listeDemandes.remove(reponseUtilsateur);
+
+		trajet = GrilleLigneDeVue.calculerLdV(owner.partie.plateau,
+				owner.getPosition(), cible.getPosition());
+
+		trajet.remove(trajet.size() - 1);
+
+		this.execute();
+	}
+
 	public void execute() {
-		// Deplace le personnage case par case
-		System.out
-				.print(owner.nom + " court de " + owner.getPosition() + " à ");
-		for (XY etape : trajet) {
-			owner.partie.deplacePersonnage(owner, owner.getPosition(), etape);
-			owner.setPosition(etape);
+		ExecutionAction exec = new ExecutionAction();
+		exec.start();
+	}
+
+	class ExecutionAction extends Thread {
+		@Override
+		public void run() {
+			// Deplace le personnage case par case
+			System.out.print(owner.nom + " court de " + owner.getPosition()
+					+ " à ");
+			for (XY etape : trajet) {
+				owner.partie.deplacePersonnage(owner, owner.getPosition(),
+						etape);
+				owner.setPosition(etape);
+			}
+			System.out.println(owner.getPosition());
+
+			attaque(cible, bonusAttaque, nbDesLancesAttaque, bonusDegats);
+
+			owner.setADejaBougeDansLeTour(true);
 		}
-		System.out.println(owner.getPosition());
-
-		attaque(cible, bonusAttaque, nbDesLancesAttaque, bonusDegats);
-
-		owner.setADejaBougeDansLeTour(true);
 	}
 }

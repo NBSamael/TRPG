@@ -1,6 +1,7 @@
 package actions;
 
 import personnages.Personnage;
+import data.Demande;
 
 public class SceauxDuDragon extends EffetPersistant {
 
@@ -12,14 +13,14 @@ public class SceauxDuDragon extends EffetPersistant {
 	}
 
 	@Override
-	public void start() {
+	public void startEffet() {
 		owner.setAttaque(owner.getAttaque() + 2);
 		owner.setDefense(owner.getDefense() + 2);
 		owner.setDegats(owner.getDegats() + 2);
 	}
 
 	@Override
-	public void stop() {
+	public void stopEffet() {
 		owner.setAttaque(owner.getAttaque() - 2);
 		owner.setDefense(owner.getDefense() - 2);
 		owner.setDegats(owner.getDegats() - 2);
@@ -33,12 +34,24 @@ public class SceauxDuDragon extends EffetPersistant {
 	@Override
 	public void getParameters() {
 		// Pas de parametre à définir
+		execute();
 	}
 
 	@Override
-	public void execute() {
-		this.start();
-		owner.effetsActifs.add(this);
+	public void setParameter(Demande reponseUtilsateur) {
+		// Pas de parametre à définir
 	}
 
+	public void execute() {
+		ExecutionAction exec = new ExecutionAction();
+		exec.start();
+	}
+
+	class ExecutionAction extends Thread {
+		@Override
+		public void run() {
+			startEffet();
+			owner.effetsActifs.add(actions.SceauxDuDragon.this);
+		}
+	}
 }

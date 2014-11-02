@@ -1,13 +1,16 @@
 package actions;
 
+import java.util.ArrayList;
+
 import personnages.Personnage;
 import data.Demande;
 
 public abstract class Action extends ActionGenerique {
+	ArrayList<Demande> listeDemandes;
 
 	public Action(Personnage owner, int coutPA) {
 		super(owner, coutPA);
-		// TODO Auto-generated constructor stub
+		this.listeDemandes = new ArrayList<Demande>();
 	}
 
 	public boolean isLegal() {
@@ -16,10 +19,17 @@ public abstract class Action extends ActionGenerique {
 
 	public abstract void getParameters();
 
-	public void setParameter(Demande reponseUtilsateur) {
-
-	}
+	public abstract void setParameter(Demande reponseUtilsateur);
 
 	public abstract void execute();
+
+	// public void execute() {
+	// ExecutionAction exec = new ExecutionAction();
+	// exec.start();
+	// }
+	//
+	// abstract class ExecutionAction extends Thread {
+	// public abstract void run();
+	// }
 
 }

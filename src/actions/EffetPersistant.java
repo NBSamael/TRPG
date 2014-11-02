@@ -15,7 +15,7 @@ public abstract class EffetPersistant extends Effet {
 		return coutEntretien;
 	}
 	
-	public abstract void start();
+	public abstract void startEffet();
 	
-	public abstract void stop();
+	public abstract void stopEffet();
 }

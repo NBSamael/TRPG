@@ -17,6 +17,16 @@ public class Interface {
 	AnimaTacticsUI ui;
 	ArrayList<Demande> listeDemandes;
 
+	public Interface(AnimaTacticsUI ui) {
+		sc = new Scanner(System.in);
+		listeDemandes = new ArrayList<Demande>();
+		this.ui = ui;
+	}
+
+	public void addSelect(Demande demande) {
+		this.listeDemandes.add(demande);
+	}
+
 	public void addSelect(ArrayList<Demande> listeDemandes) {
 		this.listeDemandes.addAll(listeDemandes);
 	}
@@ -24,7 +34,11 @@ public class Interface {
 	public Set<XY> getZoneDeplacement() {
 		if (!listeDemandes.isEmpty()) {
 			if (listeDemandes.get(0).f == Filtre.DEPL) {
-				return listeDemandes.get(0).deplPossibles.keySet();
+				if (listeDemandes.get(0).deplPossibles != null) {
+					return listeDemandes.get(0).deplPossibles.keySet();
+				} else {
+					return new HashSet<XY>(listeDemandes.get(0).ciblesPossibles);
+				}
 			}
 		}
 		return null;
@@ -33,9 +47,31 @@ public class Interface {
 	public Set<XY> getPathTo(XY dest) {
 		if (!listeDemandes.isEmpty()) {
 			if (listeDemandes.get(0).f == Filtre.DEPL) {
-				GrilleDeplacements dp = listeDemandes.get(0).deplPossibles;
-				if (dp.containsKey(dest)) {
-					return new HashSet<XY>(dp.getTrajet(dest));
+				if (listeDemandes.get(0).deplPossibles != null) {
+					GrilleDeplacements dp = listeDemandes.get(0).deplPossibles;
+					if (dp.containsKey(dest)) {
+						return new HashSet<XY>(dp.getTrajet(dest));
+					}
+				} else {
+					GrilleLigneDeVue dp = listeDemandes.get(0).ciblesPossibles;
+					if (dp.contains(dest)) {
+						return new HashSet<XY>(GrilleLigneDeVue.calculerLdV(
+								ui.jeu.plateau, listeDemandes.get(0).action
+										.getOwner().getPosition(), dest));
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	public Set<XY> getZoneAttaque() {
+		if (!listeDemandes.isEmpty()) {
+			if (listeDemandes.get(0).f == Filtre.ATT) {
+				if (listeDemandes.get(0).deplPossibles != null) {
+					return listeDemandes.get(0).deplPossibles.keySet();
+				} else {
+					return new HashSet<XY>(listeDemandes.get(0).ciblesPossibles);
 				}
 			}
 		}
@@ -44,21 +80,37 @@ public class Interface {
 
 	public void caseClicked(XY coordonnées) {
 		if (!listeDemandes.isEmpty()) {
-			if (listeDemandes.get(0).t == Type.CASE) {
+			if (listeDemandes.get(0).t == Type.CASE
+					&& listeDemandes.get(0).f == Filtre.DEPL) {
 				Demande d = listeDemandes.get(0);
-				if (d.deplPossibles.containsKey(coordonnées)) {
+				if (d.deplPossibles != null
+						&& d.deplPossibles.containsKey(coordonnées)) {
+					System.out.println("ok");
 					d.SelectedCase = coordonnées;
 					listeDemandes.remove(0);
 					d.action.setParameter(d);
 				}
+				if (d.deplPossibles == null
+						&& d.ciblesPossibles.contains(coordonnées)) {
+					d.SelectedCase = coordonnées;
+					listeDemandes.remove(0);
+					d.action.setParameter(d);
+				}
+			} else if (listeDemandes.get(0).t == Type.PERSO
+					&& listeDemandes.get(0).f == Filtre.ATT) {
+				Demande d = listeDemandes.get(0);
+				if (d.ciblesPossibles.contains(coordonnées)
+						&& ui.jeu.plateau.isCaseOccuped(coordonnées)) {
+					Personnage cible = ui.jeu.plateau.get(coordonnées)
+							.getOccupant();
+					if (cible.owner.equipe != d.action.getOwner().owner.equipe) {
+						d.SelectedPerso = cible;
+						listeDemandes.remove(0);
+						d.action.setParameter(d);
+					}
+				}
 			}
 		}
-	}
-
-	public Interface(AnimaTacticsUI ui) {
-		sc = new Scanner(System.in);
-		listeDemandes = new ArrayList<Demande>();
-		this.ui = ui;
 	}
 
 	public int selectionnerAction(Personnage p) {

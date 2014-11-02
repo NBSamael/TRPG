@@ -1,8 +1,9 @@
 package actions;
 
 import personnages.Personnage;
-import data.Des;
-import data.EvenementJeu;
+import data.Demande;
+import data.Demande.Filtre;
+import data.Demande.Type;
 import data.GrilleLigneDeVue;
 import data.XY;
 
@@ -13,9 +14,10 @@ public class Attaque extends Action {
 	protected int bonusDegats = 0;
 	protected int malusArmure = 0;
 	protected int porteeAttaque = 0;
-	
+
 	public Attaque(Personnage owner, int coutPA, String nom,
-			String description, int bonusAttaque, int nbDesLances, int bonusDegats, int malusArmure, int porteeAttaque) {
+			String description, int bonusAttaque, int nbDesLances,
+			int bonusDegats, int malusArmure, int porteeAttaque) {
 		super(owner, coutPA);
 		this.nom = nom;
 		this.description = description;
@@ -43,22 +45,40 @@ public class Attaque extends Action {
 		else
 			porteeAtt = owner.getPortee();
 
-		GrilleLigneDeVue possibilités = owner.partie.plateau
-				.calculeGrilleLigneDeVue(owner.getPosition(), porteeAtt, true, false);
-		do {
-			caseCible = owner.partie.ihm
-					.selectionnerCase("Sélectionner une cible");
-		} while (owner.partie.plateau.get(caseCible) == null
-				|| !possibilités.contains(caseCible)
-				|| owner.partie.plateau.get(caseCible).getOccupant() == null
-				|| owner.partie.plateau.get(caseCible).getOccupant().isDissimule());
-		cible = owner.partie.plateau.get(caseCible).getOccupant();
+		GrilleLigneDeVue possibilites = owner.partie.plateau
+				.calculeGrilleLigneDeVue(owner.getPosition(), porteeAtt, true,
+						false);
+		// do {
+		// caseCible = owner.partie.ihm
+		// .selectionnerCase("Sélectionner une cible");
+		// } while (owner.partie.plateau.get(caseCible) == null
+		// || !possibilites.contains(caseCible)
+		// || owner.partie.plateau.get(caseCible).getOccupant() == null
+		// || owner.partie.plateau.get(caseCible).getOccupant()
+		// .isDissimule());
+		// cible = owner.partie.plateau.get(caseCible).getOccupant();
+
+		listeDemandes.add(new Demande(this, Type.PERSO, Filtre.ATT, null,
+				possibilites));
+		owner.partie.ihm.addSelect(listeDemandes);
 	}
 
 	@Override
-	public void execute() {
+	public void setParameter(Demande reponseUtilsateur) {
+		cible = reponseUtilsateur.SelectedPerso;
+		listeDemandes.remove(reponseUtilsateur);
+		this.execute();
+	}
 
-		attaque(cible, bonusAttaque, nbDesLancesAttaque, bonusDegats);
-		
+	public void execute() {
+		ExecutionAction exec = new ExecutionAction();
+		exec.start();
+	}
+
+	class ExecutionAction extends Thread {
+		@Override
+		public void run() {
+			attaque(cible, bonusAttaque, nbDesLancesAttaque, bonusDegats);
+		}
 	}
 }

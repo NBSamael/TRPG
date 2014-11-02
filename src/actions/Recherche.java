@@ -2,10 +2,11 @@ package actions;
 
 import java.util.HashSet;
 
+import personnages.Personnage;
+import data.Demande;
 import data.Des;
 import data.GrilleLigneDeVue;
 import data.XY;
-import personnages.Personnage;
 
 public class Recherche extends Action {
 	protected int porteeRecherche;
@@ -27,40 +28,55 @@ public class Recherche extends Action {
 	}
 
 	@Override
-	public void execute() {
-		int porteeRec = 1;
-		if (this.porteeRecherche > 0)
-			porteeRec = this.porteeRecherche;
-		else
-			porteeRec = owner.getTailleZoneControle();
+	public void setParameter(Demande reponseUtilsateur) {
+		// Pas de paramètre
+		execute();
+	}
 
-		GrilleLigneDeVue possibilités = owner.partie.plateau
-				.calculeGrilleLigneDeVue(owner.getPosition(), porteeRec, true, false);
-		
-		int valeurRechercheDes = Des.lanceDe(Des.D10);
-		
-		int valeurBonusRodeur = 0;
-		if (owner.getCategorie() == Personnage.CATEGORIE_RODEUR)
-			valeurBonusRodeur = 1;
-		
-		for(XY tmp : possibilités) {
-			Personnage p = owner.partie.plateau.get(tmp).getOccupant();
-			if (p != null && p.isDissimule()) {
-				
-				int valeurMalusCouvert = 0; // A implémenter
-				
-				if (valeurRechercheDes >= (7 - bonusRecherche - valeurBonusRodeur + valeurMalusCouvert)) {
-					for (EffetPersistant ep : new HashSet<EffetPersistant>(p.effetsActifs)) {
-						if (ep.nom == "Furtivité") {
-							p.effetsActifs.remove(ep);
-							break;
+	public void execute() {
+		ExecutionAction exec = new ExecutionAction();
+		exec.start();
+	}
+
+	class ExecutionAction extends Thread {
+		@Override
+		public void run() {
+			int porteeRec = 1;
+			if (porteeRecherche > 0)
+				porteeRec = porteeRecherche;
+			else
+				porteeRec = owner.getTailleZoneControle();
+
+			GrilleLigneDeVue possibilités = owner.partie.plateau
+					.calculeGrilleLigneDeVue(owner.getPosition(), porteeRec,
+							true, false);
+
+			int valeurRechercheDes = Des.lanceDe(Des.D10);
+
+			int valeurBonusRodeur = 0;
+			if (owner.getCategorie() == Personnage.CATEGORIE_RODEUR)
+				valeurBonusRodeur = 1;
+
+			for (XY tmp : possibilités) {
+				Personnage p = owner.partie.plateau.get(tmp).getOccupant();
+				if (p != null && p.isDissimule()) {
+
+					int valeurMalusCouvert = 0; // A implémenter
+
+					if (valeurRechercheDes >= (7 - bonusRecherche
+							- valeurBonusRodeur + valeurMalusCouvert)) {
+						for (EffetPersistant ep : new HashSet<EffetPersistant>(
+								p.effetsActifs)) {
+							if (ep.nom == "Furtivité") {
+								p.effetsActifs.remove(ep);
+								break;
+							}
 						}
+						p.setDissimule(false);
+						System.out.println(p.nom + " a été révélé");
 					}
-					p.setDissimule(false);
-					System.out.println(p.nom + " a été révélé");
 				}
 			}
 		}
 	}
-
 }

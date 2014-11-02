@@ -287,7 +287,7 @@ public abstract class Personnage implements ListenerEvenementJeu {
 				if (!this.partie.ihm
 						.repondreOuiNon("Payer le coût d'entretien de l'effet "
 								+ pe.getNom() + " ?")) {
-					pe.stop();
+					pe.stopEffet();
 					this.effetsActifs.remove(pe);
 				}
 			}

@@ -129,7 +129,6 @@ class Picture extends JPanel {
 
 	public void drawFiltre(Graphics g) {
 		Set<XY> zoneDepl = ui.jeu.ihm.getZoneDeplacement();
-		Set<XY> path = ui.jeu.ihm.getPathTo(new XY(MouseCaseX, MouseCaseY));
 
 		if (zoneDepl != null) {
 			Color couleurFiltre = new Color(0, 0, 255, 64);
@@ -140,16 +139,31 @@ class Picture extends JPanel {
 						* SpriteStore.MAP_TILE_SIZE, SpriteStore.MAP_TILE_SIZE,
 						SpriteStore.MAP_TILE_SIZE);
 			}
-		}
 
-		if (path != null) {
-			Color couleurFiltre = new Color(0, 0, 255, 128);
-			g.setColor(couleurFiltre);
+			Set<XY> path = ui.jeu.ihm.getPathTo(new XY(MouseCaseX, MouseCaseY));
+			if (path != null) {
+				couleurFiltre = new Color(0, 0, 255, 128);
+				g.setColor(couleurFiltre);
 
-			for (XY c : path) {
-				g.fillRect(c.getX() * SpriteStore.MAP_TILE_SIZE, c.getY()
-						* SpriteStore.MAP_TILE_SIZE, SpriteStore.MAP_TILE_SIZE,
-						SpriteStore.MAP_TILE_SIZE);
+				for (XY c : path) {
+					g.fillRect(c.getX() * SpriteStore.MAP_TILE_SIZE, c.getY()
+							* SpriteStore.MAP_TILE_SIZE,
+							SpriteStore.MAP_TILE_SIZE,
+							SpriteStore.MAP_TILE_SIZE);
+				}
+			}
+		} else {
+			Set<XY> zoneAtt = ui.jeu.ihm.getZoneAttaque();
+			if (zoneAtt != null) {
+				Color couleurFiltre = new Color(255, 0, 0, 64);
+				g.setColor(couleurFiltre);
+
+				for (XY c : zoneAtt) {
+					g.fillRect(c.getX() * SpriteStore.MAP_TILE_SIZE, c.getY()
+							* SpriteStore.MAP_TILE_SIZE,
+							SpriteStore.MAP_TILE_SIZE,
+							SpriteStore.MAP_TILE_SIZE);
+				}
 			}
 		}
 

@@ -12,11 +12,9 @@ import data.XY;
 public class Marche extends Mouvement {
 	private ArrayList<XY> trajet;
 	private GrilleDeplacements possibilites;
-	ArrayList<Demande> listeDemandes;
 
 	public Marche(Personnage owner) {
 		super(owner, 1);
-		this.listeDemandes = new ArrayList<Demande>();
 		this.nom = "Marche";
 		this.description = "Le personnage se déplace d'un nombre de cases égal à sa vitesse de marche";
 	}
@@ -30,27 +28,20 @@ public class Marche extends Mouvement {
 		XY destSelec = null;
 		possibilites = owner.partie.plateau.calculeGrilleDeplacements(
 				owner.getPosition(), owner.vitesseMarche);
-		System.out.println(possibilites);
+		// System.out.println(possibilites);
 		listeDemandes.add(new Demande(this, Type.CASE, Filtre.DEPL,
-				possibilites));
+				possibilites, null));
 		owner.partie.ihm.addSelect(listeDemandes);
-
-		// do {
-		// destSelec = owner.partie.ihm
-		// .selectionnerCase("Sélectionner une destination");
-		// } while (owner.partie.plateau.get(destSelec) == null
-		// || possibilites.get(destSelec) == null);
-		// trajet = possibilites.getTrajet(destSelec);
 	}
 
 	@Override
 	public void setParameter(Demande reponseUtilisateur) {
 		trajet = possibilites.getTrajet(reponseUtilisateur.SelectedCase);
 		listeDemandes.remove(reponseUtilisateur);
+		System.out.println("Execute l'action");
 		this.execute();
 	}
 
-	@Override
 	public void execute() {
 		ExecutionAction exec = new ExecutionAction();
 		exec.start();
