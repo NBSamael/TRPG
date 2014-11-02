@@ -6,6 +6,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 import personnages.Personnage;
+import test.AnimaTacticsUI;
 import actions.Action;
 import actions.Reaction;
 import data.Demande.Filtre;
@@ -13,6 +14,7 @@ import data.Demande.Type;
 
 public class Interface {
 	Scanner sc;
+	AnimaTacticsUI ui;
 	ArrayList<Demande> listeDemandes;
 
 	public void addSelect(ArrayList<Demande> listeDemandes) {
@@ -47,17 +49,16 @@ public class Interface {
 				if (d.deplPossibles.containsKey(coordonnées)) {
 					d.SelectedCase = coordonnées;
 					listeDemandes.remove(0);
-					ArrayList<Demande> temp = new ArrayList<Demande>();
-					temp.add(d);
-					d.action.setParameters(temp);
+					d.action.setParameter(d);
 				}
 			}
 		}
 	}
 
-	public Interface() {
+	public Interface(AnimaTacticsUI ui) {
 		sc = new Scanner(System.in);
 		listeDemandes = new ArrayList<Demande>();
+		this.ui = ui;
 	}
 
 	public int selectionnerAction(Personnage p) {
@@ -144,5 +145,11 @@ public class Interface {
 			return null;
 
 		return listePersos.get(n);
+	}
+
+	public void refreshPlateau() {
+		if (ui != null) {
+			ui.repaintAll();
+		}
 	}
 }

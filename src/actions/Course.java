@@ -2,9 +2,9 @@ package actions;
 
 import java.util.ArrayList;
 
+import personnages.Personnage;
 import data.GrilleLigneDeVue;
 import data.XY;
-import personnages.Personnage;
 
 public class Course extends Mouvement {
 	protected ArrayList<XY> trajet;
@@ -22,7 +22,9 @@ public class Course extends Mouvement {
 		 * l'utilisateur de saisir une position de destination dans ce rayon
 		 */
 		XY destSelec = null;
-		GrilleLigneDeVue possibilités = owner.partie.plateau.calculeGrilleLigneDeVue(owner.getPosition(), owner.vitesseCourse, false, true);
+		GrilleLigneDeVue possibilités = owner.partie.plateau
+				.calculeGrilleLigneDeVue(owner.getPosition(),
+						owner.vitesseCourse, false, true);
 		System.out.println(possibilités);
 		do {
 			destSelec = owner.partie.ihm
@@ -30,16 +32,18 @@ public class Course extends Mouvement {
 		} while (owner.partie.plateau.get(destSelec) == null
 				|| !possibilités.contains(destSelec)
 				|| owner.partie.plateau.get(destSelec).getOccupant() != null);
-		trajet = GrilleLigneDeVue.calculerLdV(owner.partie.plateau, owner.getPosition(), destSelec);
+		trajet = GrilleLigneDeVue.calculerLdV(owner.partie.plateau,
+				owner.getPosition(), destSelec);
 	}
 
 	@Override
 	public void execute() {
 		// Deplace le personnage case par case
-		System.out.print(owner.nom + " court de " + owner.getPosition() + " à ");
+		System.out
+				.print(owner.nom + " court de " + owner.getPosition() + " à ");
 		for (XY etape : trajet) {
-			owner.partie.plateau.deplacePersonnage(owner, owner.getPosition(), etape);
-			owner.setPositionX(etape);
+			owner.partie.deplacePersonnage(owner, owner.getPosition(), etape);
+			owner.setPosition(etape);
 		}
 		System.out.println(owner.getPosition());
 		owner.setADejaBougeDansLeTour(true);

@@ -155,12 +155,6 @@ public class Terrain extends HashMap<XY, Case> implements java.io.Serializable {
 		return td;
 	}
 
-	public void deplacePersonnage(Personnage p, XY anciennePosition,
-			XY nouvellePosition) {
-		get(anciennePosition).setOccupant(null);
-		get(nouvellePosition).setOccupant(p);
-	}
-
 	@Override
 	public String toString() {
 		String aff = new String();

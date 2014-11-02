@@ -121,7 +121,7 @@ public class AnimaTacticsUI {
 
 	private InstancePartie createGame(int width, int height) {
 
-		Interface interf = new Interface();
+		Interface interf = new Interface(this);
 
 		Terrain t = new Terrain(width, height);
 		t.genereTerrainAleatoire();
@@ -140,7 +140,7 @@ public class AnimaTacticsUI {
 		} while (!t.get(new XY(rX, rY)).isFranchissable()
 				&& !t.get(new XY(rX, rY)).isOccuped());
 
-		p1.setPositionX(new XY(rX, rY));
+		p1.setPosition(new XY(rX, rY));
 		t.get(new XY(rX, rY)).setOccupant(p1);
 		t.personnages.add(p1);
 
@@ -152,7 +152,7 @@ public class AnimaTacticsUI {
 		} while (!t.get(new XY(rX, rY)).isFranchissable()
 				&& !t.get(new XY(rX, rY)).isOccuped());
 
-		p2.setPositionX(new XY(rX, rY));
+		p2.setPosition(new XY(rX, rY));
 		t.get(new XY(rX, rY)).setOccupant(p2);
 		t.personnages.add(p2);
 
@@ -164,7 +164,7 @@ public class AnimaTacticsUI {
 		} while (!t.get(new XY(rX, rY)).isFranchissable()
 				&& !t.get(new XY(rX, rY)).isOccuped());
 
-		p3.setPositionX(new XY(rX, rY));
+		p3.setPosition(new XY(rX, rY));
 		t.get(new XY(rX, rY)).setOccupant(p3);
 		t.personnages.add(p3);
 

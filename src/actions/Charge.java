@@ -2,10 +2,9 @@ package actions;
 
 import java.util.ArrayList;
 
-import data.Des;
+import personnages.Personnage;
 import data.GrilleLigneDeVue;
 import data.XY;
-import personnages.Personnage;
 
 public class Charge extends Action {
 	protected Personnage cible;
@@ -16,8 +15,9 @@ public class Charge extends Action {
 	protected int vitesseCharge = 0;
 	protected ArrayList<XY> trajet;
 
-	public Charge(Personnage owner, int coutPA, String nom,
-			String description, int bonusAttaque, int nbDesLancesAttaque,  int bonusDegats, int malusArmure, int vitesseCharge) {
+	public Charge(Personnage owner, int coutPA, String nom, String description,
+			int bonusAttaque, int nbDesLancesAttaque, int bonusDegats,
+			int malusArmure, int vitesseCharge) {
 		super(owner, coutPA);
 		this.nom = nom;
 		this.description = description;
@@ -49,25 +49,42 @@ public class Charge extends Action {
 			vitesseChg = owner.vitesseCourse;
 
 		GrilleLigneDeVue possibilités = owner.partie.plateau
-				.calculeGrilleLigneDeVue(owner.getPosition(), vitesseChg + 1, true, false);
+				.calculeGrilleLigneDeVue(owner.getPosition(), vitesseChg + 1,
+						true, false);
 		do {
 			caseCible = owner.partie.ihm
 					.selectionnerCase("Sélectionner une cible");
-			System.out.println( owner.partie.plateau.get(caseCible).getOccupant());
-			System.out.println(XY.calculeDistance( owner.getPosition(), caseCible));
+			System.out.println(owner.partie.plateau.get(caseCible)
+					.getOccupant());
+			System.out.println(XY.calculeDistance(owner.getPosition(),
+					caseCible));
 		} while (owner.partie.plateau.get(caseCible) == null
 				|| !possibilités.contains(caseCible)
 				|| owner.partie.plateau.get(caseCible).getOccupant() == null
-				|| owner.partie.plateau.get(caseCible).getOccupant().isDissimule()
-				|| XY.calculeDistance( owner.getPosition(), caseCible) <= 2); // On vérifie que la cible n'est pas déjà au contact avec le personnage
+				|| owner.partie.plateau.get(caseCible).getOccupant()
+						.isDissimule()
+				|| XY.calculeDistance(owner.getPosition(), caseCible) <= 2); // On
+																				// vérifie
+																				// que
+																				// la
+																				// cible
+																				// n'est
+																				// pas
+																				// déjà
+																				// au
+																				// contact
+																				// avec
+																				// le
+																				// personnage
 		cible = owner.partie.plateau.get(caseCible).getOccupant();
-		
+
 		/*
 		 * Calcul le rayon de deplacement du personnage puis demande à
 		 * l'utilisateur de saisir une position de destination dans ce rayon
 		 */
 		XY destSelec = null;
-		possibilités = owner.partie.plateau.calculeGrilleLigneDeVue(owner.getPosition(), vitesseChg, false, true);
+		possibilités = owner.partie.plateau.calculeGrilleLigneDeVue(
+				owner.getPosition(), vitesseChg, false, true);
 		System.out.println(possibilités);
 		do {
 			destSelec = owner.partie.ihm
@@ -75,22 +92,30 @@ public class Charge extends Action {
 		} while (owner.partie.plateau.get(destSelec) == null
 				|| !possibilités.contains(destSelec)
 				|| owner.partie.plateau.get(destSelec).getOccupant() != null
-				|| XY.calculeDistance( caseCible, destSelec) > 2); // On vérifie que la destination est au contact de la cible
-		trajet = GrilleLigneDeVue.calculerLdV(owner.partie.plateau, owner.getPosition(), destSelec);
+				|| XY.calculeDistance(caseCible, destSelec) > 2); // On vérifie
+																	// que la
+																	// destination
+																	// est au
+																	// contact
+																	// de la
+																	// cible
+		trajet = GrilleLigneDeVue.calculerLdV(owner.partie.plateau,
+				owner.getPosition(), destSelec);
 	}
 
 	@Override
 	public void execute() {
 		// Deplace le personnage case par case
-		System.out.print(owner.nom + " court de " + owner.getPosition() + " à ");
+		System.out
+				.print(owner.nom + " court de " + owner.getPosition() + " à ");
 		for (XY etape : trajet) {
-			owner.partie.plateau.deplacePersonnage(owner, owner.getPosition(), etape);
-			owner.setPositionX(etape);
+			owner.partie.deplacePersonnage(owner, owner.getPosition(), etape);
+			owner.setPosition(etape);
 		}
 		System.out.println(owner.getPosition());
-		
+
 		attaque(cible, bonusAttaque, nbDesLancesAttaque, bonusDegats);
-		
+
 		owner.setADejaBougeDansLeTour(true);
 	}
 }

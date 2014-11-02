@@ -12,9 +12,11 @@ import data.XY;
 public class Marche extends Mouvement {
 	private ArrayList<XY> trajet;
 	private GrilleDeplacements possibilites;
+	ArrayList<Demande> listeDemandes;
 
 	public Marche(Personnage owner) {
 		super(owner, 1);
+		this.listeDemandes = new ArrayList<Demande>();
 		this.nom = "Marche";
 		this.description = "Le personnage se déplace d'un nombre de cases égal à sa vitesse de marche";
 	}
@@ -29,7 +31,6 @@ public class Marche extends Mouvement {
 		possibilites = owner.partie.plateau.calculeGrilleDeplacements(
 				owner.getPosition(), owner.vitesseMarche);
 		System.out.println(possibilites);
-		ArrayList<Demande> listeDemandes = new ArrayList<Demande>();
 		listeDemandes.add(new Demande(this, Type.CASE, Filtre.DEPL,
 				possibilites));
 		owner.partie.ihm.addSelect(listeDemandes);
@@ -43,23 +44,36 @@ public class Marche extends Mouvement {
 	}
 
 	@Override
-	public void setParameters(ArrayList<Demande> listeDemandes) {
-		trajet = possibilites.getTrajet(listeDemandes.get(0).SelectedCase);
+	public void setParameter(Demande reponseUtilisateur) {
+		trajet = possibilites.getTrajet(reponseUtilisateur.SelectedCase);
+		listeDemandes.remove(reponseUtilisateur);
 		this.execute();
 	}
 
 	@Override
 	public void execute() {
-		// Deplace le personnage case par case
-		System.out.print(owner.nom + " marche de " + owner.getPosition()
-				+ " à ");
-		for (XY etape : trajet) {
-			owner.partie.plateau.deplacePersonnage(owner, owner.getPosition(),
-					etape);
-			owner.setPositionX(etape);
-		}
-		System.out.println(owner.getPosition());
-		owner.setADejaBougeDansLeTour(true);
+		ExecutionAction exec = new ExecutionAction();
+		exec.start();
 	}
 
+	class ExecutionAction extends Thread {
+		@Override
+		public void run() {
+			System.out.print(owner.nom + " marche de " + owner.getPosition()
+					+ " à ");
+			for (XY etape : trajet) {
+				owner.partie.deplacePersonnage(owner, owner.getPosition(),
+						etape);
+				owner.setPosition(etape);
+				try {
+					Thread.sleep(300);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			System.out.println(owner.getPosition());
+			owner.setADejaBougeDansLeTour(true);
+		}
+	}
 }

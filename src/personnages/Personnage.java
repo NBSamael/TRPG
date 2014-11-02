@@ -114,7 +114,7 @@ public abstract class Personnage implements ListenerEvenementJeu {
 		return position;
 	}
 
-	public void setPositionX(XY position) {
+	public void setPosition(XY position) {
 		this.position = position;
 	}
 

@@ -1,7 +1,5 @@
 package actions;
 
-import java.util.ArrayList;
-
 import personnages.Personnage;
 import data.Demande;
 
@@ -18,7 +16,7 @@ public abstract class Action extends ActionGenerique {
 
 	public abstract void getParameters();
 
-	public void setParameters(ArrayList<Demande> listeDemandes) {
+	public void setParameter(Demande reponseUtilsateur) {
 
 	}
 
