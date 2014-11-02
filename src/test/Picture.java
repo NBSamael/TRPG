@@ -164,6 +164,20 @@ class Picture extends JPanel {
 							SpriteStore.MAP_TILE_SIZE,
 							SpriteStore.MAP_TILE_SIZE);
 				}
+
+				Set<XY> path = ui.jeu.ihm.getPathTo(new XY(MouseCaseX,
+						MouseCaseY));
+				if (path != null) {
+					couleurFiltre = new Color(255, 0, 0, 128);
+					g.setColor(couleurFiltre);
+
+					for (XY c : path) {
+						g.fillRect(c.getX() * SpriteStore.MAP_TILE_SIZE,
+								c.getY() * SpriteStore.MAP_TILE_SIZE,
+								SpriteStore.MAP_TILE_SIZE,
+								SpriteStore.MAP_TILE_SIZE);
+					}
+				}
 			}
 		}
 

@@ -38,7 +38,6 @@ public class Marche extends Mouvement {
 	public void setParameter(Demande reponseUtilisateur) {
 		trajet = possibilites.getTrajet(reponseUtilisateur.SelectedCase);
 		listeDemandes.remove(reponseUtilisateur);
-		System.out.println("Execute l'action");
 		this.execute();
 	}
 
@@ -50,8 +49,9 @@ public class Marche extends Mouvement {
 	class ExecutionAction extends Thread {
 		@Override
 		public void run() {
-			System.out.print(owner.nom + " marche de " + owner.getPosition()
-					+ " à ");
+			owner.partie.ihm.afficheTexte(
+					owner.nom + " marche de " + owner.getPosition() + " à ",
+					false);
 			for (XY etape : trajet) {
 				owner.partie.deplacePersonnage(owner, owner.getPosition(),
 						etape);
@@ -63,7 +63,7 @@ public class Marche extends Mouvement {
 					e.printStackTrace();
 				}
 			}
-			System.out.println(owner.getPosition());
+			owner.partie.ihm.afficheTexte(owner.getPosition());
 			owner.setADejaBougeDansLeTour(true);
 		}
 	}

@@ -13,6 +13,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.StyledDocument;
 
 import personnages.AlessaRaincross;
 import personnages.Bael;
@@ -31,6 +33,7 @@ public class AnimaTacticsUI {
 
 	public JFrame mainWindow;
 
+	private JScrollPane scroll;
 	private JTextPane textAreaMessages;
 
 	private JPanel tableauPrincipal;
@@ -107,14 +110,14 @@ public class AnimaTacticsUI {
 		tableauPrincipal.add(infosPersos);
 
 		textAreaMessages = new JTextPane();
-		JScrollPane scroll = new JScrollPane(textAreaMessages);
+		scroll = new JScrollPane(textAreaMessages);
 		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scroll.setMinimumSize(new Dimension(1200, 200));
 		scroll.setPreferredSize(new Dimension(1200, 200));
 		scroll.setMaximumSize(new Dimension(1200, 200));
 		mainWindow.getContentPane().add(scroll);
 		// frmBloblines.getContentPane().add(textAreaMessages);
-		textAreaMessages.setText("Welcome to Anima Tactics");
+		textAreaMessages.setText("Welcome to Anima Tactics\n");
 		textAreaMessages.setEditable(false);
 		textAreaMessages.setFocusable(false);
 	}
@@ -202,6 +205,26 @@ public class AnimaTacticsUI {
 					plateau.getMouseCaseY()).getOccupant();
 			infosPersos.chargeInfosPersos(p);
 		}
+	}
+
+	public void append(String message) {
+		append(message, true);
+	}
+
+	public void append(String message, boolean RetourALaLigne) {
+		StyledDocument doc = textAreaMessages.getStyledDocument();
+		try {
+			if (RetourALaLigne) {
+				message += "\n";
+			}
+			doc.insertString(doc.getLength(), message, null);
+		} catch (BadLocationException e) {
+			System.out
+					.println("Le texte suivant n'a pas pu être ajouté au composant texte :");
+			System.out.println(message);
+		}
+		scroll.getVerticalScrollBar().setValue(
+				scroll.getVerticalScrollBar().getMaximum());
 	}
 
 	public void repaintAll() {

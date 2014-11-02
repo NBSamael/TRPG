@@ -23,6 +23,14 @@ public class Interface {
 		this.ui = ui;
 	}
 
+	public void afficheTexte(Object message) {
+		afficheTexte(message, true);
+	}
+
+	public void afficheTexte(Object message, boolean retourALaLigne) {
+		ui.append(message.toString(), retourALaLigne);
+	}
+
 	public void addSelect(Demande demande) {
 		this.listeDemandes.add(demande);
 	}
@@ -46,19 +54,17 @@ public class Interface {
 
 	public Set<XY> getPathTo(XY dest) {
 		if (!listeDemandes.isEmpty()) {
-			if (listeDemandes.get(0).f == Filtre.DEPL) {
-				if (listeDemandes.get(0).deplPossibles != null) {
-					GrilleDeplacements dp = listeDemandes.get(0).deplPossibles;
-					if (dp.containsKey(dest)) {
-						return new HashSet<XY>(dp.getTrajet(dest));
-					}
-				} else {
-					GrilleLigneDeVue dp = listeDemandes.get(0).ciblesPossibles;
-					if (dp.contains(dest)) {
-						return new HashSet<XY>(GrilleLigneDeVue.calculerLdV(
-								ui.jeu.plateau, listeDemandes.get(0).action
-										.getOwner().getPosition(), dest));
-					}
+			if (listeDemandes.get(0).deplPossibles != null) {
+				GrilleDeplacements dp = listeDemandes.get(0).deplPossibles;
+				if (dp.containsKey(dest)) {
+					return new HashSet<XY>(dp.getTrajet(dest));
+				}
+			} else {
+				GrilleLigneDeVue dp = listeDemandes.get(0).ciblesPossibles;
+				if (dp.contains(dest)) {
+					return new HashSet<XY>(GrilleLigneDeVue.calculerLdV(
+							ui.jeu.plateau, listeDemandes.get(0).action
+									.getOwner().getPosition(), dest));
 				}
 			}
 		}
