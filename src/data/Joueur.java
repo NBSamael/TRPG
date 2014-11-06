@@ -4,11 +4,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-import capacites.Capacite;
-import actions.Action;
+import personnages.Personnage;
 import actions.Reaction;
 import attitudes.Attitude;
-import personnages.Personnage;
+import capacites.Capacite;
 
 public class Joueur implements ListenerEvenementJeu {
 	public String nom;
@@ -61,7 +60,7 @@ public class Joueur implements ListenerEvenementJeu {
 
 	public int calculInitiative() {
 		int bonusInit = 0;
-		
+
 		for (Personnage p : this.persosActifs)
 			for (Capacite c : p.capacites)
 				if (c.getType() == "Init") {
@@ -70,10 +69,12 @@ public class Joueur implements ListenerEvenementJeu {
 				}
 		System.out.print("\t\t");
 		int valeurDes = Des.lanceDe(Des.D10);
-		System.out.println("\t\tInitiative de " + this.nom + " : " + (valeurDes + bonusInit) + " (" + valeurDes + " + " + bonusInit + ")");
-		return initiativeTour =valeurDes + bonusInit;
+		System.out.println("\t\tInitiative de " + this.nom + " : "
+				+ (valeurDes + bonusInit) + " (" + valeurDes + " + "
+				+ bonusInit + ")");
+		return initiativeTour = valeurDes + bonusInit;
 	}
-	
+
 	public int getInitiative() {
 		return initiativeTour;
 	}
@@ -85,22 +86,23 @@ public class Joueur implements ListenerEvenementJeu {
 		}
 		return !statut;
 	}
-	
+
 	public void rendreInactif(Personnage p) {
 		this.persosActifs.remove(p);
 		this.persosInactifs.add(p);
 		if (persosActifs.isEmpty())
 			this.equipe.rendreInactif(this);
 	}
-	
+
 	public boolean resteEncoreUnPersonnageAJouer() {
 		boolean valeurRetour = false;
 		for (Personnage p : this.persosActifs) {
-			valeurRetour = valeurRetour || (!p.getADejaBougeDansLeTour() && !p.paralyse);
+			valeurRetour = valeurRetour
+					|| (!p.getADejaBougeDansLeTour() && !p.paralyse);
 		}
 		return valeurRetour;
 	}
-	
+
 	public ArrayList<Personnage> getPersonnagesRestantsAJouer() {
 		ArrayList<Personnage> valeurRetour = new ArrayList<Personnage>();
 		for (Personnage p : this.persosActifs) {
@@ -108,7 +110,7 @@ public class Joueur implements ListenerEvenementJeu {
 				valeurRetour.add(p);
 		}
 		return valeurRetour;
-		
+
 	}
 
 	private boolean gereEvenement(EvenementJeu ej) {
@@ -124,9 +126,9 @@ public class Joueur implements ListenerEvenementJeu {
 
 				for (Attitude a : p.attitudes)
 					if (a instanceof ListenerEvenementJeu) {
-							((ListenerEvenementJeu) a).getClass()
-									.getMethod(methodStr, parameterTypes)
-									.invoke(a, ej);
+						((ListenerEvenementJeu) a).getClass()
+								.getMethod(methodStr, parameterTypes)
+								.invoke(a, ej);
 					}
 
 				if (!p.paralyse) {
@@ -139,14 +141,12 @@ public class Joueur implements ListenerEvenementJeu {
 			}
 
 			if (tmp.size() > 0) {
-				int numAction = equipe.partie.ihm.selectionnerReaction(tmp,
-						this);
-				if (numAction == -1 || numAction >= tmp.size())
-					return false;
-				Reaction r = tmp.get(numAction);
-				r.payeCout();
-				r.getParameters(ej);
-				r.execute(ej);
+				Reaction r = equipe.partie.ihm.selectionnerReaction(tmp, this);
+				if (r != null) {
+					r.payeCout();
+					r.getParameters(ej);
+					r.execute(ej);
+				}
 			}
 		} catch (IllegalAccessException e1) {
 			// TODO Auto-generated catch block

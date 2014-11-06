@@ -138,8 +138,8 @@ public class AnimaTacticsUI {
 		int rX, rY;
 
 		do {
-			rX = r.nextInt(width);
-			rY = r.nextInt(height);
+			rX = r.nextInt(20);
+			rY = r.nextInt(20);
 		} while (!t.get(new XY(rX, rY)).isFranchissable()
 				&& !t.get(new XY(rX, rY)).isOccuped());
 
@@ -162,8 +162,8 @@ public class AnimaTacticsUI {
 		Personnage p3 = new Bael(j2);
 
 		do {
-			rX = r.nextInt(width);
-			rY = r.nextInt(height);
+			rX = r.nextInt(20);
+			rY = r.nextInt(20);
 		} while (!t.get(new XY(rX, rY)).isFranchissable()
 				&& !t.get(new XY(rX, rY)).isOccuped());
 

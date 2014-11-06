@@ -7,6 +7,7 @@ import java.util.Set;
 
 import personnages.Personnage;
 import test.AnimaTacticsUI;
+import test.FenetreSelectionReaction;
 import actions.Action;
 import actions.Reaction;
 import data.Demande.Filtre;
@@ -139,10 +140,37 @@ public class Interface {
 		return n;
 	}
 
-	public int selectionnerReaction(ArrayList<Reaction> possibilites, Joueur j) {
+	class AttenteReponse extends Thread {
+		FenetreSelectionReaction fsr;
+
+		public AttenteReponse(FenetreSelectionReaction fsr) {
+			this.fsr = fsr;
+		}
+
+		@Override
+		public void run() {
+			while (!fsr.isChoixFait())
+				;
+		}
+	}
+
+	public Reaction selectionnerReaction(ArrayList<Reaction> possibilites,
+			Joueur j) {
+		FenetreSelectionReaction fsr = new FenetreSelectionReaction(ui,
+				possibilites, j);
+		fsr.setVisible(true);
+		while (!fsr.isChoixFait()) {
+		}
+		System.out.println("Le choix est fait");
+		return fsr.getReaction();
+	}
+
+	public int selectionnerReaction2(ArrayList<Reaction> possibilites, Joueur j) {
 		System.out.println("Joueur : " + j.nom);
 		System.out.println("Liste des reactions possibles :");
-
+		FenetreSelectionReaction fsr = new FenetreSelectionReaction(ui,
+				possibilites, j);
+		fsr.setVisible(true);
 		for (int i = 0; i < possibilites.size(); i++) {
 			System.out.println(i + " > " + possibilites.get(i).getNom());
 		}
